@@ -10,24 +10,33 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import {
-  Zap, Layers, Code2, Activity, Terminal,
-  Bot, Timer, BarChart3, Menu, X, BookOpen,
+  Zap,
+  Layers,
+  Code2,
+  Activity,
+  Terminal,
+  Bot,
+  Timer,
+  BarChart3,
+  Menu,
+  X,
+  BookOpen,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useProgressStore } from '@/store/useProgressStore';
 
 const NAV = [
-  { href: '/patterns',    label: 'Patterns',   Icon: Layers   },
-  { href: '/practice',    label: 'Practice',   Icon: Code2    },
-  { href: '/visualizers', label: 'Visualize',  Icon: Activity },
-  { href: '/editor',      label: 'Editor',     Icon: Terminal },
-  { href: '/ai',          label: 'AI Tutor',   Icon: Bot      },
-  { href: '/interview',   label: 'Interview',  Icon: Timer    },
-  { href: '/dashboard',   label: 'Dashboard',  Icon: BarChart3},
+  { href: '/patterns', label: 'Patterns', Icon: Layers },
+  { href: '/practice', label: 'Practice', Icon: Code2 },
+  { href: '/visualizers', label: 'Visualize', Icon: Activity },
+  { href: '/editor', label: 'Editor', Icon: Terminal },
+  { href: '/ai', label: 'AI Tutor', Icon: Bot },
+  { href: '/interview', label: 'Interview', Icon: Timer },
+  { href: '/dashboard', label: 'Dashboard', Icon: BarChart3 },
 ];
 
 export function Navbar() {
-  const pathname     = usePathname();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const { totalSolved } = useProgressStore();
 
@@ -36,11 +45,13 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 inset-x-0 z-50 glass-effect border-b border-[#2a2a3e] h-16">
+      <nav className="pt-16 top-0 inset-x-0 z-50 glass-effect border-b border-[#2a2a3e] h-16">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-
           {/* ── Logo ── */}
-          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 group flex-shrink-0"
+          >
             <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center glow-green group-hover:scale-110 transition-transform duration-200">
               <Zap className="w-4.5 h-4.5 text-black" strokeWidth={2.5} />
             </div>
@@ -116,7 +127,9 @@ export function Navbar() {
               {/* Mobile solved counter */}
               <div className="flex items-center gap-2 px-3 py-2.5 text-sm">
                 <BookOpen className="w-4 h-4 text-emerald-400" />
-                <span className="text-emerald-400 font-medium">{totalSolved}</span>
+                <span className="text-emerald-400 font-medium">
+                  {totalSolved}
+                </span>
                 <span className="text-[#6b6b8a]">/ 450 solved</span>
               </div>
             </div>

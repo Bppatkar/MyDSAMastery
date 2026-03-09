@@ -1,0 +1,340 @@
+{
+  "id": "binary-search",
+  "name": "Binary Search",
+  "slug": "binary-search",
+  "category": "Arrays & Strings",
+  "difficulty": "Beginner",
+  "icon": "🔍",
+  "color": "#f59e0b",
+  "order": 3,
+  "description": "Eliminate half the search space each step on sorted data or a monotonic answer space.",
+  "coreIdea": "O(log n) by halving — works on sorted arrays OR on the answer space (minimize/maximize).",
+  "whenToUse": [
+    "Sorted array search",
+    "First/last occurrence",
+    "Minimize maximum / maximize minimum",
+    "Search in rotated array"
+  ],
+  "triggers": [
+    "sorted array",
+    "find min/max that satisfies",
+    "first occurrence",
+    "search in rotated",
+    "kth element"
+  ],
+  "timeComplexity": "O(log n)",
+  "spaceComplexity": "O(1)",
+  "template": {
+  "javascript": "function binarySearch(arr, target) {\n  let lo = 0;\n  let hi = arr.length - 1;\n\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n\n    if (arr[mid] === target) {\n      return mid;       // found!\n    } else if (arr[mid] < target) {\n      lo = mid + 1;     // search right half\n    } else {\n      hi = mid - 1;     // search left half\n    }\n  }\n  return -1; // not found\n}",
+  "python": "def binary_search(arr, target):\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target: return mid\n        elif arr[mid] < target: lo = mid + 1\n        else: hi = mid - 1\n    return -1"
+},
+  "examples": [
+    "Binary Search",
+    "Search in Rotated Array",
+    "Find Minimum in Rotated Array",
+    "Koko Eating Bananas"
+  ],
+  "prerequisites": ["Arrays", "Sorting"],
+  "questions": [
+    {
+      "id": 61,
+      "leetcodeNum": 704,
+      "title": "Binary Search",
+      "difficulty": "Easy",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 8,
+      "leetcodeUrl": "https://leetcode.com/problems/binary-search/"
+    },
+    {
+      "id": 62,
+      "leetcodeNum": 33,
+      "title": "Search in Rotated Sorted Array",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 10,
+      "leetcodeUrl": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+    },
+    {
+      "id": 63,
+      "leetcodeNum": 153,
+      "title": "Find Minimum in Rotated Sorted Array",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 9,
+      "leetcodeUrl": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+    },
+    {
+      "id": 64,
+      "leetcodeNum": 34,
+      "title": "Find First and Last Position of Element in Sorted Array",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 9,
+      "leetcodeUrl": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"
+    },
+    {
+      "id": 65,
+      "leetcodeNum": 875,
+      "title": "Koko Eating Bananas",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 9,
+      "leetcodeUrl": "https://leetcode.com/problems/koko-eating-bananas/"
+    },
+    {
+      "id": 66,
+      "leetcodeNum": 162,
+      "title": "Find Peak Element",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 8,
+      "leetcodeUrl": "https://leetcode.com/problems/find-peak-element/"
+    },
+    {
+      "id": 67,
+      "leetcodeNum": 74,
+      "title": "Search a 2D Matrix",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search", "Matrix"],
+      "isClassic": true,
+      "frequency": 8,
+      "leetcodeUrl": "https://leetcode.com/problems/search-a-2d-matrix/"
+    },
+    {
+      "id": 68,
+      "leetcodeNum": 981,
+      "title": "Time Based Key-Value Store",
+      "difficulty": "Medium",
+      "tags": ["Hash Table", "Binary Search", "Design"],
+      "isClassic": false,
+      "frequency": 7,
+      "leetcodeUrl": "https://leetcode.com/problems/time-based-key-value-store/"
+    },
+    {
+      "id": 69,
+      "leetcodeNum": 4,
+      "title": "Median of Two Sorted Arrays",
+      "difficulty": "Hard",
+      "tags": ["Array", "Binary Search", "Divide and Conquer"],
+      "isClassic": true,
+      "frequency": 9,
+      "leetcodeUrl": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+    },
+    {
+      "id": 70,
+      "leetcodeNum": 1011,
+      "title": "Capacity To Ship Packages Within D Days",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 8,
+      "leetcodeUrl": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/"
+    },
+    {
+      "id": 71,
+      "leetcodeNum": 2300,
+      "title": "Successful Pairs of Spells and Potions",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search", "Sorting"],
+      "isClassic": false,
+      "frequency": 6,
+      "leetcodeUrl": "https://leetcode.com/problems/successful-pairs-of-spells-and-potions/"
+    },
+    {
+      "id": 72,
+      "leetcodeNum": 540,
+      "title": "Single Element in a Sorted Array",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 6,
+      "leetcodeUrl": "https://leetcode.com/problems/single-element-in-a-sorted-array/"
+    },
+    {
+      "id": 73,
+      "leetcodeNum": 1482,
+      "title": "Minimum Number of Days to Make m Bouquets",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 6,
+      "leetcodeUrl": "https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/"
+    },
+    {
+      "id": 74,
+      "leetcodeNum": 1283,
+      "title": "Find the Smallest Divisor Given a Threshold",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/"
+    },
+    {
+      "id": 75,
+      "leetcodeNum": 2187,
+      "title": "Minimum Time to Complete Trips",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/minimum-time-to-complete-trips/"
+    },
+    {
+      "id": 76,
+      "leetcodeNum": 278,
+      "title": "First Bad Version",
+      "difficulty": "Easy",
+      "tags": ["Binary Search", "Interactive"],
+      "isClassic": true,
+      "frequency": 7,
+      "leetcodeUrl": "https://leetcode.com/problems/first-bad-version/"
+    },
+    {
+      "id": 77,
+      "leetcodeNum": 374,
+      "title": "Guess Number Higher or Lower",
+      "difficulty": "Easy",
+      "tags": ["Binary Search", "Interactive"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/guess-number-higher-or-lower/"
+    },
+    {
+      "id": 78,
+      "leetcodeNum": 852,
+      "title": "Peak Index in a Mountain Array",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/peak-index-in-a-mountain-array/"
+    },
+    {
+      "id": 79,
+      "leetcodeNum": 1760,
+      "title": "Minimum Limit of Balls in a Bag",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/minimum-limit-of-balls-in-a-bag/"
+    },
+    {
+      "id": 80,
+      "leetcodeNum": 2064,
+      "title": "Minimized Maximum of Products Distributed to Any Store",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 4,
+      "leetcodeUrl": "https://leetcode.com/problems/minimized-maximum-of-products-distributed-to-any-store/"
+    },
+    {
+      "id": 81,
+      "leetcodeNum": 2563,
+      "title": "Count the Number of Fair Pairs",
+      "difficulty": "Medium",
+      "tags": ["Array", "Two Pointers", "Binary Search", "Sorting"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/count-the-number-of-fair-pairs/"
+    },
+    {
+      "id": 82,
+      "leetcodeNum": 1870,
+      "title": "Minimum Speed to Arrive on Time",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/minimum-speed-to-arrive-on-time/"
+    },
+    {
+      "id": 83,
+      "leetcodeNum": 2226,
+      "title": "Maximum Candies Allocated to K Children",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": false,
+      "frequency": 4,
+      "leetcodeUrl": "https://leetcode.com/problems/maximum-candies-allocated-to-k-children/"
+    },
+    {
+      "id": 84,
+      "leetcodeNum": 2389,
+      "title": "Longest Subsequence With Limited Sum",
+      "difficulty": "Easy",
+      "tags": ["Array", "Binary Search", "Greedy", "Sorting", "Prefix Sum"],
+      "isClassic": false,
+      "frequency": 4,
+      "leetcodeUrl": "https://leetcode.com/problems/longest-subsequence-with-limited-sum/"
+    },
+    {
+      "id": 85,
+      "leetcodeNum": 2616,
+      "title": "Minimize the Maximum Difference of Pairs",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search", "Greedy"],
+      "isClassic": false,
+      "frequency": 4,
+      "leetcodeUrl": "https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/"
+    },
+    {
+      "id": 86,
+      "leetcodeNum": 35,
+      "title": "Search Insert Position",
+      "difficulty": "Easy",
+      "tags": ["Array", "Binary Search"],
+      "isClassic": true,
+      "frequency": 7,
+      "leetcodeUrl": "https://leetcode.com/problems/search-insert-position/"
+    },
+    {
+      "id": 87,
+      "leetcodeNum": 367,
+      "title": "Valid Perfect Square",
+      "difficulty": "Easy",
+      "tags": ["Math", "Binary Search"],
+      "isClassic": false,
+      "frequency": 4,
+      "leetcodeUrl": "https://leetcode.com/problems/valid-perfect-square/"
+    },
+    {
+      "id": 88,
+      "leetcodeNum": 69,
+      "title": "Sqrt(x)",
+      "difficulty": "Easy",
+      "tags": ["Math", "Binary Search"],
+      "isClassic": true,
+      "frequency": 6,
+      "leetcodeUrl": "https://leetcode.com/problems/sqrtx/"
+    },
+    {
+      "id": 89,
+      "leetcodeNum": 1901,
+      "title": "Find a Peak Element II",
+      "difficulty": "Medium",
+      "tags": ["Array", "Binary Search", "Matrix"],
+      "isClassic": false,
+      "frequency": 5,
+      "leetcodeUrl": "https://leetcode.com/problems/find-a-peak-element-ii/"
+    },
+    {
+      "id": 90,
+      "leetcodeNum": 2529,
+      "title": "Maximum Count of Positive Integer and Negative Integer",
+      "difficulty": "Easy",
+      "tags": ["Array", "Binary Search", "Counting"],
+      "isClassic": false,
+      "frequency": 4,
+      "leetcodeUrl": "https://leetcode.com/problems/maximum-count-of-positive-integer-and-negative-integer/"
+    }
+  ]
+}

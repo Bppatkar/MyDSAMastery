@@ -1,8 +1,3 @@
-// ============================================
-// Sidebar - Pattern navigation + progress
-// Sirf /patterns aur /practice routes pe show hoga
-// ============================================
-
 'use client';
 
 import Link from 'next/link';
@@ -16,44 +11,55 @@ export function Sidebar() {
   const pathname = usePathname();
   const { totalSolved, getPatternProg } = useProgressStore();
 
-  // Sidebar sirf ye routes pe dikhega
+  // Sidebar sirf inhi routes pe dikhega
   const visible =
-    pathname.startsWith('/patterns') || pathname.startsWith('/practice');
+    pathname.startsWith('/patterns') ||
+    pathname.startsWith('/practice');
 
   if (!visible) return null;
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 xl:w-64 border-r border-[#2a2a3e] bg-[#0a0a0f] fixed left-0 top-16 bottom-0 overflow-y-auto z-40">
+    <aside
+      className={cn(
+        // Sticky — navbar ke neeche chipka rehta hai, scroll ke saath
+        'hidden lg:flex flex-col',
+        'w-56 xl:w-64 flex-shrink-0',           // fixed width
+        'sticky top-16',                          // below navbar
+        'h-[calc(100vh-4rem)]',                  // full remaining height
+        'overflow-y-auto',
+        'border-r border-[#1e1e2e] bg-[#080810]',
+      )}
+    >
       <div className="p-4 flex flex-col gap-4">
 
-        {/* Overall Progress Card */}
-        <div className="p-4 bg-[#111118] rounded-xl border border-[#2a2a3e]">
-          <div className="flex justify-between items-baseline mb-2.5">
-            <span className="text-xs font-semibold text-[#6b6b8a] uppercase tracking-wider">
+        {/* ── Overall Progress ── */}
+        <div className="p-4 bg-[#0f0f18] rounded-xl border border-[#1e1e2e]">
+          <div className="flex justify-between items-baseline mb-2">
+            <span className="text-xs font-semibold text-[#5a5a7a] uppercase tracking-wider">
               Overall
             </span>
             <span className="text-sm font-bold text-emerald-400">
               {totalSolved}
-              <span className="text-[#6b6b8a] font-normal">/450</span>
+              <span className="text-[#5a5a7a] font-normal">/450</span>
             </span>
           </div>
           <Progress value={totalSolved} max={450} color="green" size="sm" />
-          <p className="text-xs text-[#6b6b8a] mt-2">
+          <p className="text-xs text-[#5a5a7a] mt-2">
             {Math.round((totalSolved / 450) * 100)}% complete
           </p>
         </div>
 
-        {/* Pattern List */}
+        {/* ── Pattern List ── */}
         <div>
-          <h3 className="text-xs font-semibold text-[#6b6b8a] uppercase tracking-wider mb-2 px-1">
+          <h3 className="text-xs font-semibold text-[#5a5a7a] uppercase tracking-wider mb-2 px-1">
             15 Patterns
           </h3>
 
           <nav className="space-y-0.5">
             {DSA_PATTERNS.map((pattern) => {
-              const prog     = getPatternProg(pattern.id);
-              const active   = pathname.includes(pattern.slug);
-              const pct      = prog.percentage;
+              const prog   = getPatternProg(pattern.id);
+              const active = pathname.includes(pattern.slug);
+              const pct    = prog.percentage;
 
               return (
                 <Link
@@ -63,30 +69,23 @@ export function Sidebar() {
                     'flex items-center gap-2.5 px-3 py-2 rounded-lg',
                     'transition-all duration-200 group',
                     active
-                      ? 'bg-emerald-500/10 border border-emerald-500/20'
-                      : 'border border-transparent hover:bg-[#111118]'
+                      ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+                      : 'border border-transparent text-[#7a7a9a] hover:bg-[#0f0f18] hover:text-[#e8e8f0]'
                   )}
                 >
-                  {/* Pattern icon */}
-                  <span className="text-base flex-shrink-0 w-6 text-center">
+                  {/* Icon */}
+                  <span className="text-base flex-shrink-0 w-5 text-center leading-none">
                     {pattern.icon}
                   </span>
 
-                  {/* Name + mini progress */}
+                  {/* Name + mini bar */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span
-                        className={cn(
-                          'text-xs font-medium truncate',
-                          active
-                            ? 'text-emerald-400'
-                            : 'text-[#8888a8] group-hover:text-[#e8e8f0]'
-                        )}
-                      >
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="text-xs font-medium truncate">
                         {pattern.name}
                       </span>
                       {prog.completed > 0 && (
-                        <span className="text-xs text-[#6b6b8a] flex-shrink-0 ml-1">
+                        <span className="text-[10px] text-[#5a5a7a] flex-shrink-0">
                           {prog.completed}
                         </span>
                       )}
@@ -94,10 +93,13 @@ export function Sidebar() {
 
                     {/* Mini progress bar */}
                     {pct > 0 && (
-                      <div className="mt-1 h-0.5 bg-[#1c1c2e] rounded-full overflow-hidden">
+                      <div className="mt-1 h-0.5 bg-[#1e1e2e] rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-                          style={{ width: `${pct}%` }}
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{
+                            width      : `${pct}%`,
+                            background : pattern.color,
+                          }}
                         />
                       </div>
                     )}
