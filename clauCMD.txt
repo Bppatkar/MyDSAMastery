@@ -1,0 +1,22 @@
+/BUILD_DSA_MASTERY_V1
+
+Project: DSA Mastery Platform
+Stack: Next.js 15 | React 19 | TypeScript | TailwindCSS | ShadCN UI | D3.js | React Flow | Monaco Editor | OpenAI API
+Patterns: 15 (Sliding Window, Two Pointers, Binary Search, Fast-Slow Pointers, Merge Intervals, Cyclic Sort, DFS, BFS, Topological Sort, Heap, Subsets, DP, Bit Manipulation, Trie, Graph)
+Questions: 450 (30 per pattern)
+Features: Pattern Learning | AI Tutor | AI Pattern Detector | Algorithm Visualizers (8 types) | Monaco Editor | Interview Simulator (45min timer) | Progress Dashboard
+Architecture: src/app (Next.js 15 App Router) | src/components | src/data | src/lib | src/hooks | src/store | src/types
+Comments: Hinglish
+Role: Senior Software Architect
+Build Order: Outer shell first → Navigation → Pages → Features → AI Integration
+Status: [PASTE YOUR CURRENT STATUS HERE - e.g. "Completed till Step 3: Navbar and Sidebar done, now build Pattern pages"]
+
+Resume building from where we left off. Follow the exact folder structure and all requirements from the original prompt. Continue step by step.
+
+
+-------------------------------------------------------------------------
+How to use:
+
+Copy the command above
+When starting fresh, paste it + add your current status in the Status: field
+For example: Status: Completed installation + layout.tsx + navbar. Now build patterns page
