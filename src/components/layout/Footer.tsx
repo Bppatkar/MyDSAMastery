@@ -1,50 +1,33 @@
-// Footer - Simple, clean footer
 import Link from 'next/link';
-import { Zap, Heart, Github } from 'lucide-react';
-
-const links = [
-  { href: '/patterns',    label: 'Patterns'    },
-  { href: '/practice',    label: 'Practice'    },
-  { href: '/visualizers', label: 'Visualizers' },
-  { href: '/dashboard',   label: 'Dashboard'   },
-];
+import { BookOpen } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="border-t border-[#2a2a3e] bg-[#0a0a0f]">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer className="border-t border-[#1e1e2e] bg-[#080810] px-6 py-8 mt-auto">
+      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center">
-              <Zap className="w-3.5 h-3.5 text-black" strokeWidth={2.5} />
-            </div>
-            <span className="font-semibold text-sm text-[#e8e8f0]">
-              DSA <span className="text-emerald-400">Mastery</span>
-            </span>
-          </Link>
-
-          {/* Nav links */}
-          <div className="flex items-center gap-5">
-            {links.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-xs text-[#6b6b8a] hover:text-emerald-400 transition-colors"
-              >
-                {label}
-              </Link>
-            ))}
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+            <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
           </div>
-
-          {/* Made with love */}
-          <p className="text-xs text-[#6b6b8a] flex items-center gap-1">
-            Made with{' '}
-            <Heart className="w-3 h-3 text-red-400 fill-red-400" />{' '}
-            for DSA learners
-          </p>
+          <span className="font-bold text-sm text-white">
+            <span className="text-emerald-400">DSA</span> Mastery
+          </span>
         </div>
+
+        {/* Links */}
+        <div className="flex items-center gap-6 text-xs text-[#5a5a7a]">
+          {['/patterns', '/practice', '/visualizers', '/dashboard'].map((href) => (
+            <Link key={href} href={href} className="hover:text-emerald-400 transition-colors capitalize">
+              {href.replace('/', '')}
+            </Link>
+          ))}
+        </div>
+
+        <p className="text-xs text-[#3a3a4e]">
+          Made for Interview Success ❤️
+        </p>
       </div>
     </footer>
   );

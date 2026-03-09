@@ -1,144 +1,101 @@
-// ============================================
-// Navbar - Fixed top navigation bar
-// Glass morphism effect, mobile responsive
-// Progress counter dikhata hai
-// ============================================
-
 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import {
-  Zap,
-  Layers,
-  Code2,
-  Activity,
-  Terminal,
-  Bot,
-  Timer,
-  BarChart3,
-  Menu,
-  X,
-  BookOpen,
+  Layers, Code2, Activity, Terminal,
+  Bot, Clock, BarChart2, Menu, X, BookOpen,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useProgressStore } from '@/store/useProgressStore';
 
 const NAV = [
-  { href: '/patterns', label: 'Patterns', Icon: Layers },
-  { href: '/practice', label: 'Practice', Icon: Code2 },
-  { href: '/visualizers', label: 'Visualize', Icon: Activity },
-  { href: '/editor', label: 'Editor', Icon: Terminal },
-  { href: '/ai', label: 'AI Tutor', Icon: Bot },
-  { href: '/interview', label: 'Interview', Icon: Timer },
-  { href: '/dashboard', label: 'Dashboard', Icon: BarChart3 },
+  { href: '/patterns',    label: 'Patterns',   icon: Layers    },
+  { href: '/practice',    label: 'Practice',   icon: Code2     },
+  { href: '/visualizers', label: 'Visualize',  icon: Activity  },
+  { href: '/editor',      label: 'Editor',     icon: Terminal  },
+  { href: '/ai',          label: 'AI Tutor',   icon: Bot       },
+  { href: '/interview',   label: 'Interview',  icon: Clock     },
+  { href: '/dashboard',   label: 'Dashboard',  icon: BarChart2 },
 ];
 
 export function Navbar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
   const { totalSolved } = useProgressStore();
-
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(href + '/');
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <>
-      <nav className="pt-16 top-0 inset-x-0 z-50 glass-effect border-b border-[#2a2a3e] h-16">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
-          {/* ── Logo ── */}
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 group flex-shrink-0"
-          >
-            <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center glow-green group-hover:scale-110 transition-transform duration-200">
-              <Zap className="w-4.5 h-4.5 text-black" strokeWidth={2.5} />
-            </div>
-            <span className="font-bold text-[17px] tracking-tight">
-              <span className="text-[#e8e8f0]">DSA</span>
-              <span className="text-emerald-400"> Mastery</span>
-            </span>
-          </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 h-16 bg-[#080810]/95 backdrop-blur-md border-b border-[#1e1e2e]">
+      <div className="h-full flex items-center justify-between px-4 lg:px-6">
 
-          {/* ── Desktop Nav ── */}
-          <div className="hidden lg:flex items-center gap-0.5">
-            {NAV.map(({ href, label, Icon }) => (
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+            <BookOpen className="w-4 h-4 text-emerald-400" />
+          </div>
+          <span className="font-bold text-white">
+            <span className="text-emerald-400">DSA</span> Mastery
+          </span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
+          {NAV.map(({ href, label, icon: Icon }) => {
+            const active = pathname.startsWith(href);
+            return (
               <Link
                 key={href}
                 href={href}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium',
-                  'transition-all duration-200',
-                  isActive(href)
-                    ? 'bg-emerald-500/10 text-emerald-400'
-                    : 'text-[#6b6b8a] hover:text-[#e8e8f0] hover:bg-[#1c1c2e]'
+                  'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition-all',
+                  active
+                    ? 'bg-emerald-500/15 text-emerald-400'
+                    : 'text-[#7a7a9a] hover:text-white hover:bg-[#1a1a28]'
                 )}
               >
-                <Icon className="w-4 h-4" strokeWidth={1.75} />
+                <Icon className="w-3.5 h-3.5" />
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Right: solved counter + mobile toggle */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0f0f18] border border-[#1e1e2e]">
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-sm font-bold text-emerald-400">{totalSolved}</span>
+            <span className="text-xs text-[#5a5a7a]">/450</span>
+          </div>
+
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 rounded-lg text-[#7a7a9a] hover:text-white hover:bg-[#1a1a28]"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden absolute top-16 left-0 right-0 bg-[#080810] border-b border-[#1e1e2e] p-4">
+          <nav className="grid grid-cols-2 gap-2">
+            {NAV.map(({ href, label, icon: Icon }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-[#7a7a9a] hover:text-white hover:bg-[#1a1a28] transition-all"
+              >
+                <Icon className="w-4 h-4" />
                 {label}
               </Link>
             ))}
-          </div>
-
-          {/* ── Right: Progress + Mobile toggle ── */}
-          <div className="flex items-center gap-3">
-            {/* Solved counter */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#1c1c2e] border border-[#2a2a3e]">
-              <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-sm font-medium">
-                <span className="text-emerald-400">{totalSolved}</span>
-                <span className="text-[#6b6b8a]">/450</span>
-              </span>
-            </div>
-
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setOpen((v) => !v)}
-              className="lg:hidden p-2 rounded-lg text-[#6b6b8a] hover:text-[#e8e8f0] hover:bg-[#1c1c2e] transition-colors"
-              aria-label="Toggle menu"
-            >
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
+          </nav>
         </div>
-
-        {/* ── Mobile Nav Dropdown ── */}
-        {open && (
-          <div className="lg:hidden border-t border-[#2a2a3e] bg-[#0a0a0f] animate-fade-in">
-            <div className="px-4 py-3 space-y-1">
-              {NAV.map(({ href, label, Icon }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    'flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium',
-                    'transition-all duration-200',
-                    isActive(href)
-                      ? 'bg-emerald-500/10 text-emerald-400'
-                      : 'text-[#6b6b8a] hover:text-[#e8e8f0] hover:bg-[#1c1c2e]'
-                  )}
-                >
-                  <Icon className="w-4 h-4" />
-                  {label}
-                </Link>
-              ))}
-              {/* Mobile solved counter */}
-              <div className="flex items-center gap-2 px-3 py-2.5 text-sm">
-                <BookOpen className="w-4 h-4 text-emerald-400" />
-                <span className="text-emerald-400 font-medium">
-                  {totalSolved}
-                </span>
-                <span className="text-[#6b6b8a]">/ 450 solved</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Spacer so content doesn't go behind fixed navbar */}
-      <div className="h-16" aria-hidden="true" />
-    </>
+      )}
+    </header>
   );
 }

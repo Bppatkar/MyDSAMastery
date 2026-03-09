@@ -97,7 +97,7 @@ export default async function PatternDetailPage({ params }: Props) {
           background: `linear-gradient(135deg, ${pattern.color}0a 0%, #080810 60%)`,
         }}
       >
-        <div className="px-6 lg:px-8 py-8 max-w-5xl">
+        <div className="px-8 sm:px-12 py-8 max-w-6xl mx-auto">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm mb-6">
             <Link
@@ -192,7 +192,7 @@ export default async function PatternDetailPage({ params }: Props) {
       {/* ══════════════════════════════════
           MAIN CONTENT
       ══════════════════════════════════ */}
-      <div className="px-6 lg:px-8 py-8 max-w-5xl">
+      <div className="px-8 sm:px-12 py-8 max-w-6xl mx-auto">
         <div className="grid xl:grid-cols-[1fr_380px] gap-8">
           {/* ───────────────────────────
               LEFT — Questions

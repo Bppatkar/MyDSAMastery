@@ -1,346 +1,346 @@
-// ============================================
-// Home Page - DSA Mastery Landing Page
-// Hero + Stats + Pattern Preview + Features
-// ============================================
-
 import Link from 'next/link';
 import {
-  ArrowRight, Brain, Code2, Zap, BarChart3,
-  Timer, Bot, CheckCircle2, Layers, Activity,
-  Target, TrendingUp, Sparkles,
+  ArrowRight,
+  Zap,
+  Brain,
+  Eye,
+  Code2,
+  Clock,
+  BarChart2,
+  CheckCircle2,
+  Layers,
 } from 'lucide-react';
-import { Button }       from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge }        from '@/components/ui/badge';
-import { DSA_PATTERNS, TOTAL_QUESTIONS, TOTAL_PATTERNS } from '@/lib/constants';
-
-// ── Stats row data ──
-const STATS = [
-  { label: 'DSA Patterns',        value: String(TOTAL_PATTERNS), Icon: Layers,    color: 'text-emerald-400', glow: 'bg-emerald-500/10' },
-  { label: 'LeetCode Problems',   value: String(TOTAL_QUESTIONS), Icon: Code2,    color: 'text-blue-400',    glow: 'bg-blue-500/10'    },
-  { label: 'Visualizers',         value: '8',                     Icon: Activity, color: 'text-purple-400',  glow: 'bg-purple-500/10'  },
-  { label: 'AI-Powered Features', value: '∞',                     Icon: Bot,      color: 'text-amber-400',   glow: 'bg-amber-500/10'   },
-];
-
-// ── Feature cards ──
-const FEATURES = [
-  {
-    Icon  : Brain,
-    title : 'Pattern-Based Learning',
-    desc  : '15 core DSA patterns that crack 90% of FAANG interviews. Master the pattern, solve any variation.',
-    color : 'text-emerald-400',
-    bg    : 'bg-emerald-500/8',
-    border: 'border-emerald-500/15',
-  },
-  {
-    Icon  : Activity,
-    title : 'Algorithm Visualizers',
-    desc  : 'Watch sorting, graphs, trees, and DP animate step-by-step. See the algorithm think.',
-    color : 'text-purple-400',
-    bg    : 'bg-purple-500/8',
-    border: 'border-purple-500/15',
-  },
-  {
-    Icon  : Bot,
-    title : 'AI Tutor & Pattern Detector',
-    desc  : "Paste any problem — AI identifies the pattern, gives hints, never spoils the answer.",
-    color : 'text-blue-400',
-    bg    : 'bg-blue-500/8',
-    border: 'border-blue-500/15',
-  },
-  {
-    Icon  : Code2,
-    title : 'Monaco Code Editor',
-    desc  : 'VS Code-quality editor in the browser. Write in Python, JS, Java, C++ with autocomplete.',
-    color : 'text-amber-400',
-    bg    : 'bg-amber-500/8',
-    border: 'border-amber-500/15',
-  },
-  {
-    Icon  : Timer,
-    title : 'Interview Simulator',
-    desc  : '45-minute mock interviews with random problems. Build the speed and stamina for real interviews.',
-    color : 'text-red-400',
-    bg    : 'bg-red-500/8',
-    border: 'border-red-500/15',
-  },
-  {
-    Icon  : BarChart3,
-    title : 'Progress Dashboard',
-    desc  : 'Streaks, heatmaps, completion rates, weak pattern analysis. Know exactly where you stand.',
-    color : 'text-teal-400',
-    bg    : 'bg-teal-500/8',
-    border: 'border-teal-500/15',
-  },
-];
-
-// ── 4-step flow ──
-const HOW_STEPS = [
-  { n: 1, Icon: Brain,    title: 'Learn the Pattern',  desc: 'Understand core idea, triggers, and complexity'   },
-  { n: 2, Icon: Code2,    title: 'Solve 30 Problems',  desc: 'From easy → medium → hard with guided hints'      },
-  { n: 3, Icon: Activity, title: 'Visualize It',        desc: 'Watch the algorithm animate to cement your grasp' },
-  { n: 4, Icon: Timer,    title: 'Mock Interview',      desc: 'Timed 45-min sessions with AI evaluation'         },
-];
+import { DSA_PATTERNS, TOTAL_PATTERNS, TOTAL_QUESTIONS } from '@/lib/constants';
 
 export default function HomePage() {
   const previewPatterns = DSA_PATTERNS.slice(0, 6);
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen w-full">
+      {/* ══════════════════════════════
+          HERO
+      ══════════════════════════════ */}
+      <section className="relative overflow-hidden w-full px-8 sm:px-12 lg:px-16 py-20 lg:py-28 text-center">
+        {/* Background glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px]" />
+          <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[80px]" />
+          <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[80px]" />
+        </div>
 
-      {/* ═══════════════════════════════════
-          HERO SECTION
-      ═══════════════════════════════════ */}
-      <section className="relative overflow-hidden">
-        {/* Animated grid background */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-25 pointer-events-none" />
-
-        {/* Gradient orbs - decorative */}
-        <div className="absolute top-16 left-1/4 w-[500px] h-[500px] bg-emerald-500/8 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-32 right-1/4 w-[400px] h-[400px] bg-purple-500/8  rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative max-w-screen-xl mx-auto px-4 sm:px-6 pt-16 pb-20 text-center">
-
-          {/* Top badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/8 border border-emerald-500/15 text-emerald-400 text-sm font-medium mb-8 animate-fade-in-up">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>450 Problems · 15 Patterns · AI-Powered</span>
+        <div className="relative max-w-4xl mx-auto">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-400 text-sm mb-8">
+            <Zap className="w-3.5 h-3.5" />
+            <span>
+              {TOTAL_QUESTIONS} Problems · {TOTAL_PATTERNS} Patterns ·
+              AI-Powered
+            </span>
           </div>
 
-          {/* Main headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 animate-fade-in-up delay-100">
-            <span className="text-[#e8e8f0]">Master DSA.</span>
+          {/* Heading */}
+          <h1 className="text-5xl lg:text-7xl font-black tracking-tight mb-6">
+            <span className="text-white">Master DSA.</span>
             <br />
-            <span className="gradient-text">Crack Any Interview.</span>
+            <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Crack Any Interview.
+            </span>
           </h1>
 
-          {/* Sub-headline */}
-          <p className="text-lg sm:text-xl text-[#6b6b8a] max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up delay-200">
+          <p className="text-lg text-[#7a7a9a] max-w-xl mx-auto mb-10 leading-relaxed">
             Stop grinding randomly. Learn the{' '}
-            <span className="text-[#e8e8f0] font-medium">15 patterns</span> that solve
-            90% of FAANG problems — with AI tutoring, step-by-step visualizers, and
-            timed mock interviews.
+            <span className="text-white font-semibold">15 patterns</span> that
+            solve 90% of FAANG problems — with AI tutoring, step-by-step
+            visualizers, and timed mock interviews.
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in-up delay-300">
-            <Link href="/patterns">
-              <Button size="lg" className="px-8 gap-2">
-                Start Learning Free
-                <ArrowRight className="w-5 h-5" />
-              </Button>
+          <div className="flex items-center justify-center gap-4 mb-10 flex-wrap">
+            <Link
+              href="/patterns"
+              className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-base transition-all hover:scale-105 shadow-lg shadow-emerald-500/25"
+            >
+              Start Learning Free
+              <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/visualizers">
-              <Button size="lg" variant="outline" className="px-8 gap-2">
-                <Activity className="w-5 h-5" />
-                See Visualizers
-              </Button>
+            <Link
+              href="/visualizers"
+              className="flex items-center gap-2 px-8 py-3.5 rounded-xl border border-[#2a2a3e] hover:border-[#3a3a5e] text-[#c8c8e8] hover:text-white font-semibold text-base transition-all hover:bg-[#0f0f18]"
+            >
+              See Visualizers
             </Link>
           </div>
 
-          {/* Pattern name chips */}
-          <div className="flex flex-wrap justify-center gap-3 animate-fade-in-up delay-400">
-            {['Sliding Window', 'Two Pointers', 'BFS / DFS', 'Dynamic Programming', 'Heaps'].map((name) => (
-              <span
-                key={name}
-                className="flex items-center gap-1.5 text-xs text-[#6b6b8a] px-3 py-1 rounded-full bg-[#111118] border border-[#2a2a3e]"
+          {/* Pattern chips */}
+          <div className="flex flex-wrap justify-center gap-2">
+            {DSA_PATTERNS.slice(0, 7).map((p) => (
+              <Link
+                key={p.id}
+                href={`/patterns/${p.slug}`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-[#1e1e2e] hover:border-[#2a2a3e] text-[#5a5a7a] hover:text-[#c8c8e8] bg-[#0c0c15] hover:bg-[#0f0f18] transition-all"
               >
-                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                {name}
-              </span>
+                <span>{p.icon}</span>
+                {p.name}
+              </Link>
             ))}
-            <span className="text-xs text-[#6b6b8a] px-3 py-1 rounded-full bg-[#111118] border border-[#2a2a3e]">
-              + 10 more
+            <span className="flex items-center px-3 py-1.5 text-xs text-[#5a5a7a]">
+              + {TOTAL_PATTERNS - 7} more
             </span>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════
-          STATS ROW
-      ═══════════════════════════════════ */}
-      <section className="border-y border-[#2a2a3e] bg-[#111118]/60">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {STATS.map(({ label, value, Icon, color, glow }) => (
-              <div key={label} className="text-center group">
-                <div className={`w-12 h-12 rounded-xl ${glow} flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform`}>
-                  <Icon className={`w-6 h-6 ${color}`} />
-                </div>
-                <div className={`text-4xl font-black ${color} mb-1`}>{value}</div>
-                <div className="text-sm text-[#6b6b8a]">{label}</div>
+      {/* ══════════════════════════════
+          STATS BAR
+      ══════════════════════════════ */}
+      <section className="border-y border-[#1e1e2e] bg-[#0c0c15] w-full">
+        <div className="max-w-4xl mx-auto px-8 sm:px-12 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              {
+                value: '15',
+                label: 'DSA Patterns',
+                color: 'text-emerald-400',
+                icon: Layers,
+              },
+              {
+                value: '450',
+                label: 'LeetCode Problems',
+                color: 'text-blue-400',
+                icon: Code2,
+              },
+              {
+                value: '8',
+                label: 'Visualizers',
+                color: 'text-purple-400',
+                icon: Eye,
+              },
+              {
+                value: '∞',
+                label: 'AI-Powered Features',
+                color: 'text-amber-400',
+                icon: Brain,
+              },
+            ].map(({ value, label, color, icon: Icon }) => (
+              <div key={label} className="flex flex-col items-center gap-2">
+                <Icon className={`w-5 h-5 ${color} opacity-70`} />
+                <div className={`text-4xl font-black ${color}`}>{value}</div>
+                <div className="text-xs text-[#5a5a7a]">{label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════
+      {/* ══════════════════════════════
           PATTERN PREVIEW
-      ═══════════════════════════════════ */}
-      <section className="max-w-screen-xl mx-auto px-4 sm:px-6 py-20">
-        <div className="text-center mb-12">
-          <Badge variant="default" className="mb-4 text-sm px-4 py-1">
-            15 Core Patterns
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#e8e8f0] mb-4">
-            One Pattern. Infinite Problems.
-          </h2>
-          <p className="text-[#6b6b8a] max-w-xl mx-auto">
-            Each pattern includes 30 hand-picked problems, detailed explanations,
-            trigger keywords, and complexity analysis.
-          </p>
-        </div>
+      ══════════════════════════════ */}
+      <section className="w-full px-8 sm:px-12 lg:px-16 py-16">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-emerald-400 text-sm font-semibold mb-2">
+              15 Core Patterns
+            </p>
+            <h2 className="text-3xl font-black text-white">
+              One Pattern. Infinite Problems.
+            </h2>
+            <p className="text-[#7a7a9a] mt-3 max-w-lg mx-auto">
+              Each pattern includes 30 hand-picked problems, detailed
+              explanations, trigger keywords, and complexity analysis.
+            </p>
+          </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-          {previewPatterns.map((pattern, i) => (
-            <Link key={pattern.id} href={`/patterns/${pattern.slug}`}>
-              <Card
-                hover
-                glow="green"
-                className="h-full animate-fade-in-up"
-                style={{ animationDelay: `${i * 80}ms` }}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            {previewPatterns.map((p) => (
+              <Link
+                key={p.id}
+                href={`/patterns/${p.slug}`}
+                className="group flex items-start gap-4 p-5 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e] hover:border-[#2a2a3e] hover:bg-[#0f0f18] transition-all hover:-translate-y-0.5"
               >
-                <CardContent className="p-5">
-                  <div className="flex items-start gap-3">
-                    {/* Icon with colored dot */}
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                      style={{ backgroundColor: `${pattern.color}15`, border: `1px solid ${pattern.color}25` }}
+                {/* Icon */}
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                  style={{
+                    background: `linear-gradient(135deg, ${p.color}20, ${p.color}08)`,
+                    border: `1px solid ${p.color}25`,
+                  }}
+                >
+                  {p.icon}
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-bold text-[#e8e8f0] group-hover:text-white truncate">
+                      {p.name}
+                    </h3>
+                    <span
+                      className="text-[11px] font-bold flex-shrink-0"
+                      style={{ color: p.color }}
                     >
-                      {pattern.icon}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-[#e8e8f0] text-sm">{pattern.name}</h3>
-                        <span
-                          className="text-xs font-medium px-1.5 py-0.5 rounded"
-                          style={{ color: pattern.color, backgroundColor: `${pattern.color}15` }}
-                        >
-                          #{pattern.order}
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#6b6b8a] line-clamp-2">{pattern.description}</p>
-                      <div className="flex items-center gap-2 mt-2.5">
-                        <Badge variant="outline" className="text-xs">30 problems</Badge>
-                        <span className="text-xs text-[#6b6b8a]">{pattern.category}</span>
-                      </div>
-                    </div>
+                      #{p.order}
+                    </span>
                   </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
+                  <p className="text-xs text-[#5a5a7a] line-clamp-2 leading-relaxed">
+                    {p.description}
+                  </p>
+                  <p className="text-[11px] text-[#3a3a4e] mt-2">
+                    30 problems · {p.category}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
 
-        <div className="text-center">
-          <Link href="/patterns">
-            <Button variant="outline" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
-              View All 15 Patterns
-            </Button>
-          </Link>
+          <div className="text-center">
+            <Link
+              href="/patterns"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#2a2a3e] hover:border-emerald-500/30 text-[#7a7a9a] hover:text-emerald-400 font-medium transition-all text-sm"
+            >
+              View All 15 Patterns <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════
-          FEATURES GRID
-      ═══════════════════════════════════ */}
-      <section className="bg-[#111118]/50 border-y border-[#2a2a3e]">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-20">
-          <div className="text-center mb-12">
-            <Badge variant="secondary" className="mb-4 text-sm px-4 py-1">
+      {/* ══════════════════════════════
+          FEATURES
+      ══════════════════════════════ */}
+     <section className="w-full px-8 sm:px-12 lg:px-16 py-16 bg-[#0c0c15] border-y border-[#1e1e2e]">
+  <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-purple-400 text-sm font-semibold mb-2">
               Everything Included
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#e8e8f0] mb-4">
+            </p>
+            <h2 className="text-3xl font-black text-white">
               Built for Interview Success
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map(({ Icon, title, desc, color, bg, border }, i) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              {
+                icon: <Layers className="w-5 h-5 text-emerald-400" />,
+                color: 'emerald',
+                title: 'Pattern Library',
+                desc: '15 patterns with theory, templates, and trigger keywords',
+              },
+              {
+                icon: <Code2 className="w-5 h-5 text-blue-400" />,
+                color: 'blue',
+                title: 'Practice Problems',
+                desc: '450 LeetCode problems organized by pattern and difficulty',
+              },
+              {
+                icon: <Eye className="w-5 h-5 text-purple-400" />,
+                color: 'purple',
+                title: 'Algorithm Visualizers',
+                desc: '8 interactive visualizers — sorting, trees, graphs, and more',
+              },
+              {
+                icon: <Brain className="w-5 h-5 text-pink-400" />,
+                color: 'pink',
+                title: 'AI Tutor',
+                desc: 'Get hints, explanations, and pattern detection help',
+              },
+              {
+                icon: <Clock className="w-5 h-5 text-amber-400" />,
+                color: 'amber',
+                title: 'Interview Simulator',
+                desc: '45-minute timed sessions with real-time feedback',
+              },
+              {
+                icon: <BarChart2 className="w-5 h-5 text-teal-400" />,
+                color: 'teal',
+                title: 'Progress Dashboard',
+                desc: 'Track solved problems, streaks, and weak patterns',
+              },
+            ].map(({ icon, title, desc }) => (
               <div
                 key={title}
-                className={`p-6 rounded-xl bg-[#111118] border ${border} hover:-translate-y-1 hover:${bg} transition-all duration-300 animate-fade-in-up`}
-                style={{ animationDelay: `${i * 60}ms` }}
+                className="p-6 rounded-2xl bg-[#080810] border border-[#1e1e2e] hover:border-[#2a2a3e] transition-all"
               >
-                <div className={`w-11 h-11 rounded-xl ${bg} border ${border} flex items-center justify-center mb-4`}>
-                  <Icon className={`w-5 h-5 ${color}`} />
-                </div>
-                <h3 className="font-semibold text-[#e8e8f0] mb-2">{title}</h3>
-                <p className="text-sm text-[#6b6b8a] leading-relaxed">{desc}</p>
+                <div className="mb-4">{icon}</div>
+                <h3 className="font-bold text-[#e8e8f0] mb-2">{title}</h3>
+                <p className="text-sm text-[#5a5a7a] leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════
+      {/* ══════════════════════════════
           HOW IT WORKS
-      ═══════════════════════════════════ */}
-      <section className="max-w-screen-xl mx-auto px-4 sm:px-6 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#e8e8f0] mb-3">
-            How It Works
-          </h2>
-          <p className="text-[#6b6b8a]">4 steps from beginner to interview-ready</p>
-        </div>
-
-        {/* Step connector line (desktop) */}
-        <div className="relative">
-          <div className="absolute top-8 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-[#2a2a3e] to-transparent hidden lg:block" />
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {HOW_STEPS.map(({ n, Icon, title, desc }) => (
-              <div key={n} className="text-center relative">
-                <div className="w-16 h-16 rounded-2xl bg-[#111118] border border-[#2a2a3e] flex items-center justify-center mx-auto mb-4 relative hover:border-emerald-500/40 transition-colors">
-                  <Icon className="w-7 h-7 text-emerald-400" />
-                  {/* Step number badge */}
-                  <span className="absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-emerald-500 text-black text-xs font-black flex items-center justify-center">
-                    {n}
-                  </span>
-                </div>
-                <h3 className="font-semibold text-[#e8e8f0] mb-2">{title}</h3>
-                <p className="text-sm text-[#6b6b8a] leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════
-          CTA SECTION
-      ═══════════════════════════════════ */}
-      <section className="max-w-screen-xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="relative overflow-hidden rounded-2xl border border-emerald-500/15 bg-gradient-to-br from-emerald-500/8 via-[#111118] to-purple-500/8 p-12 text-center">
-          {/* Top accent line */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent" />
-
-          <Target className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
-          <h2 className="text-3xl sm:text-4xl font-bold text-[#e8e8f0] mb-4">
-            Your FAANG Journey Starts Now
-          </h2>
-          <p className="text-[#6b6b8a] max-w-lg mx-auto mb-8 leading-relaxed">
-            Join developers who cracked Google, Meta, Amazon and Microsoft by systematically
-            mastering DSA patterns — not grinding 1000 random problems.
+      ══════════════════════════════ */}
+      <section className="w-full px-8 sm:px-12 lg:px-16 py-16">
+  <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-black text-white">How It Works</h2>
+          <p className="text-[#7a7a9a] mt-3">
+            From zero to interview-ready in 4 steps
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/patterns">
-              <Button size="lg" className="px-10 gap-2">
-                <Zap className="w-5 h-5" />
-                Start with Pattern #1
-              </Button>
-            </Link>
-            <Link href="/dashboard">
-              <Button size="lg" variant="outline" className="px-10 gap-2">
-                <TrendingUp className="w-5 h-5" />
-                View Dashboard
-              </Button>
-            </Link>
-          </div>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            {
+              step: '01',
+              title: 'Pick a Pattern',
+              desc: 'Start with Sliding Window, follow the order',
+            },
+            {
+              step: '02',
+              title: 'Study the Theory',
+              desc: 'Learn core idea, template, and when to use',
+            },
+            {
+              step: '03',
+              title: 'Solve Problems',
+              desc: 'Practice 30 problems from easy to hard',
+            },
+            {
+              step: '04',
+              title: 'Simulate Interview',
+              desc: 'Test under real timed conditions',
+            },
+          ].map(({ step, title, desc }) => (
+            <div
+              key={step}
+              className="text-center p-6 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e]"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-emerald-400 font-black text-sm">
+                  {step}
+                </span>
+              </div>
+              <h3 className="font-bold text-[#e8e8f0] mb-2 text-sm">{title}</h3>
+              <p className="text-xs text-[#5a5a7a] leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
         </div>
       </section>
 
+      {/* ══════════════════════════════
+          CTA
+      ══════════════════════════════ */}
+     <section className="w-full px-8 sm:px-12 lg:px-16 py-16 text-center bg-[#0c0c15] border-t border-[#1e1e2e]">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-3xl font-black text-white mb-4">
+            Ready to Master DSA?
+          </h2>
+          <p className="text-[#7a7a9a] mb-8">
+            Join thousands of developers who cracked FAANG interviews using
+            these 15 patterns.
+          </p>
+          <Link
+            href="/patterns"
+            className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-base transition-all hover:scale-105 shadow-xl shadow-emerald-500/20"
+          >
+            Start Free — No Signup <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
