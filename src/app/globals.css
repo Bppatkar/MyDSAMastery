@@ -10,14 +10,7 @@
    Yahan sab custom colors/fonts define karo
    ============================================ */
 
-/* Base spacing fixes */
-* {
-  box-sizing: border-box;
-}
 
-body {
-  overflow-x: hidden;
-}
 
 @theme {
   /* === Brand Colors === */
@@ -74,13 +67,7 @@ body {
    Base Styles
    ============================================ */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+
 
 html {
   scroll-behavior: smooth;
