@@ -2351,9 +2351,9 @@ const topologicalSort: PatternData = {
 
 // Heap, Subset, DP, Bit, Trie, Graph — compact with 30 each
 const heap: PatternData = {
-  id: 'heap',
+  id: 'heap-priority-queue',
   name: 'Heap / Priority Queue',
-  slug: 'heap',
+  slug: 'heap-priority-queue',
   category: 'Heaps & Queues',
   difficulty: 'Intermediate',
   icon: '⛰️',
@@ -2780,9 +2780,9 @@ function topKFrequent(nums, k) {
 };
 
 const subset: PatternData = {
-  id: 'subset',
+  id: 'subsets-backtracking',
   name: 'Subsets / Backtracking',
-  slug: 'subset',
+  slug: 'subsets-backtracking',
   category: 'Dynamic Programming',
   difficulty: 'Intermediate',
   icon: '🎯',
@@ -3158,9 +3158,9 @@ function permutations(nums) {
 };
 
 const dp: PatternData = {
-  id: 'dp',
+  id: 'dynamic-programming',
   name: 'Dynamic Programming',
-  slug: 'dp',
+  slug: 'dynamic-programming',
   category: 'Dynamic Programming',
   difficulty: 'Advanced',
   icon: '🧠',
@@ -4343,9 +4343,9 @@ class Trie {
 };
 
 const graph: PatternData = {
-  id: 'graph',
+  id: 'graph-algorithms',
   name: 'Graph Algorithms',
-  slug: 'graph',
+  slug: 'graph-algorithms',
   category: 'Graphs',
   difficulty: 'Advanced',
   icon: '🕸️',

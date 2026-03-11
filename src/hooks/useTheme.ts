@@ -19,7 +19,7 @@ export function useTheme() {
     bgSurface:  isDark ? 'var(--bg-surface)'  : '#ffffff',
     bgElevated: isDark ? 'var(--bg-elevated)'  : '#f0f0f5',
     bgCard:     isDark ? 'var(--bg-card)'  : '#ffffff',
-    bgHover:    isDark ? 'var(--bg-hover)'  : 'var(--tx-1)',
+    bgHover:    'var(--bg-hover)',
     bgInput:    isDark ? '#0a0a12'  : '#f0f0f8',
     border:     isDark ? 'var(--border)'  : '#dddde8',
     borderStr:  isDark ? 'var(--border-strong)'  : '#c8c8d8',

@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 import { ArrowRight, Zap, Brain, Eye, Code2, Clock, BarChart2, Layers } from 'lucide-react';
 import { DSA_PATTERNS, TOTAL_PATTERNS, TOTAL_QUESTIONS } from '@/lib/constants';

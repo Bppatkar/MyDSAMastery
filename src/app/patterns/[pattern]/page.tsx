@@ -1,10 +1,10 @@
+'use client';
 // ============================================
-// Pattern Detail Page - Full UI Fix
-// JavaScript template + proper layout
+// Pattern Detail Page - Client Component
+// Uses FULL_PATTERNS from usePatterns hook
 // ============================================
 
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   ChevronLeft,
@@ -23,32 +23,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { DSA_PATTERNS } from '@/lib/constants';
-import { ALL_PATTERNS } from '@/lib/patternData';
-import slidingWindowData from '@/data/patterns/sliding-window.json';
-import twoPointersData from '@/data/patterns/two-pointers.json';
-import binarySearchData from '@/data/patterns/binary-search.json';
-
-const ALL_DATA = [
-  slidingWindowData as any,
-  twoPointersData as any,
-  binarySearchData as any,
-  ...ALL_PATTERNS,
-];
-
-interface Props {
-  params: Promise<{ pattern: string }>;
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { pattern: slug } = await params;
-  const p = ALL_DATA.find((x: any) => x.slug === slug);
-  if (!p) return { title: 'Pattern Not Found' };
-  return { title: `${p.name} — DSA Pattern`, description: p.description };
-}
-
-export async function generateStaticParams() {
-  return DSA_PATTERNS.map((p) => ({ pattern: p.slug }));
-}
+import { FULL_PATTERNS } from '@/hooks/usePatterns';
 
 const DIFF_COLOR: Record<string, string> = {
   Easy: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25',
@@ -62,13 +37,26 @@ const DIFF_DOT: Record<string, string> = {
   Hard: 'bg-red-400',
 };
 
-export default async function PatternDetailPage({ params }: Props) {
-  const { pattern: slug } = await params;
-  const pattern = ALL_DATA.find((p: any) => p.slug === slug);
-  if (!pattern) notFound();
+export default function PatternDetailPage() {
+  const params = useParams();
+  const slug = typeof params.pattern === 'string' ? params.pattern : '';
+  const pattern = FULL_PATTERNS.find((p: any) => p.slug === slug);
+  if (!pattern) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
+          <h1 style={{ color: 'var(--tx-1)', fontSize: 24, fontWeight: 700 }}>Pattern not found</h1>
+          <p style={{ color: 'var(--tx-3)', marginTop: 8 }}>Slug: {slug}</p>
+          <Link href="/patterns" style={{ color: 'var(--accent)', marginTop: 16, display: 'inline-block' }}>← Back to Patterns</Link>
+        </div>
+      </div>
+    );
+  }
 
-  const prevPat = DSA_PATTERNS.find((p) => p.order === pattern.order - 1);
-  const nextPat = DSA_PATTERNS.find((p) => p.order === pattern.order + 1);
+  const patternOrder = (pattern as any).order ?? 0;
+  const prevPat = DSA_PATTERNS.find((p) => p.order === patternOrder - 1);
+  const nextPat = DSA_PATTERNS.find((p) => p.order === patternOrder + 1);
 
   const easy = (pattern.questions ?? []).filter(
     (q: any) => q.difficulty === 'Easy'

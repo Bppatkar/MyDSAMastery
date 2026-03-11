@@ -43,7 +43,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
         showLink && 'hover:-translate-y-1 hover:shadow-xl cursor-pointer',
         done
           ? 'border-emerald-500/40 hover:border-emerald-500/60 hover:shadow-emerald-500/10'
-          : 'border-[var(--border)] hover:border-[var(--border-strong)] hover:shadow-black/40',
+          : 'border-[var(--border)] hover:border-[var(--border-strong)] hover:shadow-lg',
         size === 'sm' && 'p-4',
         size === 'md' && 'p-5',
         size === 'lg' && 'p-6',
@@ -81,7 +81,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
           {/* Name row */}
           <div className="flex items-center gap-2 mb-1.5 flex-wrap">
             <h3 className={cn(
-              'font-bold text-[var(--tx-1)] group-hover:text-white transition-colors truncate',
+              'font-bold text-[var(--tx-1)] group-hover:text-[var(--tx-1)] transition-colors truncate',
               size === 'sm' ? 'text-sm' : 'text-[15px]',
             )}>
               {pattern.name}
@@ -148,7 +148,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
           </div>
           <span className={cn(
             'text-xs font-bold tabular-nums',
-            pct === 100 ? 'text-emerald-400' : pct > 0 ? 'text-[#8888a8]' : 'text-[#3a3a4e]'
+            pct === 100 ? 'text-emerald-400' : pct > 0 ? 'text-[#8888a8]' : 'text-[var(--tx-4)]'
           )}>
             {pct}%
           </span>
@@ -176,14 +176,14 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
           <div className="flex items-center gap-3">
             {pattern.timeComplexity && (
               <span className="text-[11px] text-[var(--tx-3)]">
-                <span className="text-[#3a3a4e]">T:</span>{' '}
+                <span className="text-[var(--tx-4)]">T:</span>{' '}
                 <code className="text-[#6b6b8a]">{pattern.timeComplexity}</code>
               </span>
             )}
           </div>
 
           {showLink && (
-            <div className="flex items-center gap-1 text-xs text-[#3a3a4e] group-hover:text-emerald-400 transition-colors">
+            <div className="flex items-center gap-1 text-xs text-[var(--tx-4)] group-hover:text-emerald-400 transition-colors">
               <span className="hidden sm:inline">Start</span>
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </div>
