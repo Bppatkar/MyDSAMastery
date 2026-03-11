@@ -1,136 +1,205 @@
 // ============================================
-// Progress Store (Zustand + persist)
-// User ki saari DSA progress yahan store hogi
-// LocalStorage mein persist hogi automatically
+// Progress Store — question & pattern progress
+// Tracks solved/attempted questions + saved code
 // ============================================
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { QuestionProgress, Status, Language } from '@/types/question';
-import type { PatternProgress } from '@/types/pattern';
 
-interface ProgressState {
-  // === State ===
-  questionProgress : Record<number, QuestionProgress>;
-  patternProgress  : Record<string, PatternProgress>;
-  totalSolved      : number;
-  easySolved       : number;
-  mediumSolved     : number;
-  hardSolved       : number;
-
-  // === Actions ===
-  markSolved     : (questionId: number, patternId: string, difficulty: string) => void;
-  markAttempted  : (questionId: number, language?: Language) => void;
-  saveCode       : (questionId: number, code: string, language: Language) => void;
-  getStatus      : (questionId: number) => Status;
-  getPatternProg : (patternId: string) => PatternProgress;
-  resetAll       : () => void;
+export interface PatternProg {
+  completed : number;   // solved questions count
+  attempted : number;   // attempted (not solved) count
+  total     : number;   // always 30
 }
 
-const DEFAULT_PATTERN_PROG = (patternId: string): PatternProgress => ({
-  patternId,
-  completed  : 0,
-  total      : 30,
-  percentage : 0,
-});
+export interface ProgressState {
+  // ── Question tracking ──────────────────────────────────────────
+  solvedQuestions   : number[];                    // question IDs solved
+  attemptedQuestions: number[];                    // question IDs attempted
+  questionCodes     : Record<number, string>;      // saved code per question
+  questionNotes     : Record<number, string>;      // user notes per question
+  questionLanguage  : Record<number, string>;      // chosen lang per question
 
-export const useProgressStore = create<ProgressState>()(
+  // ── Difficulty tracking ────────────────────────────────────────
+  questionDifficulty: Record<number, string>;      // questionId → difficulty
+
+  // ── Derived / computed ─────────────────────────────────────────
+  totalSolved  : number;
+  easySolved   : number;
+  mediumSolved : number;
+  hardSolved   : number;
+
+  // ── Actions ────────────────────────────────────────────────────
+  markSolved    : (questionId: number, difficulty: string, patternId: string) => void;
+  markAttempted : (questionId: number, patternId?: string) => void;
+  unmark        : (questionId: number, patternId: string) => void;
+  saveCode      : (questionId: number, code: string) => void;
+  saveNote      : (questionId: number, note: string) => void;
+  setLanguage   : (questionId: number, lang: string) => void;
+
+  getQuestionStatus : (questionId: number) => 'Solved' | 'Attempted' | 'Not Started';
+  getPatternProg    : (patternId: string) => PatternProg;
+  getSavedCode      : (questionId: number) => string | null;
+  resetProgress     : () => void;
+}
+
+interface PatternStats {
+  solved  : number;
+  attempted: number;
+}
+
+const defaultState = {
+  solvedQuestions   : [] as number[],
+  attemptedQuestions: [] as number[],
+  questionCodes     : {} as Record<number, string>,
+  questionNotes     : {} as Record<number, string>,
+  questionLanguage  : {} as Record<number, string>,
+  questionDifficulty: {} as Record<number, string>,
+  patternStats      : {} as Record<string, PatternStats>,
+  totalSolved       : 0,
+  easySolved        : 0,
+  mediumSolved      : 0,
+  hardSolved        : 0,
+};
+
+// Helper to recompute difficulty counts from arrays + difficulty map
+function computeDifficultyCounts(
+  solvedIds: number[],
+  diffMap: Record<number, string>
+) {
+  let easy = 0, medium = 0, hard = 0;
+  for (const id of solvedIds) {
+    const d = (diffMap[id] ?? '').toLowerCase();
+    if (d === 'easy')   easy++;
+    else if (d === 'medium') medium++;
+    else if (d === 'hard')   hard++;
+  }
+  return { easySolved: easy, mediumSolved: medium, hardSolved: hard };
+}
+
+export const useProgressStore = create<
+  ProgressState & { patternStats: Record<string, PatternStats> }
+>()(
   persist(
     (set, get) => ({
-      questionProgress : {},
-      patternProgress  : {},
-      totalSolved      : 0,
-      easySolved       : 0,
-      mediumSolved     : 0,
-      hardSolved       : 0,
+      ...defaultState,
 
-      // Problem solve ho gayi - mark karo aur counters update karo
-      markSolved: (questionId, patternId, difficulty) => {
-        const { questionProgress, patternProgress } = get();
-        const existing = questionProgress[questionId];
+      // ── Mark question as solved ──────────────────────────────────
+      markSolved: (questionId, difficulty, patternId) => {
+        const { solvedQuestions, attemptedQuestions, patternStats, questionDifficulty } = get();
+        const alreadySolved = solvedQuestions.includes(questionId);
+        if (alreadySolved) return;
 
-        // Pehle se solved hai toh skip
-        if (existing?.status === 'Solved') return;
+        const wasAttempted  = attemptedQuestions.includes(questionId);
+        const newAttempted  = wasAttempted
+          ? attemptedQuestions.filter((id) => id !== questionId)
+          : attemptedQuestions;
 
-        const newQProg: QuestionProgress = {
-          questionId,
-          status    : 'Solved',
-          language  : existing?.language ?? 'python',
-          code      : existing?.code,
-          solvedAt  : new Date().toISOString(),
-          attempts  : (existing?.attempts ?? 0) + 1,
+        const prev    = patternStats[patternId] ?? { solved: 0, attempted: 0 };
+        const newStat = {
+          solved  : prev.solved + 1,
+          attempted: wasAttempted ? Math.max(0, prev.attempted - 1) : prev.attempted,
         };
 
-        const prevPat   = patternProgress[patternId] ?? DEFAULT_PATTERN_PROG(patternId);
-        const newCount  = prevPat.completed + 1;
-        const newPatProg: PatternProgress = {
-          ...prevPat,
-          completed  : newCount,
-          percentage : Math.round((newCount / 30) * 100),
-          lastSolved : new Date().toISOString(),
-        };
+        const newSolvedIds  = [...solvedQuestions, questionId];
+        const newDiffMap    = { ...questionDifficulty, [questionId]: difficulty };
+        const diffCounts    = computeDifficultyCounts(newSolvedIds, newDiffMap);
 
-        set((s) => ({
-          questionProgress : { ...s.questionProgress, [questionId]: newQProg },
-          patternProgress  : { ...s.patternProgress, [patternId]: newPatProg },
-          totalSolved      : s.totalSolved + 1,
-          easySolved       : difficulty === 'Easy'   ? s.easySolved   + 1 : s.easySolved,
-          mediumSolved     : difficulty === 'Medium' ? s.mediumSolved + 1 : s.mediumSolved,
-          hardSolved       : difficulty === 'Hard'   ? s.hardSolved   + 1 : s.hardSolved,
-        }));
-      },
-
-      // Problem try kiya but solve nahi hua
-      markAttempted: (questionId, language = 'python') => {
-        set((s) => ({
-          questionProgress: {
-            ...s.questionProgress,
-            [questionId]: {
-              ...s.questionProgress[questionId],
-              questionId,
-              status   : s.questionProgress[questionId]?.status === 'Solved' ? 'Solved' : 'Attempted',
-              language : s.questionProgress[questionId]?.language ?? language,
-              attempts : (s.questionProgress[questionId]?.attempts ?? 0) + 1,
-            },
-          },
-        }));
-      },
-
-      // Code editor mein likha code save karo
-      saveCode: (questionId, code, language) => {
-        set((s) => ({
-          questionProgress: {
-            ...s.questionProgress,
-            [questionId]: {
-              questionId,
-              status   : s.questionProgress[questionId]?.status ?? 'Attempted',
-              language,
-              code,
-              attempts : s.questionProgress[questionId]?.attempts ?? 1,
-            },
-          },
-        }));
-      },
-
-      getStatus: (questionId) =>
-        get().questionProgress[questionId]?.status ?? 'Not Started',
-
-      getPatternProg: (patternId) =>
-        get().patternProgress[patternId] ?? DEFAULT_PATTERN_PROG(patternId),
-
-      resetAll: () =>
         set({
-          questionProgress : {},
-          patternProgress  : {},
-          totalSolved      : 0,
-          easySolved       : 0,
-          mediumSolved     : 0,
-          hardSolved       : 0,
-        }),
+          solvedQuestions   : newSolvedIds,
+          attemptedQuestions: newAttempted,
+          patternStats      : { ...patternStats, [patternId]: newStat },
+          questionDifficulty: newDiffMap,
+          totalSolved       : newSolvedIds.length,
+          ...diffCounts,
+        });
+      },
+
+      // ── Mark question as attempted ───────────────────────────────
+      markAttempted: (questionId, patternId?) => {
+        const { solvedQuestions, attemptedQuestions, patternStats } = get();
+        if (solvedQuestions.includes(questionId)) return; // already solved
+        if (attemptedQuestions.includes(questionId)) return;
+
+        const newState: Partial<typeof defaultState & { patternStats: Record<string, PatternStats> }> = {
+          attemptedQuestions: [...attemptedQuestions, questionId],
+        };
+
+        if (patternId) {
+          const prev    = patternStats[patternId] ?? { solved: 0, attempted: 0 };
+          const newStat = { ...prev, attempted: prev.attempted + 1 };
+          newState.patternStats = { ...patternStats, [patternId]: newStat };
+        }
+
+        set(newState);
+      },
+
+      // ── Unmark (reset to Not Started) ───────────────────────────
+      unmark: (questionId, patternId) => {
+        const { solvedQuestions, attemptedQuestions, patternStats, questionDifficulty } = get();
+        const wasSolved    = solvedQuestions.includes(questionId);
+        const wasAttempted = attemptedQuestions.includes(questionId);
+
+        const prev    = patternStats[patternId] ?? { solved: 0, attempted: 0 };
+        const newStat = {
+          solved   : wasSolved    ? Math.max(0, prev.solved - 1)    : prev.solved,
+          attempted: wasAttempted ? Math.max(0, prev.attempted - 1) : prev.attempted,
+        };
+
+        const newSolvedIds = solvedQuestions.filter((id) => id !== questionId);
+        const diffCounts   = computeDifficultyCounts(newSolvedIds, questionDifficulty);
+
+        set({
+          solvedQuestions   : newSolvedIds,
+          attemptedQuestions: attemptedQuestions.filter((id) => id !== questionId),
+          patternStats      : { ...patternStats, [patternId]: newStat },
+          totalSolved       : newSolvedIds.length,
+          ...diffCounts,
+        });
+      },
+
+      // ── Save code ───────────────────────────────────────────────
+      saveCode: (questionId, code) =>
+        set((s) => ({ questionCodes: { ...s.questionCodes, [questionId]: code } })),
+
+      // ── Save note ───────────────────────────────────────────────
+      saveNote: (questionId, note) =>
+        set((s) => ({ questionNotes: { ...s.questionNotes, [questionId]: note } })),
+
+      // ── Set language ────────────────────────────────────────────
+      setLanguage: (questionId, lang) =>
+        set((s) => ({ questionLanguage: { ...s.questionLanguage, [questionId]: lang } })),
+
+      // ── Get question status ─────────────────────────────────────
+      getQuestionStatus: (questionId) => {
+        const { solvedQuestions, attemptedQuestions } = get();
+        if (solvedQuestions.includes(questionId))    return 'Solved';
+        if (attemptedQuestions.includes(questionId)) return 'Attempted';
+        return 'Not Started';
+      },
+
+      // ── Get pattern progress ─────────────────────────────────────
+      getPatternProg: (patternId) => {
+        const { patternStats } = get();
+        const stat = patternStats[patternId] ?? { solved: 0, attempted: 0 };
+        return {
+          completed : stat.solved,
+          attempted : stat.attempted,
+          total     : 30,
+        };
+      },
+
+      // ── Get saved code ───────────────────────────────────────────
+      getSavedCode: (questionId) => {
+        return get().questionCodes[questionId] ?? null;
+      },
+
+      // ── Reset all progress ───────────────────────────────────────
+      resetProgress: () => set({ ...defaultState }),
     }),
     {
-      name    : 'dsa-progress-v1',   // localStorage mein key
-      version : 1,
+      name   : 'dsa-progress-v3',
+      version: 3,
     }
   )
 );

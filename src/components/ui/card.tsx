@@ -23,7 +23,7 @@ export function Card({ className, hover = false, glow = 'none', ...props }: Card
   return (
     <div
       className={cn(
-        'bg-[#111118] border border-[#2a2a3e] rounded-xl',
+        'bg-[#111118] border border-[var(--border-strong)] rounded-xl',
         'transition-all duration-300',
         hover && 'hover:bg-[#16161f] hover:border-[#3d3d58] cursor-pointer',
         glow !== 'none' && glowMap[glow],
@@ -42,7 +42,7 @@ export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDiv
 // === CardTitle ===
 export function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h3 className={cn('text-base font-semibold text-[#e8e8f0] leading-tight', className)} {...props} />
+    <h3 className={cn('text-base font-semibold text-[var(--tx-1)] leading-tight', className)} {...props} />
   );
 }
 

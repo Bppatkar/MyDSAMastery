@@ -38,12 +38,12 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
   const cardContent = (
     <div
       className={cn(
-        'group relative bg-[#0f0f18] border rounded-2xl h-full',
+        'group relative bg-[var(--bg-elevated)] border rounded-2xl h-full',
         'transition-all duration-300 overflow-hidden',
         showLink && 'hover:-translate-y-1 hover:shadow-xl cursor-pointer',
         done
           ? 'border-emerald-500/40 hover:border-emerald-500/60 hover:shadow-emerald-500/10'
-          : 'border-[#1e1e2e] hover:border-[#2a2a3e] hover:shadow-black/40',
+          : 'border-[var(--border)] hover:border-[var(--border-strong)] hover:shadow-black/40',
         size === 'sm' && 'p-4',
         size === 'md' && 'p-5',
         size === 'lg' && 'p-6',
@@ -81,7 +81,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
           {/* Name row */}
           <div className="flex items-center gap-2 mb-1.5 flex-wrap">
             <h3 className={cn(
-              'font-bold text-[#e8e8f0] group-hover:text-white transition-colors truncate',
+              'font-bold text-[var(--tx-1)] group-hover:text-white transition-colors truncate',
               size === 'sm' ? 'text-sm' : 'text-[15px]',
             )}>
               {pattern.name}
@@ -97,7 +97,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
 
           {/* Category + difficulty row */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-[#5a5a7a] truncate">{pattern.category}</span>
+            <span className="text-xs text-[var(--tx-3)] truncate">{pattern.category}</span>
             <span className="text-[#2a2a3e]">·</span>
             <span className={cn(
               'text-[11px] font-medium px-2 py-0.5 rounded-full border',
@@ -111,7 +111,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
 
       {/* ── Description ── */}
       {size !== 'sm' && (
-        <p className="text-xs text-[#5a5a7a] leading-relaxed mb-4 line-clamp-2">
+        <p className="text-xs text-[var(--tx-3)] leading-relaxed mb-4 line-clamp-2">
           {pattern.description}
         </p>
       )}
@@ -122,7 +122,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
           {pattern.triggers.slice(0, 4).map((t) => (
             <span
               key={t}
-              className="text-[11px] px-2 py-0.5 rounded-full bg-[#1a1a28] text-[#5a5a7a] border border-[#2a2a3e]"
+              className="text-[11px] px-2 py-0.5 rounded-full bg-[#1a1a28] text-[var(--tx-3)] border border-[var(--border-strong)]"
             >
               {t}
             </span>
@@ -140,10 +140,10 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
             )}
             <span
               className="text-xs font-semibold"
-              style={{ color: started ? pattern.color : '#5a5a7a' }}
+              style={{ color: started ? pattern.color : 'var(--tx-3)' }}
             >
               {solved}/{total}
-              <span className="font-normal text-[#5a5a7a]"> solved</span>
+              <span className="font-normal text-[var(--tx-3)]"> solved</span>
             </span>
           </div>
           <span className={cn(
@@ -171,11 +171,11 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
 
       {/* ── Footer ── */}
       {size !== 'sm' && (
-        <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#1e1e2e]">
+        <div className="flex items-center justify-between mt-4 pt-3 border-t border-[var(--border)]">
           {/* Complexity badge */}
           <div className="flex items-center gap-3">
             {pattern.timeComplexity && (
-              <span className="text-[11px] text-[#5a5a7a]">
+              <span className="text-[11px] text-[var(--tx-3)]">
                 <span className="text-[#3a3a4e]">T:</span>{' '}
                 <code className="text-[#6b6b8a]">{pattern.timeComplexity}</code>
               </span>

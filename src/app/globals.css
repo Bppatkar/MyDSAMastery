@@ -1,112 +1,81 @@
 @import 'tailwindcss';
 
-/* ═══════════════════════════════════════════════
-   CSS VARIABLES — Dark Mode (default)
-═══════════════════════════════════════════════ */
+/* ── Light = DEFAULT ─────────────────────────────────────────────── */
 :root {
-  --bg-base:      #080810;
-  --bg-surface:   #0c0c15;
-  --bg-elevated:  #0f0f18;
-  --bg-card:      #111120;
-  --border:       #1e1e2e;
-  --border-light: #2a2a3e;
-
-  --text-primary:   #e8e8f0;
-  --text-secondary: #7a7a9a;
-  --text-muted:     #4a4a6a;
-  --text-faint:     #2a2a3e;
-
-  --accent:         #10b981;
-  --accent-dim:     rgba(16, 185, 129, 0.12);
-  --accent-border:  rgba(16, 185, 129, 0.25);
-
-  color-scheme: dark;
-}
-
-/* ═══════════════════════════════════════════════
-   LIGHT MODE OVERRIDES
-═══════════════════════════════════════════════ */
-html.light {
-  --bg-base:      #f4f4fa;
-  --bg-surface:   #ffffff;
-  --bg-elevated:  #f8f8fe;
-  --bg-card:      #ffffff;
-  --border:       #e2e2f0;
-  --border-light: #d0d0e8;
-
-  --text-primary:   #12121e;
-  --text-secondary: #4a4a6a;
-  --text-muted:     #8a8aaa;
-  --text-faint:     #c0c0d8;
-
-  --accent:         #059669;
-  --accent-dim:     rgba(5, 150, 105, 0.10);
-  --accent-border:  rgba(5, 150, 105, 0.22);
-
+  --bg-base:       #f4f4f8;
+  --bg-surface:    #ffffff;
+  --bg-elevated:   #f0f0f5;
+  --bg-card:       #ffffff;
+  --bg-hover:      #e8e8f0;
+  --bg-input:      #f0f0f8;
+  --border:        #dddde8;
+  --border-strong: #c8c8d8;
+  --tx-1: #0d0d1a;
+  --tx-2: #3a3a60;
+  --tx-3: #6a6a90;
+  --tx-4: #9898b8;
+  --accent:        #059669;
+  --accent-bg:     rgba(5,150,105,0.09);
+  --accent-bdr:    rgba(5,150,105,0.22);
+  --shadow:        0 1px 3px rgba(0,0,0,0.08);
   color-scheme: light;
 }
 
-/* ═══════════════════════════════════════════════
-   BASE STYLES using CSS variables
-═══════════════════════════════════════════════ */
-body {
-  background-color: var(--bg-base);
-  color: var(--text-primary);
-  transition: background-color 0.2s ease, color 0.2s ease;
+/* ── Dark = html.dark (next-themes adds this class) ─────────────── */
+html.dark {
+  --bg-base:       #080810;
+  --bg-surface:    #0c0c15;
+  --bg-elevated:   #0f0f18;
+  --bg-card:       #111120;
+  --bg-hover:      #16162a;
+  --bg-input:      #0a0a12;
+  --border:        #1e1e2e;
+  --border-strong: #2a2a3e;
+  --tx-1: #e8e8f0;
+  --tx-2: #9898b8;
+  --tx-3: #5a5a7a;
+  --tx-4: #3a3a5a;
+  --accent:        #10b981;
+  --accent-bg:     rgba(16,185,129,0.12);
+  --accent-bdr:    rgba(16,185,129,0.25);
+  --shadow:        0 1px 3px rgba(0,0,0,0.4);
+  color-scheme: dark;
 }
 
-/* Utility classes using CSS variables */
-.bg-base      { background-color: var(--bg-base); }
-.bg-surface   { background-color: var(--bg-surface); }
-.bg-elevated  { background-color: var(--bg-elevated); }
-.bg-card      { background-color: var(--bg-card); }
-.border-theme { border-color: var(--border); }
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-muted   { color: var(--text-muted); }
+/* ── Base styles ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-/* ─── Selection ─── */
-::selection {
-  background: var(--accent-dim);
-  color: var(--text-primary);
+html, body {
+  background-color: var(--bg-base) !important;
+  color: var(--tx-1) !important;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* ─── Smooth transitions for theme switch ─── */
-*, *::before, *::after {
-  transition-property: background-color, border-color, color;
-  transition-duration: 0.15s;
-  transition-timing-function: ease;
+select, input, textarea {
+  background-color: var(--bg-input) !important;
+  color: var(--tx-1) !important;
+  border-color: var(--border) !important;
+}
+select option {
+  background-color: var(--bg-surface) !important;
+  color: var(--tx-1) !important;
 }
 
-/* ─── Override Tailwind hardcoded dark colors in light mode ─── */
-html.light [class*="bg-[#080810]"] { background-color: var(--bg-base) !important; }
-html.light [class*="bg-[#0c0c15]"] { background-color: var(--bg-surface) !important; }
-html.light [class*="bg-[#0f0f18]"] { background-color: var(--bg-elevated) !important; }
-html.light [class*="bg-[#111120]"] { background-color: var(--bg-card) !important; }
-html.light [class*="bg-[#1a1a28]"] { background-color: #e8e8f8 !important; }
-html.light [class*="bg-[#1e1e2e]"] { background-color: #dcdcf0 !important; }
-html.light [class*="bg-[#0a0a12]"] { background-color: #f0f0fc !important; }
+/* Page transition */
+main { animation: pgIn 0.1s ease; }
+@keyframes pgIn { from { opacity:0.7; transform:translateY(2px); } to { opacity:1; transform:translateY(0); } }
 
-html.light [class*="border-[#1e1e2e]"] { border-color: var(--border) !important; }
-html.light [class*="border-[#1a1a28]"] { border-color: var(--border-light) !important; }
-html.light [class*="border-[#2a2a3e]"] { border-color: #c8c8e0 !important; }
+/* Scrollbar */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border-strong); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--tx-4); }
 
-html.light [class*="text-[#e8e8f0]"] { color: var(--text-primary) !important; }
-html.light [class*="text-[#c8c8e8]"] { color: #1a1a2e !important; }
-html.light [class*="text-[#7a7a9a]"] { color: var(--text-secondary) !important; }
-html.light [class*="text-[#5a5a7a]"] { color: var(--text-muted) !important; }
-html.light [class*="text-[#4a4a6a]"] { color: #6a6a8a !important; }
-html.light [class*="text-[#3a3a4e]"] { color: #8a8aaa !important; }
-html.light [class*="text-[#2a2a3e]"] { color: #aaaacc !important; }
-html.light [class*="text-white"]      { color: #0a0a18 !important; }
+/* Focus */
+button:focus-visible, a:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
 
-@theme {
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-}
+/* Code */
+code, pre, .mono { font-family:'JetBrains Mono','Fira Code',Menlo,monospace; }
+
+/* Selection */
+::selection { background: var(--accent-bg); color: var(--accent); }

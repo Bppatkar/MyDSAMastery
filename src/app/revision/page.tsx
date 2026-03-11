@@ -6,6 +6,7 @@ import {
   CheckCircle2, Circle, ExternalLink, ChevronDown, ChevronUp,
   Zap, Trophy, Target, BookOpen, Brain, Star, Clock, TrendingUp,
 } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme';
 
 // ═══════════════════════════════════════════════
 // DATA — 7 Day Plan + MIMP Questions
@@ -193,23 +194,15 @@ const DIFF_STYLE: Record<string, { bg: string; text: string }> = {
 // ═══════════════════════════════════════════════
 
 export default function RevisionPage() {
+  const th = useTheme();
   const [checked, setChecked] = useState<Set<number>>(new Set());
   const [expanded, setExpanded] = useState<Set<number>>(new Set([1]));
 
   const toggle = (id: number) => {
-    setChecked(prev => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
+    setChecked(prev => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
   };
-
   const toggleDay = (day: number) => {
-    setExpanded(prev => {
-      const next = new Set(prev);
-      next.has(day) ? next.delete(day) : next.add(day);
-      return next;
-    });
+    setExpanded(prev => { const next = new Set(prev); next.has(day) ? next.delete(day) : next.add(day); return next; });
   };
 
   const totalQ = WEEK_PLAN.reduce((s, d) => s + d.questions.length, 0);
@@ -217,62 +210,48 @@ export default function RevisionPage() {
   const pct    = Math.round((doneQ / totalQ) * 100);
 
   return (
-    <div className="min-h-screen bg-[#080810]">
+    <div style={{ minHeight: '100vh', background: th.bgBase }}>
 
       {/* ── Header ── */}
-      <div className="border-b border-[#1e1e2e] bg-[#0c0c15]">
-        <div className="max-w-5xl mx-auto px-6 py-8">
-          <div className="flex items-start justify-between gap-6 flex-wrap">
+      <div style={{ background: th.bgSurface, borderBottom: `1px solid ${th.border}` }}>
+        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '32px 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/25">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                <span style={{ fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20, background: 'rgba(245,158,11,0.12)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.25)' }}>
                   📅 7-DAY PLAN
                 </span>
-                <span className="text-xs text-[#5a5a7a]">56 MIMP Questions</span>
+                <span style={{ fontSize: 12, color: th.tx3 }}>56 MIMP Questions</span>
               </div>
-              <h1 className="text-3xl font-black text-white mb-2">
+              <h1 style={{ fontSize: 28, fontWeight: 900, color: th.tx1, margin: '0 0 8px' }}>
                 DSA Mastery — 1 Week Revision
               </h1>
-              <p className="text-[#7a7a9a] text-sm max-w-lg">
+              <p style={{ fontSize: 13, color: th.tx2, maxWidth: 480, lineHeight: 1.6, margin: 0 }}>
                 Sabse zyada poocha gaya questions — Product-based (FAANG) + Service-based dono ke liye.
                 Har din 8 questions, theory + practice.
               </p>
             </div>
 
             {/* Overall progress */}
-            <div className="flex flex-col items-end gap-2 min-w-[160px]">
-              <div className="text-4xl font-black text-emerald-400">{pct}%</div>
-              <div className="w-40 h-2 bg-[#1a1a28] rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-500"
-                  style={{ width: `${pct}%` }}
-                />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8, minWidth: 160 }}>
+              <div style={{ fontSize: 36, fontWeight: 900, color: th.accent }}>{pct}%</div>
+              <div style={{ width: 160, height: 8, background: th.border, borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ height: '100%', borderRadius: 4, background: th.accent, width: `${pct}%`, transition: 'width 0.5s' }} />
               </div>
-              <p className="text-xs text-[#5a5a7a]">{doneQ} / {totalQ} completed</p>
+              <p style={{ fontSize: 12, color: th.tx3, margin: 0 }}>{doneQ} / {totalQ} completed</p>
             </div>
           </div>
 
-          {/* Day progress pills */}
-          <div className="flex gap-2 mt-6 flex-wrap">
+          {/* Day pills */}
+          <div style={{ display: 'flex', gap: 8, marginTop: 24, flexWrap: 'wrap' }}>
             {WEEK_PLAN.map(d => {
-              const done = d.questions.filter(q => checked.has(q.id)).length;
-              const complete = done === d.questions.length;
+              const dayDone = d.questions.filter(q => checked.has(q.id)).length;
+              const complete = dayDone === d.questions.length;
               return (
-                <button
-                  key={d.day}
-                  onClick={() => {
-                    setExpanded(prev => new Set([...prev, d.day]));
-                    document.getElementById(`day-${d.day}`)?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all"
-                  style={{
-                    backgroundColor: complete ? `${d.color}20` : 'transparent',
-                    borderColor: complete ? d.color : '#1e1e2e',
-                    color: complete ? d.color : '#5a5a7a',
-                  }}
-                >
+                <button key={d.day} onClick={() => { setExpanded(prev => new Set([...prev, d.day])); document.getElementById(`day-${d.day}`)?.scrollIntoView({ behavior: 'smooth' }); }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 12px', borderRadius: 9, fontSize: 12, fontWeight: 600, cursor: 'pointer', background: complete ? `${d.color}15` : 'transparent', borderColor: complete ? d.color : th.border, borderWidth: 1, borderStyle: 'solid', color: complete ? d.color : th.tx3 }}>
                   {complete ? '✓' : `Day ${d.day}`} {d.emoji}
-                  <span className="opacity-70">{done}/{d.questions.length}</span>
+                  <span style={{ opacity: 0.7 }}>{dayDone}/{d.questions.length}</span>
                 </button>
               );
             })}
@@ -281,90 +260,77 @@ export default function RevisionPage() {
       </div>
 
       {/* ── Days ── */}
-      <div className="max-w-5xl mx-auto px-6 py-8 space-y-4">
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '28px 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
         {WEEK_PLAN.map(day => {
-          const done     = day.questions.filter(q => checked.has(q.id)).length;
+          const dayDone  = day.questions.filter(q => checked.has(q.id)).length;
           const isOpen   = expanded.has(day.day);
-          const complete = done === day.questions.length;
+          const complete = dayDone === day.questions.length;
 
           return (
-            <div
-              key={day.day}
-              id={`day-${day.day}`}
-              className="rounded-2xl border overflow-hidden transition-all"
-              style={{ borderColor: isOpen ? `${day.color}30` : '#1e1e2e', backgroundColor: '#0c0c15' }}
-            >
-              {/* Day header */}
-              <button
-                onClick={() => toggleDay(day.day)}
-                className="w-full flex items-center gap-4 px-6 py-5 text-left hover:bg-[#0f0f18] transition-colors"
-              >
-                {/* Day number */}
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black flex-shrink-0"
-                  style={{ backgroundColor: `${day.color}15`, border: `1.5px solid ${day.color}30`, color: day.color }}
-                >
+            <div key={day.day} id={`day-${day.day}`}
+              style={{ borderRadius: 18, border: `1px solid ${isOpen ? day.color + '35' : th.border}`, background: th.bgCard, overflow: 'hidden' }}>
+
+              {/* Day header button */}
+              <button onClick={() => toggleDay(day.day)}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 16, padding: '20px 24px', textAlign: 'left', cursor: 'pointer', background: 'transparent', border: 'none' }}
+                onMouseEnter={e => (e.currentTarget.style.background = th.bgHover)}
+                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+
+                {/* Day number badge */}
+                <div style={{ width: 48, height: 48, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 900, flexShrink: 0, background: `${day.color}15`, border: `1.5px solid ${day.color}30`, color: day.color }}>
                   {complete ? '✓' : day.day}
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-lg">{day.emoji}</span>
-                    <h2 className="font-bold text-white text-base">{day.title}</h2>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span style={{ fontSize: 18 }}>{day.emoji}</span>
+                    <h2 style={{ fontWeight: 800, fontSize: 15, color: th.tx1, margin: 0 }}>{day.title}</h2>
                   </div>
-                  <p className="text-xs text-[#5a5a7a] truncate">{day.focus}</p>
+                  <p style={{ fontSize: 12, color: th.tx3, margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{day.focus}</p>
                 </div>
 
-                {/* Progress + toggle */}
-                <div className="flex items-center gap-4 flex-shrink-0">
-                  <div className="text-right">
-                    <div className="text-sm font-bold" style={{ color: day.color }}>{done}/{day.questions.length}</div>
-                    <div className="w-20 h-1.5 bg-[#1a1a28] rounded-full mt-1 overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all"
-                        style={{ width: `${(done / day.questions.length) * 100}%`, backgroundColor: day.color }}
-                      />
+                {/* Progress */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexShrink: 0 }}>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: day.color }}>{dayDone}/{day.questions.length}</div>
+                    <div style={{ width: 80, height: 5, background: th.border, borderRadius: 3, marginTop: 4, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', borderRadius: 3, background: day.color, width: `${(dayDone / day.questions.length) * 100}%`, transition: 'width 0.3s' }} />
                     </div>
                   </div>
                   {isOpen
-                    ? <ChevronUp className="w-4 h-4 text-[#5a5a7a]" />
-                    : <ChevronDown className="w-4 h-4 text-[#5a5a7a]" />
-                  }
+                    ? <ChevronUp style={{ width: 16, height: 16, color: th.tx3, flexShrink: 0 }} />
+                    : <ChevronDown style={{ width: 16, height: 16, color: th.tx3, flexShrink: 0 }} />}
                 </div>
               </button>
 
-              {/* Expanded content */}
+              {/* Expanded */}
               {isOpen && (
-                <div className="border-t border-[#1a1a28]">
+                <div style={{ borderTop: `1px solid ${th.border}` }}>
 
-                  {/* Theory */}
-                  <div className="px-6 py-4 bg-[#080810]">
-                    <div className="grid md:grid-cols-2 gap-4">
+                  {/* Theory section */}
+                  <div style={{ padding: '16px 24px', background: th.bgElevated }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20 }}>
                       <div>
-                        <h3 className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: day.color }}>
+                        <h3 style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, color: day.color }}>
                           📚 Aaj Kya Padhna Hai
                         </h3>
-                        <ul className="space-y-1.5">
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
                           {day.theory.map((t, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-[#7a7a9a]">
-                              <span className="text-[8px] mt-1.5 flex-shrink-0" style={{ color: day.color }}>●</span>
+                            <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: th.tx2, lineHeight: 1.55 }}>
+                              <span style={{ color: day.color, fontSize: 8, marginTop: 4, flexShrink: 0 }}>●</span>
                               {t}
                             </li>
                           ))}
                         </ul>
                       </div>
                       <div>
-                        <h3 className="text-xs font-bold uppercase tracking-wider mb-2 text-[#5a5a7a]">
+                        <h3 style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, color: th.tx3 }}>
                           🎯 Patterns Covered
                         </h3>
-                        <div className="flex flex-wrap gap-1.5">
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                           {day.patterns.map(p => (
-                            <Link
-                              key={p}
-                              href={`/patterns/${p.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}`}
-                              className="text-xs px-2.5 py-1 rounded-lg border transition-all hover:opacity-80"
-                              style={{ backgroundColor: `${day.color}12`, borderColor: `${day.color}25`, color: day.color }}
-                            >
+                            <Link key={p} href={`/patterns/${p.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}`}
+                              style={{ fontSize: 12, padding: '4px 11px', borderRadius: 8, background: `${day.color}12`, borderColor: `${day.color}25`, borderWidth: 1, borderStyle: 'solid', color: day.color, textDecoration: 'none', fontWeight: 600 }}>
                               {p}
                             </Link>
                           ))}
@@ -373,48 +339,44 @@ export default function RevisionPage() {
                     </div>
                   </div>
 
-                  {/* Questions */}
-                  <div className="divide-y divide-[#1a1a28]">
+                  {/* Questions list */}
+                  <div>
                     {day.questions.map((q, i) => {
-                      const done = checked.has(q.id);
+                      const isDone = checked.has(q.id);
                       return (
-                        <div
-                          key={q.id}
-                          className="flex items-center gap-3 px-6 py-3.5 hover:bg-[#0f0f18] transition-colors"
-                          style={{ opacity: done ? 0.6 : 1 }}
-                        >
+                        <div key={q.id}
+                          style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 24px', opacity: isDone ? 0.55 : 1, borderTop: i > 0 ? `1px solid ${th.border}` : 'none' }}
+                          onMouseEnter={e => (e.currentTarget.style.background = th.bgHover)}
+                          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+
                           {/* Checkbox */}
-                          <button onClick={() => toggle(q.id)} className="flex-shrink-0">
-                            {done
-                              ? <CheckCircle2 className="w-5 h-5" style={{ color: day.color }} />
-                              : <Circle className="w-5 h-5 text-[#2a2a3e] hover:text-[#5a5a7a]" />
-                            }
+                          <button onClick={() => toggle(q.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0, padding: 0 }}>
+                            {isDone
+                              ? <CheckCircle2 style={{ width: 20, height: 20, color: day.color }} />
+                              : <Circle style={{ width: 20, height: 20, color: th.borderStr }} />}
                           </button>
 
-                          {/* Num */}
-                          <span className="text-xs font-mono text-[#3a3a4e] w-6 flex-shrink-0">{i + 1}</span>
+                          {/* Number */}
+                          <span style={{ fontSize: 11, fontFamily: 'monospace', color: th.tx4, width: 20, flexShrink: 0 }}>{i + 1}</span>
 
                           {/* Problem info */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs text-[#4a4a6a] font-mono">#{q.num}</span>
-                              <span className={`text-sm font-medium ${done ? 'line-through text-[#4a4a6a]' : 'text-[#c8c8e8]'}`}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                              <span style={{ fontSize: 11, fontFamily: 'monospace', color: th.tx3 }}>#{q.num}</span>
+                              <span style={{ fontSize: 13, fontWeight: 600, color: isDone ? th.tx3 : th.tx1, textDecoration: isDone ? 'line-through' : 'none' }}>
                                 {q.title}
                               </span>
-                              <span
-                                className="text-[11px] px-2 py-0.5 rounded-md font-semibold flex-shrink-0"
-                                style={DIFF_STYLE[q.diff]}
-                              >
+                              <span style={{ fontSize: 11, padding: '2px 7px', borderRadius: 5, fontWeight: 700, flexShrink: 0, ...DIFF_STYLE[q.diff] }}>
                                 {q.diff}
                               </span>
-                              <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#0f0f18] border border-[#1e1e2e] text-[#5a5a7a]">
+                              <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 6, background: th.bgElevated, border: `1px solid ${th.border}`, color: th.tx3 }}>
                                 {q.tag}
                               </span>
                             </div>
-                            {/* Companies */}
-                            <div className="flex gap-1 mt-1 flex-wrap">
+                            {/* Company tags */}
+                            <div style={{ display: 'flex', gap: 5, marginTop: 5, flexWrap: 'wrap' }}>
                               {q.companies.map(c => (
-                                <span key={c} className="text-[10px] text-[#3a3a4e] bg-[#0a0a12] px-1.5 py-0.5 rounded border border-[#1a1a28]">
+                                <span key={c} style={{ fontSize: 10, color: th.tx4, background: th.bgInput, padding: '2px 7px', borderRadius: 5, border: `1px solid ${th.border}` }}>
                                   {c}
                                 </span>
                               ))}
@@ -422,24 +384,18 @@ export default function RevisionPage() {
                           </div>
 
                           {/* Frequency dots */}
-                          <div className="hidden sm:flex gap-0.5 flex-shrink-0">
+                          <div style={{ display: 'flex', gap: 3, flexShrink: 0 }}>
                             {Array.from({ length: 5 }).map((_, fi) => (
-                              <div
-                                key={fi}
-                                className="w-1.5 h-1.5 rounded-full"
-                                style={{ backgroundColor: fi < Math.ceil(q.freq / 2) ? day.color : '#1e1e2e' }}
-                              />
+                              <div key={fi} style={{ width: 6, height: 6, borderRadius: '50%', background: fi < Math.ceil(q.freq / 2) ? day.color : th.border }} />
                             ))}
                           </div>
 
                           {/* LeetCode link */}
-                          <a
-                            href={q.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-lg text-[#3a3a4e] hover:text-emerald-400 hover:bg-emerald-500/8 transition-all flex-shrink-0"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5" />
+                          <a href={q.url} target="_blank" rel="noopener noreferrer"
+                            style={{ padding: 8, borderRadius: 8, color: th.tx3, display: 'flex', flexShrink: 0, transition: 'color 0.15s' }}
+                            onMouseEnter={e => ((e.currentTarget as HTMLElement).style.color = th.accent)}
+                            onMouseLeave={e => ((e.currentTarget as HTMLElement).style.color = th.tx3)}>
+                            <ExternalLink style={{ width: 14, height: 14 }} />
                           </a>
                         </div>
                       );
@@ -453,29 +409,24 @@ export default function RevisionPage() {
       </div>
 
       {/* ── Bottom CTA ── */}
-      <div className="max-w-5xl mx-auto px-6 pb-16">
-        <div className="grid sm:grid-cols-3 gap-4">
-          <Link href="/patterns" className="flex items-center gap-3 p-5 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e] hover:border-emerald-500/30 transition-all">
-            <BookOpen className="w-5 h-5 text-emerald-400" />
-            <div>
-              <div className="text-sm font-bold text-white">Pattern Library</div>
-              <div className="text-xs text-[#5a5a7a]">Theory padho</div>
-            </div>
-          </Link>
-          <Link href="/practice" className="flex items-center gap-3 p-5 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e] hover:border-blue-500/30 transition-all">
-            <Target className="w-5 h-5 text-blue-400" />
-            <div>
-              <div className="text-sm font-bold text-white">Practice Mode</div>
-              <div className="text-xs text-[#5a5a7a]">450 problems solve karo</div>
-            </div>
-          </Link>
-          <Link href="/pattern-recognition" className="flex items-center gap-3 p-5 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e] hover:border-purple-500/30 transition-all">
-            <Brain className="w-5 h-5 text-purple-400" />
-            <div>
-              <div className="text-sm font-bold text-white">Pattern Recognition</div>
-              <div className="text-xs text-[#5a5a7a]">Quiz + guide</div>
-            </div>
-          </Link>
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 24px 48px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
+          {[
+            { href: '/patterns',            icon: <BookOpen style={{ width: 18, height: 18, color: th.accent }} />,         title: 'Pattern Library',     sub: 'Theory padho',              hvrBdr: th.accent },
+            { href: '/practice',            icon: <Target   style={{ width: 18, height: 18, color: '#3b82f6' }} />,         title: 'Practice Mode',       sub: '450 problems solve karo',  hvrBdr: '#3b82f6' },
+            { href: '/pattern-recognition', icon: <Brain    style={{ width: 18, height: 18, color: '#a855f7' }} />,         title: 'Pattern Recognition', sub: 'Quiz + Decision Tree',     hvrBdr: '#a855f7' },
+          ].map(({ href, icon, title, sub, hvrBdr }) => (
+            <Link key={href} href={href}
+              style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 18px', borderRadius: 14, background: th.bgCard, border: `1px solid ${th.border}`, textDecoration: 'none', transition: 'border-color 0.15s' }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.borderColor = hvrBdr + '50')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.borderColor = th.border)}>
+              {icon}
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: th.tx1 }}>{title}</div>
+                <div style={{ fontSize: 11, color: th.tx3 }}>{sub}</div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

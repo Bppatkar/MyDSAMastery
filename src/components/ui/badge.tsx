@@ -26,7 +26,7 @@ const variants: Record<BadgeVariant, string> = {
   medium    : 'bg-amber-500/10  text-amber-400  border border-amber-500/20',
   hard      : 'bg-red-500/10    text-red-400    border border-red-500/20',
   secondary : 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
-  outline   : 'border border-[#2a2a3e] text-[#6b6b8a]',
+  outline   : 'border border-[var(--border-strong)] text-[#6b6b8a]',
   blue      : 'bg-blue-500/10   text-blue-400   border border-blue-500/20',
   amber     : 'bg-amber-500/10  text-amber-400  border border-amber-500/20',
 };

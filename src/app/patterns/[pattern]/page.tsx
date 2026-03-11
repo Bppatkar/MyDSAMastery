@@ -87,14 +87,14 @@ export default async function PatternDetailPage({ params }: Props) {
   const templateLang = pattern.template?.javascript ? 'JavaScript' : 'Python';
 
   return (
-    <div className="min-h-screen bg-[#080810]">
+    <div className="min-h-screen bg-[var(--bg-base)]">
       {/* ══════════════════════════════════
           HEADER BANNER
       ══════════════════════════════════ */}
       <div
-        className="border-b border-[#1e1e2e]"
+        className="border-b border-[var(--border)]"
         style={{
-          background: `linear-gradient(135deg, ${pattern.color}0a 0%, #080810 60%)`,
+          background: `linear-gradient(135deg, ${pattern.color}15 0%, var(--bg-surface) 60%)`,
         }}
       >
         <div className="px-8 sm:px-12 py-8 max-w-6xl mx-auto">
@@ -102,7 +102,7 @@ export default async function PatternDetailPage({ params }: Props) {
           <div className="flex items-center gap-2 text-sm mb-6">
             <Link
               href="/patterns"
-              className="flex items-center gap-1.5 text-[#5a5a7a] hover:text-emerald-400 transition-colors"
+              className="flex items-center gap-1.5 text-[var(--tx-3)] hover:text-emerald-400 transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
               All Patterns
@@ -153,7 +153,7 @@ export default async function PatternDetailPage({ params }: Props) {
                 </span>
               </div>
 
-              <p className="text-[#7a7a9a] text-base leading-relaxed max-w-2xl">
+              <p className="text-[var(--tx-2)] text-base leading-relaxed max-w-2xl">
                 {pattern.description}
               </p>
 
@@ -203,13 +203,13 @@ export default async function PatternDetailPage({ params }: Props) {
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Code2 className="w-5 h-5 text-emerald-400" />
                 Practice Problems
-                <span className="text-sm font-normal text-[#5a5a7a]">
+                <span className="text-sm font-normal text-[var(--tx-3)]">
                   ({total})
                 </span>
               </h2>
 
               {/* Difficulty summary */}
-              <div className="hidden sm:flex items-center gap-3 text-xs text-[#5a5a7a]">
+              <div className="hidden sm:flex items-center gap-3 text-xs text-[var(--tx-3)]">
                 <DiffCount
                   count={easy.length}
                   label="Easy"
@@ -253,15 +253,15 @@ export default async function PatternDetailPage({ params }: Props) {
             </div>
 
             {/* Prev / Next navigation */}
-            <div className="flex items-center justify-between mt-10 pt-6 border-t border-[#1e1e2e]">
+            <div className="flex items-center justify-between mt-10 pt-6 border-t border-[var(--border)]">
               {prevPat ? (
                 <Link
                   href={`/patterns/${prevPat.slug}`}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-[#1e1e2e] hover:border-[#2a2a3e] hover:bg-[#0f0f18] transition-all"
+                  className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--border)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-elevated)] transition-all"
                 >
-                  <ArrowLeft className="w-4 h-4 text-[#5a5a7a] group-hover:text-emerald-400 transition-colors" />
+                  <ArrowLeft className="w-4 h-4 text-[var(--tx-3)] group-hover:text-emerald-400 transition-colors" />
                   <div>
-                    <div className="text-[11px] text-[#5a5a7a] uppercase tracking-wider mb-0.5">
+                    <div className="text-[11px] text-[var(--tx-3)] uppercase tracking-wider mb-0.5">
                       Previous
                     </div>
                     <div className="text-sm font-medium text-[#8888a8] group-hover:text-white transition-colors">
@@ -276,17 +276,17 @@ export default async function PatternDetailPage({ params }: Props) {
               {nextPat && (
                 <Link
                   href={`/patterns/${nextPat.slug}`}
-                  className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-[#1e1e2e] hover:border-[#2a2a3e] hover:bg-[#0f0f18] transition-all text-right"
+                  className="group flex items-center gap-3 px-4 py-3 rounded-xl border border-[var(--border)] hover:border-[var(--border-strong)] hover:bg-[var(--bg-elevated)] transition-all text-right"
                 >
                   <div>
-                    <div className="text-[11px] text-[#5a5a7a] uppercase tracking-wider mb-0.5">
+                    <div className="text-[11px] text-[var(--tx-3)] uppercase tracking-wider mb-0.5">
                       Next
                     </div>
                     <div className="text-sm font-medium text-[#8888a8] group-hover:text-white transition-colors">
                       {nextPat.icon} {nextPat.name}
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-[#5a5a7a] group-hover:text-emerald-400 transition-colors" />
+                  <ArrowRight className="w-4 h-4 text-[var(--tx-3)] group-hover:text-emerald-400 transition-colors" />
                 </Link>
               )}
             </div>
@@ -302,7 +302,7 @@ export default async function PatternDetailPage({ params }: Props) {
               title="Core Idea"
               accent="#f59e0b"
             >
-              <p className="text-sm text-[#7a7a9a] leading-relaxed italic">
+              <p className="text-sm text-[var(--tx-2)] leading-relaxed italic">
                 "{pattern.coreIdea}"
               </p>
             </SideCard>
@@ -318,7 +318,7 @@ export default async function PatternDetailPage({ params }: Props) {
                   {(pattern.whenToUse ?? []).map((item: string, i: number) => (
                     <li
                       key={i}
-                      className="flex items-start gap-2.5 text-sm text-[#7a7a9a]"
+                      className="flex items-start gap-2.5 text-sm text-[var(--tx-2)]"
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
                       {item}
@@ -374,15 +374,15 @@ export default async function PatternDetailPage({ params }: Props) {
             {/* Prerequisites */}
             {(pattern.prerequisites ?? []).length > 0 && (
               <SideCard
-                icon={<BookOpen className="w-4 h-4 text-[#5a5a7a]" />}
+                icon={<BookOpen className="w-4 h-4 text-[var(--tx-3)]" />}
                 title="Prerequisites"
-                accent="#5a5a7a"
+                accent="var(--tx-3)"
               >
                 <div className="flex flex-wrap gap-2">
                   {(pattern.prerequisites ?? []).map((p: string) => (
                     <span
                       key={p}
-                      className="text-xs px-2.5 py-1 rounded-lg bg-[#0f0f18] text-[#7a7a9a] border border-[#2a2a3e]"
+                      className="text-xs px-2.5 py-1 rounded-lg bg-[var(--bg-elevated)] text-[var(--tx-2)] border border-[var(--border-strong)]"
                     >
                       {p}
                     </span>
@@ -402,7 +402,7 @@ export default async function PatternDetailPage({ params }: Props) {
                   {(pattern.examples ?? []).map((ex: string) => (
                     <li
                       key={ex}
-                      className="flex items-center gap-2.5 text-sm text-[#7a7a9a]"
+                      className="flex items-center gap-2.5 text-sm text-[var(--tx-2)]"
                     >
                       <Star className="w-3 h-3 text-amber-500 flex-shrink-0 fill-amber-500/50" />
                       {ex}
@@ -435,9 +435,9 @@ function MetaPill({
   valueColor: string;
 }) {
   return (
-    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0f0f18] border border-[#1e1e2e] text-sm">
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-elevated)] border border-[var(--border)] text-sm">
       {icon}
-      <span className="text-[#5a5a7a]">{label}:</span>
+      <span className="text-[var(--tx-3)]">{label}:</span>
       <code className={`font-mono font-semibold ${valueColor}`}>{value}</code>
     </div>
   );
@@ -478,10 +478,10 @@ function SideCard({
   noPadContent?: boolean;
 }) {
   return (
-    <div className="bg-[#0c0c15] border border-[#1e1e2e] rounded-2xl overflow-hidden">
+    <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl overflow-hidden">
       {/* Card header */}
       <div
-        className="flex items-center gap-2.5 px-5 py-3.5 border-b border-[#1e1e2e]"
+        className="flex items-center gap-2.5 px-5 py-3.5 border-b border-[var(--border)]"
         style={{
           background: `linear-gradient(90deg, ${accent}08, transparent)`,
         }}
@@ -517,14 +517,14 @@ function QuestionGroup({
         >
           {title}
         </h3>
-        <div className="flex-1 h-px bg-[#1e1e2e]" />
-        <span className="text-xs text-[#5a5a7a] bg-[#0f0f18] border border-[#1e1e2e] px-2 py-0.5 rounded-full">
+        <div className="flex-1 h-px bg-[var(--border)]" />
+        <span className="text-xs text-[var(--tx-3)] bg-[var(--bg-elevated)] border border-[var(--border)] px-2 py-0.5 rounded-full">
           {questions.length} problems
         </span>
       </div>
 
       {/* Question rows */}
-      <div className="bg-[#0c0c15] border border-[#1e1e2e] rounded-2xl overflow-hidden">
+      <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-2xl overflow-hidden">
         {questions.map((q: any, i: number) => (
           <QuestionRow
             key={q.id}
@@ -615,7 +615,7 @@ function QuestionRow({
               className={`w-1.5 h-1.5 rounded-full transition-colors ${
                 i < Math.ceil(q.frequency / 2)
                   ? 'bg-emerald-500'
-                  : 'bg-[#1e1e2e]'
+                  : 'bg-[var(--border)]'
               }`}
             />
           ))}

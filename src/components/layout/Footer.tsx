@@ -1,33 +1,21 @@
 import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
-
 export function Footer() {
   return (
-    <footer className="border-t border-[#1e1e2e] bg-[#080810] px-6 py-8 mt-auto">
-      <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-            <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+    <footer style={{ borderTop:'1px solid var(--border)', background:'var(--bg-surface)', padding:'24px 32px' }}>
+      <div style={{ maxWidth:1200, margin:'0 auto', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+          <div style={{ width:28, height:28, borderRadius:8, background:'var(--accent)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <BookOpen style={{ width:13, height:13, color:'#fff' }} />
           </div>
-          <span className="font-bold text-sm text-white">
-            <span className="text-emerald-400">DSA</span> Mastery
-          </span>
+          <span style={{ fontSize:13, fontWeight:800, color:'var(--tx-1)' }}><span style={{ color:'var(--accent)' }}>DSA</span> Mastery</span>
         </div>
-
-        {/* Links */}
-        <div className="flex items-center gap-6 text-xs text-[#5a5a7a]">
-          {['/patterns', '/practice', '/visualizers', '/dashboard'].map((href) => (
-            <Link key={href} href={href} className="hover:text-emerald-400 transition-colors capitalize">
-              {href.replace('/', '')}
-            </Link>
+        <div style={{ display:'flex', gap:20 }}>
+          {[['Patterns','/patterns'],['Practice','/practice'],['Visualizers','/visualizers'],['Dashboard','/dashboard']].map(([l,h])=>(
+            <Link key={h} href={h} style={{ fontSize:12, color:'var(--tx-3)', textDecoration:'none' }}>{l}</Link>
           ))}
         </div>
-
-        <p className="text-xs text-[#3a3a4e]">
-          Made for Interview Success ❤️
-        </p>
+        <span style={{ fontSize:12, color:'var(--tx-4)' }}>Made for Interview Success ❤️</span>
       </div>
     </footer>
   );

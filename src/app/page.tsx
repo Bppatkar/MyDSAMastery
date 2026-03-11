@@ -1,343 +1,151 @@
+'use client';
+
 import Link from 'next/link';
-import {
-  ArrowRight,
-  Zap,
-  Brain,
-  Eye,
-  Code2,
-  Clock,
-  BarChart2,
-  CheckCircle2,
-  Layers,
-} from 'lucide-react';
+import { ArrowRight, Zap, Brain, Eye, Code2, Clock, BarChart2, Layers } from 'lucide-react';
 import { DSA_PATTERNS, TOTAL_PATTERNS, TOTAL_QUESTIONS } from '@/lib/constants';
 
 export default function HomePage() {
-  const previewPatterns = DSA_PATTERNS.slice(0, 6);
-
+  const preview = DSA_PATTERNS.slice(0, 6);
   return (
-    <div className="min-h-screen w-full">
-      {/* ══════════════════════════════
-          HERO
-      ══════════════════════════════ */}
-      <section className="relative overflow-hidden w-full px-8 sm:px-12 lg:px-16 py-20 lg:py-28 text-center">
-        {/* Background glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px]" />
-          <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[80px]" />
-          <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] bg-purple-500/5 rounded-full blur-[80px]" />
-        </div>
+    <div style={{ minHeight:'100vh', background:'var(--bg-base)', color:'var(--tx-1)' }}>
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 text-emerald-400 text-sm mb-8">
-            <Zap className="w-3.5 h-3.5" />
-            <span>
-              {TOTAL_QUESTIONS} Problems · {TOTAL_PATTERNS} Patterns ·
-              AI-Powered
-            </span>
+      {/* ── HERO ── */}
+      <section style={{ padding:'80px 32px 60px', textAlign:'center', position:'relative', overflow:'hidden' }}>
+        <div style={{ maxWidth:800, margin:'0 auto', position:'relative', zIndex:1 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'6px 16px', borderRadius:99, border:'1px solid var(--accent-bdr)', background:'var(--accent-bg)', color:'var(--accent)', fontSize:13, marginBottom:28 }}>
+            <Zap style={{ width:13, height:13 }} />
+            {TOTAL_QUESTIONS} Problems · {TOTAL_PATTERNS} Patterns · AI-Powered
           </div>
-
-          {/* Heading */}
-          <h1 className="text-5xl lg:text-7xl font-black tracking-tight mb-6">
-            <span className="text-white">Master DSA.</span>
-            <br />
-            <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 style={{ fontSize:'clamp(36px,6vw,68px)', fontWeight:900, lineHeight:1.1, margin:'0 0 20px', color:'var(--tx-1)' }}>
+            Master DSA.<br />
+            <span style={{ background:'linear-gradient(135deg,#10b981,#6366f1)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
               Crack Any Interview.
             </span>
           </h1>
-
-          <p className="text-lg text-[#7a7a9a] max-w-xl mx-auto mb-10 leading-relaxed">
-            Stop grinding randomly. Learn the{' '}
-            <span className="text-white font-semibold">15 patterns</span> that
-            solve 90% of FAANG problems — with AI tutoring, step-by-step
-            visualizers, and timed mock interviews.
+          <p style={{ fontSize:17, color:'var(--tx-2)', maxWidth:520, margin:'0 auto 32px', lineHeight:1.7 }}>
+            Stop grinding randomly. Learn the <strong style={{ color:'var(--tx-1)' }}>15 patterns</strong> that solve 90% of FAANG problems — in Hinglish, with real examples.
           </p>
-
-          {/* CTA buttons */}
-          <div className="flex items-center justify-center gap-4 mb-10 flex-wrap">
-            <Link
-              href="/patterns"
-              className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-base transition-all hover:scale-105 shadow-lg shadow-emerald-500/25"
-            >
-              Start Learning Free
-              <ArrowRight className="w-4 h-4" />
+          <div style={{ display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap', marginBottom:36 }}>
+            <Link href="/patterns" style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'12px 28px', borderRadius:12, background:'var(--accent)', color:'#fff', fontWeight:800, fontSize:15, textDecoration:'none', boxShadow:'0 4px 20px var(--accent-bg)' }}>
+              Start Learning Free <ArrowRight style={{ width:16, height:16 }} />
             </Link>
-            <Link
-              href="/visualizers"
-              className="flex items-center gap-2 px-8 py-3.5 rounded-xl border border-[#2a2a3e] hover:border-[#3a3a5e] text-[#c8c8e8] hover:text-white font-semibold text-base transition-all hover:bg-[#0f0f18]"
-            >
-              See Visualizers
+            <Link href="/practice" style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'12px 28px', borderRadius:12, border:'1px solid var(--border)', color:'var(--tx-2)', fontWeight:600, fontSize:15, textDecoration:'none', background:'var(--bg-surface)' }}>
+              Practice Problems
             </Link>
           </div>
-
-          {/* Pattern chips */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {DSA_PATTERNS.slice(0, 7).map((p) => (
-              <Link
-                key={p.id}
-                href={`/patterns/${p.slug}`}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border border-[#1e1e2e] hover:border-[#2a2a3e] text-[#5a5a7a] hover:text-[#c8c8e8] bg-[#0c0c15] hover:bg-[#0f0f18] transition-all"
-              >
-                <span>{p.icon}</span>
-                {p.name}
+          <div style={{ display:'flex', flexWrap:'wrap', justifyContent:'center', gap:8 }}>
+            {DSA_PATTERNS.slice(0,7).map(p=>(
+              <Link key={p.id} href={`/patterns/${p.slug}`} style={{ display:'inline-flex', alignItems:'center', gap:6, padding:'5px 12px', borderRadius:99, fontSize:12, border:'1px solid var(--border)', color:'var(--tx-3)', background:'var(--bg-surface)', textDecoration:'none' }}>
+                {p.icon} {p.name}
               </Link>
             ))}
-            <span className="flex items-center px-3 py-1.5 text-xs text-[#5a5a7a]">
-              + {TOTAL_PATTERNS - 7} more
-            </span>
+            <span style={{ padding:'5px 12px', fontSize:12, color:'var(--tx-4)' }}>+ {TOTAL_PATTERNS-7} more</span>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════
-          STATS BAR
-      ══════════════════════════════ */}
-      <section className="border-y border-[#1e1e2e] bg-[#0c0c15] w-full">
-        <div className="max-w-4xl mx-auto px-8 sm:px-12 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              {
-                value: '15',
-                label: 'DSA Patterns',
-                color: 'text-emerald-400',
-                icon: Layers,
-              },
-              {
-                value: '450',
-                label: 'LeetCode Problems',
-                color: 'text-blue-400',
-                icon: Code2,
-              },
-              {
-                value: '8',
-                label: 'Visualizers',
-                color: 'text-purple-400',
-                icon: Eye,
-              },
-              {
-                value: '∞',
-                label: 'AI-Powered Features',
-                color: 'text-amber-400',
-                icon: Brain,
-              },
-            ].map(({ value, label, color, icon: Icon }) => (
-              <div key={label} className="flex flex-col items-center gap-2">
-                <Icon className={`w-5 h-5 ${color} opacity-70`} />
-                <div className={`text-4xl font-black ${color}`}>{value}</div>
-                <div className="text-xs text-[#5a5a7a]">{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════
-          PATTERN PREVIEW
-      ══════════════════════════════ */}
-      <section className="w-full px-8 sm:px-12 lg:px-16 py-16">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-emerald-400 text-sm font-semibold mb-2">
-              15 Core Patterns
-            </p>
-            <h2 className="text-3xl font-black text-white">
-              One Pattern. Infinite Problems.
-            </h2>
-            <p className="text-[#7a7a9a] mt-3 max-w-lg mx-auto">
-              Each pattern includes 30 hand-picked problems, detailed
-              explanations, trigger keywords, and complexity analysis.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            {previewPatterns.map((p) => (
-              <Link
-                key={p.id}
-                href={`/patterns/${p.slug}`}
-                className="group flex items-start gap-4 p-5 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e] hover:border-[#2a2a3e] hover:bg-[#0f0f18] transition-all hover:-translate-y-0.5"
-              >
-                {/* Icon */}
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                  style={{
-                    background: `linear-gradient(135deg, ${p.color}20, ${p.color}08)`,
-                    border: `1px solid ${p.color}25`,
-                  }}
-                >
-                  {p.icon}
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-sm font-bold text-[#e8e8f0] group-hover:text-white truncate">
-                      {p.name}
-                    </h3>
-                    <span
-                      className="text-[11px] font-bold flex-shrink-0"
-                      style={{ color: p.color }}
-                    >
-                      #{p.order}
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#5a5a7a] line-clamp-2 leading-relaxed">
-                    {p.description}
-                  </p>
-                  <p className="text-[11px] text-[#3a3a4e] mt-2">
-                    30 problems · {p.category}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link
-              href="/patterns"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#2a2a3e] hover:border-emerald-500/30 text-[#7a7a9a] hover:text-emerald-400 font-medium transition-all text-sm"
-            >
-              View All 15 Patterns <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════
-          FEATURES
-      ══════════════════════════════ */}
-     <section className="w-full px-8 sm:px-12 lg:px-16 py-16 bg-[#0c0c15] border-y border-[#1e1e2e]">
-  <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-purple-400 text-sm font-semibold mb-2">
-              Everything Included
-            </p>
-            <h2 className="text-3xl font-black text-white">
-              Built for Interview Success
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              {
-                icon: <Layers className="w-5 h-5 text-emerald-400" />,
-                color: 'emerald',
-                title: 'Pattern Library',
-                desc: '15 patterns with theory, templates, and trigger keywords',
-              },
-              {
-                icon: <Code2 className="w-5 h-5 text-blue-400" />,
-                color: 'blue',
-                title: 'Practice Problems',
-                desc: '450 LeetCode problems organized by pattern and difficulty',
-              },
-              {
-                icon: <Eye className="w-5 h-5 text-purple-400" />,
-                color: 'purple',
-                title: 'Algorithm Visualizers',
-                desc: '8 interactive visualizers — sorting, trees, graphs, and more',
-              },
-              {
-                icon: <Brain className="w-5 h-5 text-pink-400" />,
-                color: 'pink',
-                title: 'AI Tutor',
-                desc: 'Get hints, explanations, and pattern detection help',
-              },
-              {
-                icon: <Clock className="w-5 h-5 text-amber-400" />,
-                color: 'amber',
-                title: 'Interview Simulator',
-                desc: '45-minute timed sessions with real-time feedback',
-              },
-              {
-                icon: <BarChart2 className="w-5 h-5 text-teal-400" />,
-                color: 'teal',
-                title: 'Progress Dashboard',
-                desc: 'Track solved problems, streaks, and weak patterns',
-              },
-            ].map(({ icon, title, desc }) => (
-              <div
-                key={title}
-                className="p-6 rounded-2xl bg-[#080810] border border-[#1e1e2e] hover:border-[#2a2a3e] transition-all"
-              >
-                <div className="mb-4">{icon}</div>
-                <h3 className="font-bold text-[#e8e8f0] mb-2">{title}</h3>
-                <p className="text-sm text-[#5a5a7a] leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════
-          HOW IT WORKS
-      ══════════════════════════════ */}
-      <section className="w-full px-8 sm:px-12 lg:px-16 py-16">
-  <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-black text-white">How It Works</h2>
-          <p className="text-[#7a7a9a] mt-3">
-            From zero to interview-ready in 4 steps
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* ── STATS BAR ── */}
+      <section style={{ borderTop:'1px solid var(--border)', borderBottom:'1px solid var(--border)', background:'var(--bg-surface)', padding:'24px 32px' }}>
+        <div style={{ maxWidth:800, margin:'0 auto', display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:24, textAlign:'center' }}>
           {[
-            {
-              step: '01',
-              title: 'Pick a Pattern',
-              desc: 'Start with Sliding Window, follow the order',
-            },
-            {
-              step: '02',
-              title: 'Study the Theory',
-              desc: 'Learn core idea, template, and when to use',
-            },
-            {
-              step: '03',
-              title: 'Solve Problems',
-              desc: 'Practice 30 problems from easy to hard',
-            },
-            {
-              step: '04',
-              title: 'Simulate Interview',
-              desc: 'Test under real timed conditions',
-            },
-          ].map(({ step, title, desc }) => (
-            <div
-              key={step}
-              className="text-center p-6 rounded-2xl bg-[#0c0c15] border border-[#1e1e2e]"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-emerald-400 font-black text-sm">
-                  {step}
-                </span>
-              </div>
-              <h3 className="font-bold text-[#e8e8f0] mb-2 text-sm">{title}</h3>
-              <p className="text-xs text-[#5a5a7a] leading-relaxed">{desc}</p>
+            { v:'15', l:'DSA Patterns', c:'#10b981', I:Layers },
+            { v:'450', l:'LeetCode Problems', c:'#6366f1', I:Code2 },
+            { v:'8', l:'Visualizers', c:'#a855f7', I:Eye },
+            { v:'∞', l:'AI Features', c:'#f59e0b', I:Brain },
+          ].map(({v,l,c,I})=>(
+            <div key={l} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+              <I style={{ width:18, height:18, color:c, opacity:0.8 }} />
+              <div style={{ fontSize:36, fontWeight:900, color:c }}>{v}</div>
+              <div style={{ fontSize:11, color:'var(--tx-3)' }}>{l}</div>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── PATTERN PREVIEW ── */}
+      <section style={{ padding:'60px 32px', background:'var(--bg-base)' }}>
+        <div style={{ maxWidth:1000, margin:'0 auto' }}>
+          <div style={{ textAlign:'center', marginBottom:36 }}>
+            <p style={{ color:'var(--accent)', fontSize:13, fontWeight:700, marginBottom:8 }}>15 Core Patterns</p>
+            <h2 style={{ fontSize:28, fontWeight:900, color:'var(--tx-1)', margin:0 }}>One Pattern. Infinite Problems.</h2>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14, marginBottom:28 }}>
+            {preview.map(p=>(
+              <Link key={p.id} href={`/patterns/${p.slug}`} style={{ display:'flex', gap:14, padding:18, borderRadius:16, background:'var(--bg-surface)', border:'1px solid var(--border)', textDecoration:'none', transition:'all 0.15s' }}
+                onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.borderColor='var(--border-strong)'; (e.currentTarget as HTMLElement).style.transform='translateY(-2px)';}}
+                onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.borderColor='var(--border)'; (e.currentTarget as HTMLElement).style.transform='none';}}>
+                <div style={{ width:44, height:44, borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0, background:`${p.color}15`, border:`1px solid ${p.color}25` }}>{p.icon}</div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+                    <span style={{ fontSize:13, fontWeight:800, color:'var(--tx-1)' }}>{p.name}</span>
+                    <span style={{ fontSize:11, fontWeight:700, color:p.color }}>#{p.order}</span>
+                  </div>
+                  <p style={{ fontSize:12, color:'var(--tx-3)', margin:0, lineHeight:1.5, overflow:'hidden', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' as const }}>{p.description}</p>
+                  <p style={{ fontSize:11, color:'var(--tx-4)', margin:'6px 0 0' }}>30 problems · {p.category}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div style={{ textAlign:'center' }}>
+            <Link href="/patterns" style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'10px 24px', borderRadius:10, border:'1px solid var(--border)', color:'var(--tx-2)', fontSize:13, fontWeight:600, textDecoration:'none', background:'var(--bg-surface)' }}>
+              View All 15 Patterns <ArrowRight style={{ width:14, height:14 }} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════
-          CTA
-      ══════════════════════════════ */}
-     <section className="w-full px-8 sm:px-12 lg:px-16 py-16 text-center bg-[#0c0c15] border-t border-[#1e1e2e]">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-black text-white mb-4">
-            Ready to Master DSA?
-          </h2>
-          <p className="text-[#7a7a9a] mb-8">
-            Join thousands of developers who cracked FAANG interviews using
-            these 15 patterns.
-          </p>
-          <Link
-            href="/patterns"
-            className="inline-flex items-center gap-2 px-10 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-base transition-all hover:scale-105 shadow-xl shadow-emerald-500/20"
-          >
-            Start Free — No Signup <ArrowRight className="w-4 h-4" />
+      {/* ── FEATURES ── */}
+      <section style={{ padding:'60px 32px', background:'var(--bg-surface)', borderTop:'1px solid var(--border)' }}>
+        <div style={{ maxWidth:1000, margin:'0 auto' }}>
+          <div style={{ textAlign:'center', marginBottom:36 }}>
+            <p style={{ color:'#a855f7', fontSize:13, fontWeight:700, marginBottom:8 }}>Everything Included</p>
+            <h2 style={{ fontSize:28, fontWeight:900, color:'var(--tx-1)', margin:0 }}>Built for Interview Success</h2>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14 }}>
+            {[
+              { I:Layers, c:'#10b981', t:'Pattern Library', d:'15 patterns with theory, templates, and keyword triggers' },
+              { I:Code2, c:'#6366f1', t:'Practice Problems', d:'450 LeetCode problems organized by pattern and difficulty' },
+              { I:Eye, c:'#a855f7', t:'Algorithm Visualizers', d:'8 interactive visualizers — sorting, trees, graphs, and more' },
+              { I:Brain, c:'#ec4899', t:'AI Tutor', d:'Hints, explanations, and pattern detection help' },
+              { I:Clock, c:'#f59e0b', t:'Interview Simulator', d:'45-minute timed sessions with real-time feedback' },
+              { I:BarChart2, c:'#14b8a6', t:'Progress Dashboard', d:'Track solved problems, streaks, and weak patterns' },
+            ].map(({I,c,t,d})=>(
+              <div key={t} style={{ padding:22, borderRadius:16, background:'var(--bg-elevated)', border:'1px solid var(--border)' }}>
+                <I style={{ width:20, height:20, color:c, marginBottom:14 }} />
+                <h3 style={{ fontSize:14, fontWeight:800, color:'var(--tx-1)', margin:'0 0 8px' }}>{t}</h3>
+                <p style={{ fontSize:13, color:'var(--tx-3)', lineHeight:1.55, margin:0 }}>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW IT WORKS ── */}
+      <section style={{ padding:'60px 32px', background:'var(--bg-base)', borderTop:'1px solid var(--border)' }}>
+        <div style={{ maxWidth:800, margin:'0 auto' }}>
+          <div style={{ textAlign:'center', marginBottom:36 }}>
+            <h2 style={{ fontSize:28, fontWeight:900, color:'var(--tx-1)', margin:'0 0 8px' }}>How It Works</h2>
+            <p style={{ color:'var(--tx-3)', margin:0 }}>Zero se interview-ready in 4 steps</p>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:16 }}>
+            {[['01','Pick a Pattern','Sliding Window se shuru karo'],['02','Study Theory','Core idea, template, keywords'],['03','Solve Problems','Easy se Hard — 30 per pattern'],['04','Mock Interview','Real timed conditions mein test karo']].map(([n,t,d])=>(
+              <div key={n} style={{ textAlign:'center', padding:24, borderRadius:16, background:'var(--bg-surface)', border:'1px solid var(--border)' }}>
+                <div style={{ width:44, height:44, borderRadius:12, background:'var(--accent-bg)', border:'1px solid var(--accent-bdr)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px', color:'var(--accent)', fontWeight:900, fontSize:13 }}>{n}</div>
+                <h3 style={{ fontSize:13, fontWeight:800, color:'var(--tx-1)', margin:'0 0 6px' }}>{t}</h3>
+                <p style={{ fontSize:12, color:'var(--tx-3)', lineHeight:1.5, margin:0 }}>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section style={{ padding:'60px 32px', textAlign:'center', background:'var(--bg-surface)', borderTop:'1px solid var(--border)' }}>
+        <div style={{ maxWidth:500, margin:'0 auto' }}>
+          <h2 style={{ fontSize:28, fontWeight:900, color:'var(--tx-1)', margin:'0 0 12px' }}>Ready to Master DSA?</h2>
+          <p style={{ color:'var(--tx-3)', marginBottom:28 }}>Join thousands of developers who cracked FAANG using these 15 patterns.</p>
+          <Link href="/patterns" style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'14px 36px', borderRadius:12, background:'var(--accent)', color:'#fff', fontWeight:800, fontSize:15, textDecoration:'none' }}>
+            Start Free — No Signup <ArrowRight style={{ width:16, height:16 }} />
           </Link>
         </div>
       </section>

@@ -1,32 +1,20 @@
-// Reusable "Coming Soon" component - Placeholder pages ke liye
+'use client';
 import Link from 'next/link';
-import { Construction, ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
-interface ComingSoonProps {
-  title    : string;
-  subtitle : string;
-  day      : number;
-}
+interface Props { title: string; subtitle: string; day: number; icon?: string; }
 
-export function ComingSoon({ title, subtitle, day }: ComingSoonProps) {
+export function ComingSoon({ title, subtitle, day, icon='🚧' }: Props) {
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <div className="text-center px-4 max-w-md">
-        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-6">
-          <Construction className="w-8 h-8 text-amber-400" />
-        </div>
-        <h1 className="text-2xl font-bold text-[#e8e8f0] mb-2">{title}</h1>
-        <p className="text-[#6b6b8a] mb-2">{subtitle}</p>
-        <p className="text-sm text-amber-400 font-medium mb-8">
-          🚧 Coming in Day {day} of development
-        </p>
-        <Link href="/">
-          <Button variant="outline" leftIcon={<ArrowLeft className="w-4 h-4" />}>
-            Back to Home
-          </Button>
-        </Link>
+    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:'60vh', padding:40, textAlign:'center' }}>
+      <div style={{ width:72, height:72, borderRadius:20, background:'rgba(245,158,11,0.1)', border:'1px solid rgba(245,158,11,0.25)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:32, marginBottom:20 }}>
+        {icon}
       </div>
+      <h2 style={{ fontSize:24, fontWeight:900, color:'var(--tx-1)', margin:'0 0 8px' }}>{title}</h2>
+      <p style={{ fontSize:14, color:'var(--tx-3)', marginBottom:12 }}>{subtitle}</p>
+      <span style={{ fontSize:13, color:'#f59e0b', fontWeight:700 }}>🗓️ Coming in Day {day} of development</span>
+      <Link href="/" style={{ marginTop:24, padding:'10px 24px', borderRadius:10, border:'1px solid var(--border)', color:'var(--tx-2)', fontSize:13, textDecoration:'none', background:'var(--bg-surface)' }}>
+        ← Back to Home
+      </Link>
     </div>
   );
 }

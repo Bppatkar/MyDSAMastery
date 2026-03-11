@@ -90,23 +90,23 @@ export function PatternList() {
       <div className="flex flex-col sm:flex-row gap-2.5 mb-5">
         {/* Search input */}
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#5a5a7a]" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--tx-3)]" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search patterns or keywords..."
             className={cn(
               'w-full pl-9 pr-4 h-10 rounded-xl text-sm',
-              'bg-[#0f0f18] border border-[#1e1e2e]',
-              'text-[#e8e8f0] placeholder:text-[#3a3a4e]',
-              'focus:outline-none focus:border-emerald-500/40 focus:bg-[#111120]',
+              'bg-[var(--bg-elevated)] border border-[var(--border)]',
+              'text-[var(--tx-1)] placeholder:text-[#3a3a4e]',
+              'focus:outline-none focus:border-emerald-500/40 focus:bg-[var(--bg-card)]',
               'transition-all duration-200'
             )}
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5a5a7a] hover:text-[#e8e8f0]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--tx-3)] hover:text-[var(--tx-1)]"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -126,7 +126,7 @@ export function PatternList() {
           {hasFilters && (
             <button
               onClick={clearFilters}
-              className="flex items-center gap-1.5 h-10 px-3 rounded-xl text-sm text-[#5a5a7a] hover:text-red-400 border border-[#1e1e2e] hover:border-red-500/30 transition-all"
+              className="flex items-center gap-1.5 h-10 px-3 rounded-xl text-sm text-[var(--tx-3)] hover:text-red-400 border border-[var(--border)] hover:border-red-500/30 transition-all"
             >
               <X className="w-3.5 h-3.5" />
               Clear
@@ -134,14 +134,14 @@ export function PatternList() {
           )}
 
           {/* View toggle */}
-          <div className="flex rounded-xl border border-[#1e1e2e] overflow-hidden">
+          <div className="flex rounded-xl border border-[var(--border)] overflow-hidden">
             <button
               onClick={() => setView('grid')}
               className={cn(
                 'px-3 h-10 transition-colors',
                 view === 'grid'
                   ? 'bg-emerald-500/15 text-emerald-400'
-                  : 'text-[#5a5a7a] hover:text-[#e8e8f0] bg-[#0f0f18]'
+                  : 'text-[var(--tx-3)] hover:text-[var(--tx-1)] bg-[var(--bg-elevated)]'
               )}
             >
               <LayoutGrid className="w-4 h-4" />
@@ -149,10 +149,10 @@ export function PatternList() {
             <button
               onClick={() => setView('list')}
               className={cn(
-                'px-3 h-10 transition-colors border-l border-[#1e1e2e]',
+                'px-3 h-10 transition-colors border-l border-[var(--border)]',
                 view === 'list'
                   ? 'bg-emerald-500/15 text-emerald-400'
-                  : 'text-[#5a5a7a] hover:text-[#e8e8f0] bg-[#0f0f18]'
+                  : 'text-[var(--tx-3)] hover:text-[var(--tx-1)] bg-[var(--bg-elevated)]'
               )}
             >
               <List className="w-4 h-4" />
@@ -163,8 +163,8 @@ export function PatternList() {
 
       {/* Results count */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm text-[#5a5a7a]">
-          <span className="text-[#e8e8f0] font-semibold">{filtered.length}</span>
+        <span className="text-sm text-[var(--tx-3)]">
+          <span className="text-[var(--tx-1)] font-semibold">{filtered.length}</span>
           {' '}of 15 patterns
           {hasFilters && ' (filtered)'}
         </span>
@@ -204,9 +204,9 @@ export function PatternList() {
           </div>
         )
       ) : (
-        <div className="text-center py-20 border border-dashed border-[#1e1e2e] rounded-2xl">
+        <div className="text-center py-20 border border-dashed border-[var(--border)] rounded-2xl">
           <div className="text-4xl mb-3">🔍</div>
-          <p className="text-[#5a5a7a] mb-3">No patterns match your filters.</p>
+          <p className="text-[var(--tx-3)] mb-3">No patterns match your filters.</p>
           <button
             onClick={clearFilters}
             className="text-emerald-400 hover:underline text-sm"
@@ -233,14 +233,14 @@ function FilterSelect({
       onChange={(e) => onChange(e.target.value)}
       className={cn(
         'h-10 px-3 rounded-xl text-sm cursor-pointer',
-        'bg-[#0f0f18] border border-[#1e1e2e]',
+        'bg-[var(--bg-elevated)] border border-[var(--border)]',
         'text-[#8888a8] focus:outline-none',
         'focus:border-emerald-500/40 transition-colors',
         value !== 'All' && 'border-emerald-500/30 text-emerald-400'
       )}
     >
       {options.map((o) => (
-        <option key={o} value={o} className="bg-[#0f0f18] text-[#e8e8f0]">
+        <option key={o} value={o} className="bg-[var(--bg-elevated)] text-[var(--tx-1)]">
           {o}
         </option>
       ))}
@@ -260,14 +260,14 @@ function StatPill({
 }) {
   const pct = Math.round((value / total) * 100);
   return (
-    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#0f0f18] border border-[#1e1e2e]">
+    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--bg-elevated)] border border-[var(--border)]">
       <div className="flex-shrink-0">{icon}</div>
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-1">
           <span className={cn('text-lg font-black tabular-nums', color)}>{value}</span>
           <span className="text-xs text-[#3a3a4e]">/{total}</span>
         </div>
-        <div className="text-[11px] text-[#5a5a7a] truncate">{label}</div>
+        <div className="text-[11px] text-[var(--tx-3)] truncate">{label}</div>
       </div>
     </div>
   );

@@ -26,10 +26,10 @@ const variants: Record<Variant, string> = {
     'bg-purple-600 hover:bg-purple-500 text-white font-semibold ' +
     'shadow-lg shadow-purple-500/20',
   outline:
-    'border border-[#2a2a3e] hover:border-emerald-500/50 ' +
-    'text-[#e8e8f0] hover:text-emerald-400 hover:bg-emerald-500/5',
+    'border border-[var(--border-strong)] hover:border-emerald-500/50 ' +
+    'text-[var(--tx-1)] hover:text-emerald-400 hover:bg-emerald-500/5',
   ghost:
-    'text-[#6b6b8a] hover:text-[#e8e8f0] hover:bg-[#1c1c2e]',
+    'text-[#6b6b8a] hover:text-[var(--tx-1)] hover:bg-[#1c1c2e]',
   destructive:
     'bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400',
   link:
