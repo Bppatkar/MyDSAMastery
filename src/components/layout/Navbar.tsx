@@ -41,7 +41,7 @@ export function Navbar() {
               background: active ? 'var(--accent-bg)' : 'transparent',
               color: active ? 'var(--accent)' : 'var(--tx-3)',
             }}
-            onMouseEnter={e=>{ if(!active)(e.currentTarget as HTMLElement).style.color='var(--tx-1)'; }}
+            onMouseEnter={e=>{ if(!active)(e.currentTarget as HTMLElement).style.color='var(--accent)'; }}
             onMouseLeave={e=>{ if(!active)(e.currentTarget as HTMLElement).style.color='var(--tx-3)'; }}
             >
               <Icon style={{ width:14, height:14, flexShrink:0 }} />

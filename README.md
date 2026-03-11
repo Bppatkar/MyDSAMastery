@@ -1,148 +1,74 @@
-# 🚀 DSA Mastery Platform
+# DSA Mastery Platform
 
-> **Master Data Structures & Algorithms the smart way.**  
-> 15 Patterns · 450 Problems · AI Tutor · Visualizers · Interview Simulator
+A focused training platform to master Data Structures & Algorithms — specifically designed to help you **identify patterns from problem descriptions** so you can tackle unseen LeetCode questions confidently.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8?logo=tailwindcss)](https://tailwindcss.com)
+## Core Mission
 
----
+> "Given a problem's input, output, constraints, and keywords → instantly know which pattern and data structure to use."
 
-## 🎯 What Is This?
+## Features
 
-DSA Mastery is a full-stack learning platform for developers preparing for  
-FAANG / product company interviews. Instead of grinding 1000 random problems,  
-you learn **15 core patterns** that cover 90% of all interview questions.
+### ✅ Day 1 — Foundation
+- Home page, layout, navigation, dark/light mode
+- Zustand stores (progress, editor, user)
 
----
+### ✅ Day 2 — Pattern System
+- 15 DSA patterns with 30 questions each (450 total)
+- Pattern detail pages with code templates, complexity, examples
+- Pattern Quiz, Decision Flowchart, Pattern Progress tracking
 
-## 🏗️ Tech Stack
+### ✅ Day 3 — Practice System
+- 450-question practice list with filters (difficulty, pattern, status)
+- Full question view with Monaco editor and progress auto-save
+- **Tick AND untick** solved questions
 
-| Layer       | Technology                          |
-|-------------|--------------------------------------|
-| Framework   | Next.js 15 (App Router)              |
-| Language    | TypeScript                           |
-| Styling     | Tailwind CSS v4 + Custom CSS         |
-| UI Library  | ShadCN (manual) + Custom Components  |
-| State       | Zustand (persisted)                  |
-| Animations  | CSS Keyframes + Framer Motion        |
-| Visualizers | D3.js + React Flow                   |
-| Editor      | Monaco Editor (@monaco-editor/react) |
-| AI          | OpenAI GPT-4 API                     |
-| Charts      | Recharts                             |
+### ✅ Day 4 — Visualizers (8 total)
+- Sorting (Bubble, Selection, Insertion, Merge, Quick)
+- Binary Search, Two Pointers, Sliding Window
+- Linked List (insert, delete, reverse, find middle with slow/fast)
+- BST (insert, search, inorder/preorder/postorder)
+- Graph BFS/DFS (animated traversal)
+- Stack & Queue (LIFO/FIFO operations)
 
----
+### ✅ Day 5 — Pattern Recognition Trainer ⭐ MAIN FEATURE
+- **Pattern Trainer**: See input/output/constraints → identify correct pattern
+- **Pattern Types**: Each of 15 patterns broken into 3-5 subtypes with triggers, DS, approach, example
+- **Keyword Triggers**: Reference card of words that reveal each pattern
+- **Decision Guide**: Step-by-step questions to narrow down the pattern
 
-## 📁 Project Structure
-```
-src/
-├── app/              # Next.js App Router pages
-│   ├── layout.tsx    # Root layout (Navbar + Sidebar + Footer)
-│   ├── page.tsx      # Home page
-│   ├── patterns/     # Pattern list + detail pages
-│   ├── practice/     # Problem list + solver
-│   ├── visualizers/  # Algorithm animations
-│   ├── editor/       # Standalone code editor
-│   ├── ai/           # AI tutor chat
-│   ├── interview/    # Mock interview mode
-│   └── dashboard/    # Progress analytics
-│
-├── components/
-│   ├── ui/           # Button, Card, Badge, Progress, etc.
-│   ├── layout/       # Navbar, Sidebar, Footer
-│   ├── patterns/     # PatternCard, PatternList
-│   ├── practice/     # QuestionCard, SubmissionPanel
-│   ├── visualizers/  # Algorithm visualizer components
-│   ├── editor/       # Monaco editor wrapper
-│   ├── ai/           # AI chat panel
-│   └── dashboard/    # Charts and stats
-│
-├── data/
-│   ├── patterns/     # 15 JSON files (30 questions each)
-│   └── questions/    # Problem data by difficulty
-│
-├── lib/
-│   ├── utils.ts      # cn(), formatTime(), etc.
-│   ├── constants.ts  # APP constants, pattern list
-│   └── helpers.ts    # Business logic helpers
-│
-├── hooks/            # Custom React hooks
-├── store/            # Zustand stores (progress, user, editor)
-├── types/            # TypeScript interfaces
-└── styles/
-    └── globals.css   # Tailwind v4 + custom CSS variables
-```
+## Pattern Recognition System
 
----
+The app teaches you to recognize patterns by:
 
-## 🧩 15 DSA Patterns
+1. **Showing problem context** (not solution) — input type, output type, constraints, keywords
+2. **You guess the pattern** from 4 options
+3. **Immediate feedback** — why this pattern, which trigger words gave it away, which data structure, 1-line approach
+4. **Pattern Types** — not just "Sliding Window" but "Fixed Window vs Variable Window vs Monotonic Deque"
 
-| # | Pattern              | Category         | Questions |
-|---|----------------------|------------------|-----------|
-| 1 | Sliding Window       | Arrays & Strings | 30        |
-| 2 | Two Pointers         | Arrays & Strings | 30        |
-| 3 | Binary Search        | Arrays & Strings | 30        |
-| 4 | Fast & Slow Pointers | Linked Lists     | 30        |
-| 5 | Merge Intervals      | Arrays & Strings | 30        |
-| 6 | Cyclic Sort          | Arrays & Strings | 30        |
-| 7 | DFS                  | Trees            | 30        |
-| 8 | BFS                  | Graphs           | 30        |
-| 9 | Topological Sort     | Graphs           | 30        |
-|10 | Heap/Priority Queue  | Heaps & Queues   | 30        |
-|11 | Subsets/Backtracking | DP               | 30        |
-|12 | Dynamic Programming  | DP               | 30        |
-|13 | Bit Manipulation     | Bit Ops          | 30        |
-|14 | Trie                 | Tries            | 30        |
-|15 | Graph Algorithms     | Graphs           | 30        |
-|   | **TOTAL**            |                  | **450**   |
+### Pattern Types Breakdown
 
----
+| Pattern | Types |
+|---------|-------|
+| Sliding Window | Fixed Size, Variable (At Most K), Variable (Exactly K), Deque (Min/Max) |
+| Two Pointers | Opposite Ends, Same Direction, Fast-Slow, Three Pointers |
+| Binary Search | Classic, Answer Space, First/Last Occurrence, 2D Matrix |
+| DFS | Tree Path, Graph Islands, Backtracking, Memoized DFS |
+| BFS | Level-Order, Shortest Path, Multi-Source |
+| Dynamic Programming | 1D Linear, 2D Grid/Sequences, 0/1 Knapsack, Unbounded Knapsack, Interval DP |
+| ... and more |
 
-## 🚀 Getting Started
+## Getting Started
+
 ```bash
-# 1. Clone / navigate to project
-cd my_dsa_mastery
-
-# 2. Install dependencies (already done)
 npm install
-
-# 3. Run development server
 npm run dev
-
-# 4. Open browser
-# http://localhost:3000
 ```
 
----
+Open [http://localhost:3000](http://localhost:3000)
 
-## 🔑 Environment Variables
+## Stack
 
-Create `.env.local` for AI features:
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-```
-
----
-
-## 📅 Development Roadmap
-
-| Day | Features                                        | Status      |
-|-----|-------------------------------------------------|-------------|
-| 1   | Setup, Foundation, Layout, Home Page            | ✅ Complete  |
-| 2   | Pattern System (data + listing + detail pages)  | 🔄 Next      |
-| 3   | Practice System (450 questions + problem solver)| ⏳ Pending   |
-| 4   | Algorithm Visualizers (8 types)                 | ⏳ Pending   |
-| 5   | Monaco Editor + AI Tutor + Pattern Detector     | ⏳ Pending   |
-| 6   | Interview Simulator + Progress Dashboard        | ⏳ Pending   |
-| 7   | Polish, Testing, Performance, Deploy            | ⏳ Pending   |
-
----
-
-## 🤝 Contributing
-
-This is a personal learning project. Feel free to fork and customize!
-
----
-
-*Built with ❤️ for DSA learners preparing for FAANG interviews.*
+- **Next.js 15** + React 19 + TypeScript
+- **Tailwind v4** + CSS custom properties (dark/light mode)
+- **Zustand** for progress state
+- **Lucide React** icons

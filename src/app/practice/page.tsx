@@ -20,7 +20,7 @@ const DIFF_STYLE = {
 
 export default function PracticePage() {
   const th = useTheme();
-  const { totalSolved, easySolved, mediumSolved, hardSolved, solvedQuestions, attemptedQuestions, markSolved } = useProgressStore();
+  const { totalSolved, easySolved, mediumSolved, hardSolved, solvedQuestions, attemptedQuestions, markSolved, unmark } = useProgressStore();
 
   const [search, setSearch]             = useState('');
   const [patternFilter, setPattern]     = useState('all');
@@ -63,8 +63,11 @@ export default function PracticePage() {
   }, [filtered, groupByPattern]);
 
   const handleMark = (q: QuestionStub) => {
-    if (getStatus(q.id) === 'Solved') return;
-    markSolved(q.id, q.difficulty, q.patternId);
+    if (getStatus(q.id) === 'Solved') {
+      unmark(q.id, q.patternId); // ← UNTICK
+    } else {
+      markSolved(q.id, q.difficulty, q.patternId);
+    }
   };
 
   const QuestionRow = ({ q, idx }: { q: QuestionStub; idx: number }) => {
@@ -95,8 +98,8 @@ export default function PracticePage() {
         {/* ✅ Tick button */}
         <button
           onClick={() => handleMark(q)}
-          title={solved ? 'Already solved!' : 'Mark as solved'}
-          style={{ background: 'none', border: 'none', cursor: solved ? 'default' : 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          title={solved ? 'Click to unmark' : 'Mark as solved'}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {solved
             ? <CheckCircle2 style={{ width: 18, height: 18, color: th.accent }} />
             : status === 'Attempted'

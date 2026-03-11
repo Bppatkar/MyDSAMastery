@@ -1,106 +1,110 @@
 'use client';
 import { useState } from 'react';
 
-interface TreeNode { val: number; left?: TreeNode; right?: TreeNode; x?: number; y?: number; hl?: boolean; found?: boolean; }
+interface TreeNode { val: number; left: TreeNode | null; right: TreeNode | null; }
 
 function insert(root: TreeNode | null, val: number): TreeNode {
-  if (!root) return { val };
-  if (val < root.val) return { ...root, left: insert(root.left ?? null, val) };
-  if (val > root.val) return { ...root, right: insert(root.right ?? null, val) };
+  if (!root) return { val, left: null, right: null };
+  if (val < root.val) return { ...root, left: insert(root.left, val) };
+  if (val > root.val) return { ...root, right: insert(root.right, val) };
   return root;
 }
-function pos(n: TreeNode | null, x: number, y: number, g: number): TreeNode | null {
-  if (!n) return null;
-  return { ...n, x, y, left: pos(n.left ?? null, x - g, y + 72, g / 1.8) as TreeNode|undefined, right: pos(n.right ?? null, x + g, y + 72, g / 1.8) as TreeNode|undefined };
-}
-function flat(n: TreeNode | null): TreeNode[] { if (!n) return []; return [n, ...flat(n.left??null), ...flat(n.right??null)]; }
-function edges(n: TreeNode | null): {x1:number;y1:number;x2:number;y2:number}[] {
-  if (!n) return [];
-  const e = [];
-  if (n.left) e.push({x1:n.x!,y1:n.y!,x2:n.left.x!,y2:n.left.y!});
-  if (n.right) e.push({x1:n.x!,y1:n.y!,x2:n.right.x!,y2:n.right.y!});
-  return [...e, ...edges(n.left??null), ...edges(n.right??null)];
-}
-function inorder(n: TreeNode | null, r: number[]): void { if (!n) return; inorder(n.left??null, r); r.push(n.val); inorder(n.right??null, r); }
-function hlPath(n: TreeNode | null, v: number): TreeNode | null {
-  if (!n) return null;
-  if (n.val === v) return { ...n, hl: true, found: true };
-  if (v < n.val) return { ...n, hl: true, left: hlPath(n.left??null, v) as TreeNode|undefined };
-  return { ...n, hl: true, right: hlPath(n.right??null, v) as TreeNode|undefined };
-}
-function clean(n: TreeNode | null): TreeNode | null {
-  if (!n) return null;
-  return { ...n, hl: false, found: false, left: clean(n.left??null) as TreeNode|undefined, right: clean(n.right??null) as TreeNode|undefined };
+
+function assignPos(node: TreeNode | null, x: number, y: number, gap: number): any {
+  if (!node) return null;
+  return { ...node, x, y, left: assignPos(node.left, x - gap, y + 72, gap / 1.75), right: assignPos(node.right, x + gap, y + 72, gap / 1.75) };
 }
 
-const INIT = [10,5,15,3,7,12,20];
-function buildTree(vals: number[]) {
-  let t: TreeNode | null = null;
-  for (const v of vals) t = insert(t, v);
-  return pos(t, 270, 30, 110) as TreeNode;
-}
+function flatNodes(n: any, arr: any[] = []): any[] { if (!n) return arr; arr.push(n); flatNodes(n.left, arr); flatNodes(n.right, arr); return arr; }
+function flatEdges(n: any, arr: any[] = []): any[] { if (!n) return arr; if (n.left) { arr.push([n.x, n.y, n.left.x, n.left.y]); flatEdges(n.left, arr); } if (n.right) { arr.push([n.x, n.y, n.right.x, n.right.y]); flatEdges(n.right, arr); } return arr; }
+function inorder(n: TreeNode | null, a: number[] = []): number[] { if (!n) return a; inorder(n.left, a); a.push(n.val); inorder(n.right, a); return a; }
+function preorder(n: TreeNode | null, a: number[] = []): number[] { if (!n) return a; a.push(n.val); preorder(n.left, a); preorder(n.right, a); return a; }
+function postorder(n: TreeNode | null, a: number[] = []): number[] { if (!n) return a; postorder(n.left, a); postorder(n.right, a); a.push(n.val); return a; }
+
+const DEFAULTS = [50, 30, 70, 20, 40, 60, 80, 10, 35];
+function makeDefault() { let r: TreeNode | null = null; for (const v of DEFAULTS) r = insert(r, v); return r; }
 
 export default function TreeVisualizer() {
-  const [tree, setTree] = useState<TreeNode>(() => buildTree(INIT));
-  const [inp, setInp] = useState('');
-  const [srch, setSrch] = useState('');
-  const [trav, setTrav] = useState<number[]>([]);
-  const [log, setLog] = useState<string[]>(['BST with 7 default nodes loaded']);
-  const lg = (m: string) => setLog(p => [m, ...p.slice(0,4)]);
+  const [rawRoot, setRawRoot] = useState<TreeNode | null>(makeDefault);
+  const [hl, setHl] = useState<Set<number>>(new Set());
+  const [inputVal, setInputVal] = useState('');
+  const [searchVal, setSearchVal] = useState('');
+  const [log, setLog] = useState('BST loaded with 9 nodes');
+  const [traversalArr, setTraversalArr] = useState<number[]>([]);
+  const [tType, setTType] = useState('');
+
+  const root = assignPos(rawRoot, 400, 40, 160);
+  const nodes = flatNodes(root);
+  const edges = flatEdges(root);
+
+  const animate = (arr: number[], msg: string) => {
+    setLog(msg); setTraversalArr(arr);
+    arr.forEach((v, i) => setTimeout(() => setHl(new Set([v])), i * 350));
+    setTimeout(() => setHl(new Set()), arr.length * 350 + 600);
+  };
 
   const doInsert = () => {
-    const v = parseInt(inp); if (isNaN(v)) return;
-    setTree(pos(insert(clean(tree), v), 270, 30, 110) as TreeNode);
-    setTrav([]); setInp(''); lg(`Inserted ${v}`);
-  };
-  const doSearch = () => {
-    const v = parseInt(srch); if (isNaN(v)) return;
-    const hl = pos(hlPath(clean(tree), v), 270, 30, 110) as TreeNode;
-    setTree(hl); setSrch('');
-    const found = flat(hl).some(n => n.found);
-    lg(found ? `✓ Found ${v}` : `${v} not in tree`);
-  };
-  const doInorder = () => {
-    const r: number[] = []; inorder(tree, r); setTrav(r); lg(`Inorder: [${r.join(', ')}]`);
+    const v = parseInt(inputVal); if (isNaN(v)) return;
+    setRawRoot(prev => insert(prev, v));
+    setLog(`Inserted ${v}`); setHl(new Set([v]));
+    setTimeout(() => setHl(new Set()), 1200); setInputVal('');
   };
 
-  const ns = flat(tree); const es = edges(tree);
+  const doSearch = () => {
+    const target = parseInt(searchVal); if (isNaN(target)) return;
+    const path: number[] = []; let cur: TreeNode | null = rawRoot;
+    while (cur) { path.push(cur.val); if (cur.val === target) break; cur = target < cur.val ? cur.left : cur.right; }
+    const found = path[path.length - 1] === target;
+    animate(path, `${found ? '✅ Found' : '❌ Not found'}: ${target} — path: ${path.join(' → ')}`);
+    setSearchVal('');
+  };
+
+  const B = ({ label, onClick, color = 'var(--accent)' }: { label: string; onClick: () => void; color?: string }) => (
+    <button onClick={onClick} style={{ padding: '6px 12px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, background: color, color: '#fff' }}>{label}</button>
+  );
 
   return (
-    <div style={{ color: 'var(--tx-1)', fontFamily: 'monospace' }}>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-        <input value={inp} onChange={e => setInp(e.target.value)} onKeyDown={e => e.key==='Enter' && doInsert()} placeholder="Insert…" style={{ padding:'6px 10px', borderRadius:6, border:'1px solid var(--border)', background:'var(--bg-surface)', color:'var(--tx-1)', width:110, fontSize:13 }} />
-        <button onClick={doInsert} style={{ padding:'6px 14px', borderRadius:6, background:'var(--accent)', color:'#fff', border:'none', cursor:'pointer', fontWeight:700, fontSize:13 }}>Insert</button>
-        <input value={srch} onChange={e => setSrch(e.target.value)} onKeyDown={e => e.key==='Enter' && doSearch()} placeholder="Search…" style={{ padding:'6px 10px', borderRadius:6, border:'1px solid var(--border)', background:'var(--bg-surface)', color:'var(--tx-1)', width:110, fontSize:13 }} />
-        <button onClick={doSearch} style={{ padding:'6px 14px', borderRadius:6, background:'#8b5cf6', color:'#fff', border:'none', cursor:'pointer', fontWeight:700, fontSize:13 }}>Search</button>
-        <button onClick={doInorder} style={{ padding:'6px 12px', borderRadius:6, background:'var(--bg-surface)', color:'var(--tx-2)', border:'1px solid var(--border)', cursor:'pointer', fontSize:13 }}>Inorder</button>
-        <button onClick={() => { setTree(buildTree(INIT)); setTrav([]); lg('Reset'); }} style={{ padding:'6px 12px', borderRadius:6, background:'var(--bg-surface)', color:'var(--tx-3)', border:'1px solid var(--border)', cursor:'pointer', fontSize:13 }}>Reset</button>
+    <div style={{ background: 'var(--bg-surface)', borderRadius: 16, border: '1px solid var(--border)', overflow: 'hidden' }}>
+      <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)', display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+        <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--tx-1)' }}>🌳 BST Visualizer</span>
+        <input value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyDown={e => e.key === 'Enter' && doInsert()} placeholder="Insert..." style={{ padding: '5px 9px', borderRadius: 7, border: '1px solid var(--border)', background: 'var(--bg-base)', color: 'var(--tx-1)', fontSize: 12, width: 90 }} />
+        <B label="Insert" onClick={doInsert} />
+        <div style={{ width: 1, height: 18, background: 'var(--border)' }} />
+        <B label="Inorder" onClick={() => { const a = inorder(rawRoot); setTType('inorder'); animate(a, `Inorder: [${a.join(', ')}]`); }} color="#6366f1" />
+        <B label="Preorder" onClick={() => { const a = preorder(rawRoot); setTType('preorder'); animate(a, `Preorder: [${a.join(', ')}]`); }} color="#f59e0b" />
+        <B label="Postorder" onClick={() => { const a = postorder(rawRoot); setTType('postorder'); animate(a, `Postorder: [${a.join(', ')}]`); }} color="#ec4899" />
+        <div style={{ width: 1, height: 18, background: 'var(--border)' }} />
+        <input value={searchVal} onChange={e => setSearchVal(e.target.value)} onKeyDown={e => e.key === 'Enter' && doSearch()} placeholder="Search..." style={{ padding: '5px 9px', borderRadius: 7, border: '1px solid var(--border)', background: 'var(--bg-base)', color: 'var(--tx-1)', fontSize: 12, width: 80 }} />
+        <B label="Search" onClick={doSearch} color="#10b981" />
+        <B label="Reset" onClick={() => { setRawRoot(makeDefault()); setTraversalArr([]); setHl(new Set()); setLog('Reset'); }} color="#6b7280" />
       </div>
 
-      <div style={{ background:'var(--bg-surface)', borderRadius:10, border:'1px solid var(--border)', marginBottom:10 }}>
-        <svg width="560" height="300" style={{ display:'block', margin:'0 auto' }}>
-          {es.map((e,i) => <line key={i} x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} stroke="var(--border)" strokeWidth={2} />)}
-          {ns.map(n => (
-            <g key={n.val} transform={`translate(${n.x},${n.y})`}>
-              <circle r={20} fill={n.found?'#10b981':n.hl?'#f59e0b':'var(--bg-base)'} stroke={n.found?'#10b981':n.hl?'#f59e0b':'var(--accent)'} strokeWidth={2.5} />
-              <text textAnchor="middle" dominantBaseline="middle" fontSize={13} fontWeight={700} fill={(n.hl||n.found)?'#fff':'var(--tx-1)'}>{n.val}</text>
-            </g>
+      <div style={{ background: 'var(--bg-base)', overflowX: 'auto' }}>
+        <svg width={800} height={370} style={{ display: 'block', margin: '0 auto' }}>
+          {edges.map((e: number[], i: number) => (
+            <line key={i} x1={e[0]} y1={e[1]} x2={e[2]} y2={e[3]} stroke="var(--border)" strokeWidth={2} />
           ))}
+          {nodes.map((n: any) => {
+            const isHL = hl.has(n.val);
+            return (
+              <g key={n.val} transform={`translate(${n.x},${n.y})`} style={{ transition: 'all 0.3s' }}>
+                <circle r={22} fill={isHL ? 'var(--accent)' : 'var(--bg-elevated)'} stroke={isHL ? 'var(--accent)' : 'var(--border)'} strokeWidth={isHL ? 3 : 1.5} style={{ transition: 'all 0.3s' }} />
+                <text textAnchor="middle" dy="5" fontSize={13} fontWeight={700} fill={isHL ? '#fff' : 'var(--tx-1)'} style={{ transition: 'all 0.3s' }}>{n.val}</text>
+              </g>
+            );
+          })}
         </svg>
       </div>
 
-      {trav.length > 0 && (
-        <div style={{ background:'var(--bg-surface)', borderRadius:8, padding:'8px 12px', border:'1px solid var(--border)', marginBottom:10, fontSize:13 }}>
-          <span style={{ color:'var(--tx-3)' }}>Inorder → </span>
-          {trav.map((v,i) => (
-            <span key={i} style={{ display:'inline-block', background:'var(--accent-bg)', color:'var(--accent)', borderRadius:4, padding:'1px 6px', margin:'0 2px', fontSize:12 }}>{v}</span>
-          ))}
-          <span style={{ color:'var(--tx-3)', fontSize:11, marginLeft:6 }}>← always sorted in BST ✓</span>
-        </div>
-      )}
-
-      <div style={{ fontSize:11, color:'var(--tx-3)', lineHeight:1.7 }}>
-        {log.map((l,i) => <div key={i} style={{ opacity: 1 - i*0.18 }}>» {l}</div>)}
+      <div style={{ padding: '10px 18px', borderTop: '1px solid var(--border)', background: 'var(--bg-surface)' }}>
+        <span style={{ fontSize: 12, color: 'var(--tx-2)', fontFamily: 'monospace' }}>▶ {log}</span>
+        {traversalArr.length > 0 && (
+          <div style={{ marginTop: 6, display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+            {traversalArr.map((v, i) => (
+              <span key={i} style={{ fontSize: 11, padding: '2px 6px', borderRadius: 5, background: hl.has(v) ? 'var(--accent)' : 'var(--accent-bg)', color: hl.has(v) ? '#fff' : 'var(--accent)', fontWeight: 700, transition: 'all 0.3s' }}>{v}</span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

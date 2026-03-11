@@ -1,80 +1,54 @@
-# 📊 DSA Mastery — Development Progress
+# DSA Mastery — Build Progress
 
----
-
-## 🗓️ DAY 1 — Foundation ✅ COMPLETE
-- Setup, Tailwind v4, full folder structure
-- Types, Utils, Constants, Stores (Zustand)
-- UI: Button, Card, Badge, Progress
+## Day 1 ✅ Foundation
+- Next.js 15 setup, Tailwind v4, TypeScript
 - Layout: Navbar, Sidebar, Footer
-- Home page + placeholder routes
+- Home page (hero, features, patterns grid)
+- Zustand stores: useProgressStore, useEditorStore, useUserStore
+- Theme: dark/light with next-themes + CSS variables
 
----
+## Day 2 ✅ Pattern System
+- 15 patterns × 30 questions = 450 questions total
+- Pattern data: JSON files (patterns 1-3) + patternData.ts (patterns 4-15)
+- Pages: /patterns, /patterns/[pattern]
+- Components: PatternCard, PatternList, PatternProgress, PatternQuiz, PatternGuide, DecisionFlowchart
+- Hooks: usePatterns, useProgress
 
-## 🗓️ DAY 2 — Pattern System ✅ COMPLETE
+## Day 3 ✅ Practice System
+- /practice — 450 questions with search, filter (difficulty/pattern/status), group by pattern
+- /practice/[id] — full question view with Monaco editor, auto-save, mark solved
+- **Untick feature** — click checkmark again to unmark as solved
+- Store: markSolved(id, difficulty, patternId), unmark(id, patternId)
+- Progress: easySolved, mediumSolved, hardSolved computed from store
 
-### ✅ Completed
-- [x] JSON data: sliding-window.json (30 questions)
-- [x] JSON data: two-pointers.json (30 questions)
-- [x] JSON data: binary-search.json (30 questions)
-- [x] src/lib/patternData.ts — patterns 4-15 (12 × 30 = 360 questions)
-- [x] Total: 450 questions across 15 patterns ✅
-- [x] usePatterns() hook — fully implemented with merge
-- [x] PatternCard component (size sm/md/lg, progress, complexity)
-- [x] PatternList component (search + category + difficulty filters)
-- [x] PatternProgress component (circular progress ring)
-- [x] /patterns page — full grid with stats header
-- [x] /patterns/[pattern] page — theory + template + 30 questions
-- [x] Stub files: all 13 placeholder components created
+## Day 4 ✅ Algorithm Visualizers (8)
+- /visualizers — tab-based visualizer selector
+- SortingVisualizer — Bubble, Selection, Insertion, Merge, Quick
+- BinarySearchVisualizer — animated search steps
+- TwoPointersVisualizer — left/right pointer animation
+- SlidingWindowVisualizer — window expand/shrink
+- LinkedListVisualizer — insert front/back, delete, reverse, find middle (slow/fast)
+- TreeVisualizer — BST insert, search, inorder/preorder/postorder
+- GraphVisualizer — BFS (blue) and DFS (pink) with animated traversal + log
+- StackQueueVisualizer — Stack (LIFO) + Queue (FIFO) with properties panel
 
-### 🌐 Routes Working
-| Route                        | Status |
-|------------------------------|--------|
-| `/`                          | ✅     |
-| `/patterns`                  | ✅     |
-| `/patterns/sliding-window`   | ✅     |
-| `/patterns/[any-of-15]`      | ✅     |
+## Day 5 ✅ Pattern Recognition Trainer ⭐
+- /pattern-recognition — completely rebuilt
+- **Pattern Trainer tab**: 35 recognition challenges across all 15 patterns
+  - See: input desc, output desc, constraints, keywords
+  - Pick: which pattern from 4 choices
+  - Get: why this pattern, trigger words, pattern type, data structure, approach, complexity
+  - Track: session score, accuracy %, patterns to review
+  - Filter: by specific pattern
+- **Pattern Types tab**: All 15 patterns × 3-5 subtypes
+  - Each subtype: description, trigger words, data structure, approach, complexity, classic example
+  - Related problems listed per subtype
+- **Keyword Triggers tab**: Searchable reference card of trigger phrases → pattern mapping
+- **Decision Guide tab**: Flowchart-style questions to narrow down pattern choice
 
----
-
-## 🗓️ DAY 3 — Practice System 🔄 NEXT
-- [ ] /practice page with filters
-- [ ] /practice/[question] split view
-- [ ] QuestionCard, QuestionList components
-- [ ] Monaco Editor basic integration
-- [ ] Progress auto-save
-
----
-
-## 🗓️ DAY 4 — Visualizers ⏳
-## 🗓️ DAY 5 — AI + Full Editor ⏳
-## 🗓️ DAY 6 — Interview + Dashboard ⏳
-## 🗓️ DAY 7 — Polish + Deploy ⏳
-```
-
----
-
-## 🔐 DAY 3 SECRET KEY
-```
-/DSA_MASTERY_DAY3
-
-Project: DSA Mastery Platform
-Stack: Next.js 15 | React 19 | TypeScript | TailwindCSS v4 | Zustand | Monaco | OpenAI
-
-DAY1_DONE: Setup + Layout + Home + Stores + UI Components
-DAY2_DONE:
-- 450 questions data (15 patterns × 30)
-  - JSON: sliding-window, two-pointers, binary-search
-  - TS: src/lib/patternData.ts (patterns 4-15)
-- usePatterns() hook fully implemented
-- PatternCard (sm/md/lg), PatternList (filters), PatternProgress (circular ring)
-- /patterns page with grid + stats
-- /patterns/[pattern] detail page (theory + keywords + template + question list)
-
-BUILD_DAY3:
-- /practice page: all 450 questions, filter by pattern + difficulty + status + search
-- /practice/[question] page: split layout — left: problem description, right: Monaco editor
-- QuestionCard, QuestionList components
-- SubmissionPanel with mock test runner
-- Progress auto-saves (mark solved/attempted)
-- Update PROGRESS.md + README.md
+## Remaining (Day 6-7)
+- [ ] Dashboard (progress charts, streak tracking)
+- [ ] Interview mode (timed practice, random pattern)
+- [ ] Revision system (spaced repetition)
+- [ ] AI Tutor (Claude-powered hints)
+- [ ] Code Editor (Monaco + test runner)
