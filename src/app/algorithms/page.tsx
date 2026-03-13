@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 // ═══════════════════════════════════════════════════════════════
@@ -17,6 +18,7 @@ const ALGO_DATA = [
     input_signals: ['Array ya String diya ho', 'Subarray/substring ki baat ho', '"Contiguous" ya "consecutive" likha ho'],
     output_signals: ['Single max/min value', 'Count of valid windows', 'Longest/shortest length'],
     constraint_clue: 'n ≤ 10⁵ ya 10⁶ → O(n) chahiye',
+    constraint_kyu: 'Kyunki n=10⁶ mein O(n²) = 10¹² operations → TLE (Time Limit Exceeded). O(n) = sirf 10⁶ ops → AC ✅',
     algorithms: [
       {
         name: 'Fixed Size Window',
@@ -24,6 +26,7 @@ const ALGO_DATA = [
         when: 'Window size k diya ho — fixed rahta hai',
         how: 'Pehle k elements ka sum/count nikalo. Phir slide: right add karo, left remove karo. O(1) update.',
         ds: 'Running sum variable',
+        brute_force: 'Pehle sochte — har possible subarray ka sum nikalo (loop andar loop). 10,000 numbers mein 10 crore operations! Bahut slow 🐌',
         questions: [
           { num: 643, title: 'Maximum Average Subarray I' },
           { num: 1343, title: 'Number of Sub-arrays of Size K and Average ≥ Threshold' },
@@ -37,6 +40,7 @@ const ALGO_DATA = [
         when: '"Longest" substring with condition — window dynamically badhta/ghatata hai',
         how: 'Right pointer freely badhao. Condition violate ho → left shrink karo jab tak valid ho.',
         ds: 'HashMap ya frequency array',
+        brute_force: 'Pehle sochte — har possible substring check karo. Window se hum ek baar right side badhate hain, zarurat pade to left se khatam karte hain. Dobara calculate nahi karna parta ⚡',
         questions: [
           { num: 3, title: 'Longest Substring Without Repeating Characters' },
           { num: 76, title: 'Minimum Window Substring' },
@@ -51,6 +55,7 @@ const ALGO_DATA = [
         when: '"Exactly k distinct/sum" — direct window se tricky hota hai',
         how: 'exactly(k) = atMost(k) − atMost(k−1). atMost helper function mein variable window use karo.',
         ds: 'atMost(k) function + HashMap',
+        brute_force: 'Pehle sochte — har pair (i,j) check karo aur count karo. Ek simple math trick use karo: exactly(k) = atMost(k) − atMost(k−1) ✨',
         questions: [
           { num: 930, title: 'Binary Subarrays With Sum' },
           { num: 992, title: 'Subarrays with K Different Integers' },
@@ -62,6 +67,7 @@ const ALGO_DATA = [
         when: '"Maximum/minimum of every window" — deque maintains sorted order',
         how: 'Deque mein indices rakho. Naya element aaya: back se chhote pop karo. Front = current window max.',
         ds: 'Deque (double-ended queue)',
+        brute_force: 'Pehle sochte — har window mein maximum dhundho (inner loop). 1 lakh numbers, window size 1000 = 10 crore ops! Deque se sirf 1 lakh ops 🎯',
         questions: [
           { num: 239, title: 'Sliding Window Maximum' },
         ],
@@ -78,6 +84,7 @@ const ALGO_DATA = [
     input_signals: ['Sorted array', 'In-place chahiye', 'Pair/triplet dhundna'],
     output_signals: ['Pair ya triplet indices', 'Boolean', 'In-place modified array'],
     constraint_clue: 'Sorted + O(1) space = Two Pointers',
+    constraint_kyu: 'Kyunki sorted array mein O(n²) brute force = TLE. Two Pointers = O(n) mein same kaam — left/right har step mein converge hote hain ✅',
     algorithms: [
       {
         name: 'Opposite Ends (Converging)',
@@ -127,6 +134,7 @@ const ALGO_DATA = [
     input_signals: ['Sorted array', 'O(log n) explicitly likha ho', 'Large range mein minimize/maximize'],
     output_signals: ['Index ya value', 'Boolean', 'Minimum/maximum satisfying condition'],
     constraint_clue: 'O(log n) explicitly likha = Binary Search',
+    constraint_kyu: 'Kyunki sorted array ya monotonic condition mein har step search space aadha hota hai. n=10⁹ bhi sirf 30 steps mein done ✅',
     algorithms: [
       {
         name: 'Classic Binary Search',
@@ -186,6 +194,7 @@ const ALGO_DATA = [
     input_signals: ['Binary tree diya', '2D grid diya', 'Graph edges diye', '"Shortest path" likha'],
     output_signals: ['Path ya path count', 'Min distance', 'All combinations', 'Boolean reachability'],
     constraint_clue: '"Shortest" = BFS. "All paths" ya "explore" = DFS',
+    constraint_kyu: 'Kyunki BFS level-by-level jaata hai — shortest path guarantee. DFS recursion se saare paths explore karta hai. Dono O(V+E) ✅',
     algorithms: [
       {
         name: 'BFS — Level Order / Shortest Path',
@@ -250,6 +259,7 @@ const ALGO_DATA = [
     input_signals: ['Count karo kitne ways', 'Maximum ya minimum value', 'String subsequence', 'Knapsack-type'],
     output_signals: ['Single count/value', 'Boolean', 'Length of sequence'],
     constraint_clue: 'n ≤ 10³ ya 10⁴ — suggests O(n²) DP',
+    constraint_kyu: 'Kyunki bina memoization ke same subproblem exponential baar solve hoti hai. DP table mein ek baar store karo = O(n²) ✅',
     algorithms: [
       {
         name: '1D DP — Linear',
@@ -324,6 +334,7 @@ const ALGO_DATA = [
     input_signals: ['Generate all...', 'Find all valid...', 'Small n explicitly'],
     output_signals: ['List of Lists', 'List of strings', 'All valid configurations'],
     constraint_clue: 'n ≤ 10 ya 20 — O(2^n) ya O(n!) acceptable',
+    constraint_kyu: 'Kyunki n ≤ 20 mein 2^20 ≈ 1M ops — time limit mein fit hota hai. n=40 hota to impossible. Small n hi backtracking ka signal hai ✅',
     algorithms: [
       {
         name: 'Subsets — Take or Not Take',
@@ -383,6 +394,7 @@ const ALGO_DATA = [
     input_signals: ['K largest/smallest chahiye', 'Dynamic stream of numbers', 'Multiple sorted lists'],
     output_signals: ['K elements', 'Single running value', 'Merged sorted list'],
     constraint_clue: 'K se related + O(n log k) needed',
+    constraint_kyu: 'Kyunki poori array sort karna O(n log n) — unnecessary jab sirf k elements chahiye. Size-k heap = O(n log k). k=100, n=10⁶ → 10× faster ✅',
     algorithms: [
       {
         name: 'Top K — Min-Heap of Size k',
@@ -431,6 +443,7 @@ const ALGO_DATA = [
     input_signals: ['Weighted edges diye', 'Connect all points', 'Detect cycle', 'Group into components'],
     output_signals: ['Shortest distances', 'Minimum total cost', 'Boolean cycle', 'Component count'],
     constraint_clue: '"Weighted" = Dijkstra. "Unweighted shortest" = BFS. "Components" = Union-Find.',
+    constraint_kyu: 'Kyunki weighted edges ko BFS handle nahi kar sakta. Dijkstra greedy = O(E log V). Union-Find = O(n) components track ✅',
     algorithms: [
       {
         name: 'Dijkstra — Shortest Path (Weighted)',
@@ -492,6 +505,7 @@ const ALGO_DATA = [
     input_signals: ['Unsorted array diya', '"Sort the array" likha', 'Ordering by some key'],
     output_signals: ['Sorted array', 'Sorted indices'],
     constraint_clue: 'General n ≤ 10⁵ → O(n log n) sorting',
+    constraint_kyu: 'Kyunki comparison-based sort ka theoretical lower bound hi O(n log n) hai — isse better possible nahi. n=10⁵ mein 10⁵ × 17 ≈ 1.7M ops = fast ✅',
     algorithms: [
       {
         name: 'Merge Sort — Divide & Conquer',
@@ -561,13 +575,30 @@ export default function AlgorithmsPage() {
           ⚡ Algorithms Master Reference
         </h1>
         <p style={{ fontSize: 13, color: 'var(--tx-3)', margin: '0 0 16px' }}>
-          Pattern → Algorithm Type → LeetCode Questions — sirf yahi yaad rakho, LeetCode master ho jao
+          Pattern dekho → Type choose karo → Algorithm samjho → Question solve karo 🚀 Hinglish mein, beginner-friendly
         </p>
 
         {/* Key insight box */}
-        <div style={{ padding: '12px 16px', background: 'var(--accent-bg)', borderRadius: 10, border: '1px solid var(--accent-bdr)', marginBottom: 16, fontSize: 13, color: 'var(--tx-1)', lineHeight: 1.7 }}>
-          💡 <strong>The Key:</strong> LeetCode pe 2000+ problems hain par sirf ~8 patterns hain. Pattern pehchano → sahi algorithm lagao → question solve ho jata hai.
-          Input/Output/Constraints dekho → Pattern decide karo → Type identify karo → Question solve!
+        <div style={{ padding: '12px 16px', background: 'var(--accent-bg)', borderRadius: 10, border: '1px solid var(--accent-bdr)', marginBottom: 16, fontSize: 13, color: 'var(--tx-1)', lineHeight: 1.8 }}>
+          🎯 <strong>Ye page kaise use karo:</strong> LeetCode pe 2000+ problems hain — par sirf <strong>15 core patterns</strong> hain.
+          Ek pattern pehchan lo → uska sahi type choose karo → algorithm apply karo → question solve!
+          <br/><span style={{color:'var(--tx-3)'}}>Input/Output/Constraints dekho → Pattern decide karo → Type identify karo → Code likho ✅</span>
+        </div>
+
+        {/* Quick nav links */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+          <Link href="/patterns" style={{ fontSize: 12, padding: '5px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+            📚 Patterns →
+          </Link>
+          <Link href="/pattern-recognition" style={{ fontSize: 12, padding: '5px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+            🧠 Pattern Trainer →
+          </Link>
+          <Link href="/practice" style={{ fontSize: 12, padding: '5px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+            💻 Practice Questions →
+          </Link>
+          <Link href="/visualizers" style={{ fontSize: 12, padding: '5px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+            📊 Visualizers →
+          </Link>
         </div>
 
         {/* Search */}
@@ -637,8 +668,9 @@ function PatternBlock({ pat, expandedAlgo, setExpandedAlgo }: {
             ))}
           </div>
           <div style={{ flex: 1, minWidth: 200 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-4)', marginBottom: 6 }}>⚡ CONSTRAINT CLUE</div>
-            <div style={{ fontSize: 12, color: pat.color, fontWeight: 600, fontFamily: 'monospace', lineHeight: 1.5 }}>{pat.constraint_clue}</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-4)', marginBottom: 6 }}>⚡ CONSTRAINT CLUE (n ki value se pattern pehchano)</div>
+            <div style={{ fontSize: 12, color: pat.color, fontWeight: 700, fontFamily: 'monospace', lineHeight: 1.6 }}>{pat.constraint_clue}</div>
+            <div style={{ fontSize: 11, color: 'var(--tx-3)', marginTop: 4, lineHeight: 1.6 }}>{pat.constraint_kyu}</div>
           </div>
         </div>
       )}
@@ -677,18 +709,26 @@ function PatternBlock({ pat, expandedAlgo, setExpandedAlgo }: {
                 {isOpen && (
                   <div style={{ padding: '0 16px 16px' }}>
                     <div style={{ height: 1, background: `${pat.color}25`, margin: '0 0 14px' }} />
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+
+                    {/* Brute Force vs Optimal — side by side */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+                      <div style={{ padding: '10px 14px', background: '#ef444410', borderRadius: 10, border: '1px solid #ef444425' }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: '#ef4444', marginBottom: 6 }}>🐢 BRUTE FORCE (yahi galti mat karo!)</div>
+                        <div style={{ fontSize: 13, color: 'var(--tx-2)', lineHeight: 1.7 }}>
+                          {(algo as any).brute_force ?? `Seedha sochte hain — loop andar loop, ya sab possible combinations try karo. Kaam to hota hai, par bahut time lagta hai. Yahi hum improve karte hain ⬆️`}
+                        </div>
+                      </div>
                       <div style={{ padding: '10px 14px', background: `${pat.color}08`, borderRadius: 10, border: `1px solid ${pat.color}25` }}>
-                        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-3)', marginBottom: 6 }}>🧠 KAISE KARO</div>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: pat.color, marginBottom: 6 }}>⚡ OPTIMAL APPROACH (Hinglish mein)</div>
                         <div style={{ fontSize: 13, color: 'var(--tx-1)', lineHeight: 1.7 }}>{algo.how}</div>
                       </div>
-                      <div style={{ padding: '10px 14px', background: 'var(--bg-elevated)', borderRadius: 10, border: '1px solid var(--border)' }}>
-                        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-3)', marginBottom: 6 }}>🗂️ DATA STRUCTURE</div>
-                        <div style={{ fontSize: 13, color: 'var(--tx-1)', fontWeight: 600, lineHeight: 1.6 }}>{algo.ds}</div>
-                      </div>
+                    </div>
+
+                    <div style={{ padding: '10px 14px', background: 'var(--bg-elevated)', borderRadius: 10, border: '1px solid var(--border)', marginBottom: 14 }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-3)', marginBottom: 4 }}>🗂️ DATA STRUCTURE: <span style={{ color: 'var(--tx-1)', fontWeight: 600 }}>{algo.ds}</span></div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-3)', marginBottom: 8 }}>📋 LEETCODE QUESTIONS</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--tx-3)', marginBottom: 8 }}>📋 PRACTICE KARENGE — Click karo LeetCode pe aur solve karo, phir wapas aao <Link href="/practice" style={{color:'var(--accent)',fontWeight:700,fontSize:11}}>Practice page</Link> pe tick karo ✅</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                         {algo.questions.map((q, qi) => (
                           <a key={qi}

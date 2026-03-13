@@ -26,6 +26,7 @@ const PATTERN_APPROACH: Record<string, {
   'sliding-window': {
     name: 'Sliding Window', icon: '🪟', color: '#10b981',
     why: 'Contiguous subarray ya substring + optimize karna hai → O(n²) nested loops ko O(n) mein replace karo',
+    brute_force: 'Pehle sochte hain — "har possible subarray check karo". Ek loop andar ek loop. Bahut slow! 10,000 elements mein 10 crore comparisons. Computer bhi thak jaata hai 😅',
     approach: [
       'Do pointers lo: left = 0, right = 0',
       'right pointer se window expand karo',
@@ -39,6 +40,7 @@ const PATTERN_APPROACH: Record<string, {
   'two-pointers': {
     name: 'Two Pointers', icon: '👆', color: '#f59e0b',
     why: 'Sorted array + pair dhundna + O(1) space → Two Pointers. O(n²) brute force se O(n) ho jaata hai',
+    brute_force: 'Seedha sochte hain — "har do numbers ka pair try karo". Pehla number fix karo, baaki sab se add karo. 1000 numbers mein 5 lakh pairs! Bahut slow 🐌',
     approach: [
       'Array sort karo agar sorted na ho',
       'left = 0, right = n-1',
@@ -53,6 +55,7 @@ const PATTERN_APPROACH: Record<string, {
   'binary-search': {
     name: 'Binary Search', icon: '🔍', color: '#6366f1',
     why: 'Sorted input ya monotonic function + O(log n) hint → Binary Search. Har step mein half eliminate.',
+    brute_force: 'Seedha sochte hain — "pehle se last tak ek ek check karo". Dictionary mein "zebra" dhundhne ke liye A se start karna jaisa. Bahut time! 😴',
     approach: [
       'lo = 0, hi = n-1 (ya answer range)',
       'mid = lo + (hi-lo)//2',
@@ -80,6 +83,7 @@ const PATTERN_APPROACH: Record<string, {
   'merge-intervals': {
     name: 'Merge Intervals', icon: '🔀', color: '#ec4899',
     why: 'Intervals overlap check karna hai → sort by start, then greedy merge.',
+    brute_force: 'Seedha sochte hain — "har interval ko baaki sabse compare karo". 100 meetings mein 10,000 comparisons. Phone ke calendar app ki tarah sochte hain? Wo bhi sort karta hai 📅',
     approach: [
       'Intervals ko start time se sort karo',
       'First interval result mein daalo',
@@ -93,6 +97,7 @@ const PATTERN_APPROACH: Record<string, {
   'cyclic-sort': {
     name: 'Cyclic Sort', icon: '🔄', color: '#06b6d4',
     why: '1 to n range ke numbers mein missing/duplicate dhundna → Cyclic Sort. O(n) time, O(1) space.',
+    brute_force: 'Seedha sochte hain — "array sort karo, phir missing dhundho". Kaam to ho jaata hai, par hum already jaante hain ki 1-N numbers hain. Uss knowledge ka use karo!',
     approach: [
       'Har number nums[i] ko apni correct position i-1 pe place karo',
       'nums[i] != correct position → swap karo',
@@ -106,6 +111,7 @@ const PATTERN_APPROACH: Record<string, {
   'dfs': {
     name: 'DFS', icon: '🌲', color: '#22c55e',
     why: 'Tree/graph traversal, all paths explore karna, backtracking → DFS recursion.',
+    brute_force: 'Seedha sochte hain — bina yaad rakhe ki kahan gaye. Ek hi road pe baar baar ghoomte rehenge! Jaise GPS bina shahar mein ghoomna 🗺️',
     approach: [
       'dfs(node, state)',
       'Base case: null node ya target reached',
@@ -120,6 +126,7 @@ const PATTERN_APPROACH: Record<string, {
   'bfs': {
     name: 'BFS', icon: '🌊', color: '#3b82f6',
     why: 'Shortest path (unweighted) ya level-by-level → BFS with queue.',
+    brute_force: 'Seedha sochte hain — DFS se sab raaste try karo. Ek rasta 10 km, doosra 2 km — lekin DFS 10 km pehle explore kar sakta hai. BFS hamesha pehle paas wala dhundhta hai 🎯',
     approach: [
       'Queue mein start node daalo',
       'Visited set maintain karo',
@@ -148,6 +155,7 @@ const PATTERN_APPROACH: Record<string, {
   'heap': {
     name: 'Heap / Priority Queue', icon: '🏔️', color: '#a855f7',
     why: '"K largest/smallest" ya "dynamic max/min" → Heap. O(n log k) < O(n log n) sort.',
+    brute_force: 'Seedha sochte hain — "puri list sort karo, top k lo". 10 lakh numbers sort karna jab sirf top 10 chahiye! Itna kaam kyun? Ek chota sa bag rakho, sirf K items ke liye 🎒',
     approach: [
       'K largest → min-heap of size k',
       'Har element push karo',
@@ -161,6 +169,7 @@ const PATTERN_APPROACH: Record<string, {
   'subsets': {
     name: 'Subsets / Backtracking', icon: '🎯', color: '#ef4444',
     why: '"All" combinations/permutations/subsets generate karne hain → Backtracking. Small n.',
+    brute_force: 'Seedha sochte hain — andheron mein teer chalate rehte hain. Backtracking mein jaise hi pata chale "yeh raasta kaam nahi karega", wapas aa jaao. Time waste mat karo! ✂️',
     approach: [
       'dfs(start, current_path)',
       'result.add(path.copy())',
@@ -176,6 +185,7 @@ const PATTERN_APPROACH: Record<string, {
   'dynamic-programming': {
     name: 'Dynamic Programming', icon: '🧩', color: '#8b5cf6',
     why: 'Overlapping subproblems + "count ways" ya "max/min" → DP. Memoization stops recomputation.',
+    brute_force: 'Seedha sochte hain — har baar puri calculation dobara karo. Jaise roz ghar se office ka rasta calculate karo without yaad rakhne ke. DP ek baar solve karta hai, yaad rakhta hai 📝',
     approach: [
       'Subproblem define karo (dp[i] kya represent karta hai)',
       'Base cases set karo',
@@ -189,6 +199,7 @@ const PATTERN_APPROACH: Record<string, {
   'bit-manipulation': {
     name: 'Bit Manipulation', icon: '💻', color: '#f97316',
     why: 'XOR se duplicate find karo, bit counting, powers of 2 → O(1) ya O(log n) space.',
+    brute_force: 'Seedha sochte hain — ek list mein sab note karo, jo do baar aaye strike karo, jo bacha wo answer. XOR ek magic trick hai — same numbers cancel out! No extra memory 🎩',
     approach: [
       'XOR property: a^a=0, a^0=a',
       'Sab XOR karo → duplicate cancel, unique bache',
@@ -202,6 +213,7 @@ const PATTERN_APPROACH: Record<string, {
   'trie': {
     name: 'Trie', icon: '📝', color: '#14b8a6',
     why: 'String prefix search ya autocomplete → Trie. HashMap ki jagah Trie for shared prefixes.',
+    brute_force: 'Seedha sochte hain — prefix dhundhne ke liye har word check karo. 10,000 words mein "app" se shuru wale dhundhne ke liye 10,000 baar check! Trie mein sirf 3 steps (a→p→p) ⚡',
     approach: [
       'TrieNode: children[26], isEnd',
       'Insert: har character pe node banao',
@@ -215,6 +227,7 @@ const PATTERN_APPROACH: Record<string, {
   'graph': {
     name: 'Graph / Union-Find', icon: '🕸️', color: '#84cc16',
     why: 'Connected components ya cycle detection → Union-Find O(α(n)). Shortest weighted path → Dijkstra.',
+    brute_force: 'Seedha sochte hain — connected groups dhundhne ke liye BFS/DFS karo. Kaam ho jaata hai. Union-Find ek super-fast shortcut hai — groups track karna aur merge karna almost instantly! 🔗',
     approach: [
       'parent[] initialize (parent[i]=i)',
       'find(x): path compression se root dhundho',
@@ -399,12 +412,22 @@ export default function PracticeProblemPage() {
             <button onClick={() => setShowApproach(!showApproach)}
               style={{ width: '100%', padding: '14px 18px', background: 'var(--bg-surface)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left' }}>
               <Code2 size={18} color={patternData.color} />
-              <span style={{ fontSize: 15, fontWeight: 800, color: 'var(--tx-1)', flex: 1 }}>Optimal Approach (No Brute Force!)</span>
+              <span style={{ fontSize: 15, fontWeight: 800, color: 'var(--tx-1)', flex: 1 }}>Brute Force vs Optimal Approach</span>
               {showApproach ? <ChevronUp size={16} color="var(--tx-3)" /> : <ChevronDown size={16} color="var(--tx-3)" />}
             </button>
             {showApproach && (
               <div style={{ padding: '16px 18px', background: 'var(--bg-base)' }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--tx-3)', marginBottom: 12, textTransform: 'uppercase' }}>Step-by-Step:</div>
+                {/* Brute Force */}
+                {(patternData as any).brute_force && (
+                  <div style={{ marginBottom: 16, padding: '12px 16px', background: '#ef444410', borderRadius: 10, border: '1px solid #ef444425' }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: '#ef4444', marginBottom: 6 }}>🐢 BRUTE FORCE (ye mat karo!)</div>
+                    <div style={{ fontSize: 13, color: 'var(--tx-2)', fontFamily: 'monospace', lineHeight: 1.7 }}>
+                      {(patternData as any).brute_force}
+                    </div>
+                  </div>
+                )}
+                {/* Optimal */}
+                <div style={{ fontSize: 12, fontWeight: 800, color: patternData.color, marginBottom: 10, textTransform: 'uppercase' }}>⚡ Optimal Approach — Step by Step:</div>
                 {patternData.approach.map((step, i) => (
                   <div key={i} style={{ display: 'flex', gap: 12, marginBottom: 10, alignItems: 'flex-start' }}>
                     <div style={{ width: 24, height: 24, borderRadius: '50%', background: patternData.color + '20', border: `1.5px solid ${patternData.color}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: patternData.color, flexShrink: 0 }}>
@@ -450,18 +473,36 @@ export default function PracticeProblemPage() {
           </div>
         )}
 
-        {/* Related Problems hint */}
-        <div style={{ padding: '14px 18px', background: 'var(--bg-surface)', borderRadius: 12, border: '1px solid var(--border)', marginBottom: 24 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--tx-2)', marginBottom: 8 }}>
-            <Lightbulb size={14} style={{ display: 'inline', marginRight: 6 }} />
-            Is problem ko solve karne ke baad
+        {/* Cross-page links */}
+        <div style={{ padding: '16px 18px', background: 'var(--bg-surface)', borderRadius: 12, border: '1px solid var(--border)', marginBottom: 24 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--tx-1)', marginBottom: 12 }}>
+            <Lightbulb size={14} style={{ display: 'inline', marginRight: 6, color: '#f59e0b' }} />
+            Aage kya karna hai?
           </div>
-          <div style={{ fontSize: 13, color: 'var(--tx-3)', lineHeight: 1.7 }}>
-            → LeetCode pe solve karo → Wapas aao → "Mark Solved" karo<br/>
-            → Is pattern ke aur questions practice karo →{' '}
-            <Link href={`/patterns/${stub.patternId}`} style={{ color: 'var(--accent)', fontWeight: 700 }}>
-              {patternData?.name ?? stub.patternName} pattern →
-            </Link>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--tx-2)', lineHeight: 1.7, padding: '10px 14px', background: 'var(--bg-elevated)', borderRadius: 8, border: '1px solid var(--border)' }}>
+              <strong style={{ color: 'var(--tx-1)' }}>Step 1:</strong> LeetCode pe question padho aur solve karo →{' '}
+              <a href={stub.leetcodeUrl || `https://leetcode.com/problems/${stub.slug}/`} target="_blank" rel="noopener" style={{ color: '#f59e0b', fontWeight: 700 }}>
+                LeetCode pe kholo ↗
+              </a>
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--tx-2)', lineHeight: 1.7, padding: '10px 14px', background: 'var(--bg-elevated)', borderRadius: 8, border: '1px solid var(--border)' }}>
+              <strong style={{ color: 'var(--tx-1)' }}>Step 2:</strong> Wapas aao, "Mark Solved" button dabaao ✅
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
+              <Link href={`/patterns/${stub.patternId}`} style={{ fontSize: 12, padding: '6px 14px', borderRadius: 20, background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent-bdr)', textDecoration: 'none', fontWeight: 700 }}>
+                📚 {patternData?.name ?? stub.patternName} Pattern →
+              </Link>
+              <Link href="/pattern-recognition" style={{ fontSize: 12, padding: '6px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+                🧠 Pattern Trainer →
+              </Link>
+              <Link href="/algorithms" style={{ fontSize: 12, padding: '6px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+                ⚡ Algorithms Guide →
+              </Link>
+              <Link href="/practice" style={{ fontSize: 12, padding: '6px 14px', borderRadius: 20, background: 'var(--bg-elevated)', color: 'var(--tx-2)', border: '1px solid var(--border)', textDecoration: 'none', fontWeight: 600 }}>
+                ← Back to Practice
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -170,27 +170,41 @@ export default function SortingVisualizer() {
   const runHeap = async (a: number[]) => {
     const arr = [...a];
     const n = arr.length;
-    const heapify = async (n2: number, i: number) => {
+    const heapify = async (size: number, i: number) => {
       let largest = i, l = 2*i+1, r = 2*i+2;
-      if (l < n2 && arr[l] > arr[largest]) largest = l;
-      if (r < n2 && arr[r] > arr[largest]) largest = r;
+      if (l < size && arr[l] > arr[largest]) largest = l;
+      if (r < size && arr[r] > arr[largest]) largest = r;
       if (largest !== i) {
-        setHighlights([i, largest]);
-        await sleep();
+        setComparing([i, largest]);
+        await delay();
+        setSwapping([i, largest]);
         [arr[i], arr[largest]] = [arr[largest], arr[i]];
-        setBars([...arr]);
-        await heapify(n2, largest);
+        setArr([...arr]);
+        await delay();
+        setSwapping([]);
+        await heapify(size, largest);
       }
     };
-    for (let i = Math.floor(n/2)-1; i >= 0; i--) await heapify(n, i);
+    // Build max heap
+    for (let i = Math.floor(n/2)-1; i >= 0; i--) {
+      if (stopRef.current) return;
+      await heapify(n, i);
+    }
+    // Extract elements
+    const sortedIdx: number[] = [];
     for (let i = n-1; i > 0; i--) {
-      setHighlights([0, i]);
-      await sleep();
+      if (stopRef.current) return;
+      setSwapping([0, i]);
       [arr[0], arr[i]] = [arr[i], arr[0]];
-      setBars([...arr]);
+      sortedIdx.push(i);
+      setSorted([...sortedIdx]);
+      setArr([...arr]);
+      await delay();
+      setSwapping([]);
       await heapify(i, 0);
     }
-    setHighlights([]);
+    setSorted(Array.from({length: n}, (_, i) => i));
+    setComparing([]);
   };
     if (algo==='bubble')    await runBubble(a);
     if (algo==='selection') await runSelection(a);

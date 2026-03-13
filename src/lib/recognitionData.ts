@@ -491,7 +491,7 @@ export const RECOGNITION_CHALLENGES: RecognitionChallenge[] = [
     correct_pattern:'hashmap', correct_type:'Group by Canonical Key',
     correct_ds:'HashMap {sorted_word → [words]}',
     why_pattern:'"Group anagrams" = HashMap. Key=sorted(word). Sab anagrams ka same key hoga.',
-    approach_line:'map={}. for w: k=tuple(sorted(w)). map[k].append(w). return map.values().',
+    approach_line:`map={}. for w: k=[...w].sort().join('').  if(!map[k]) map[k]=[]. map[k].push(w). return Object.values(map).`,
     time_complexity:'O(n·k log k)', space_complexity:'O(n·k)' },
 
   { id:34, leetcode_num:560, title:'Subarray Sum Equals K', difficulty:'Medium',
@@ -683,7 +683,7 @@ export const RECOGNITION_CHALLENGES: RecognitionChallenge[] = [
   // DFS (9 problems)
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   { id:47, leetcode_num:200, title:'Number of Islands', difficulty:'Medium',
-    description:'Given m×n 2D binary grid where \'1\' is land and \'0\' is water. Return number of islands. An island is surrounded by water and formed by connecting adjacent lands (horizontal/vertical).',
+    description:'Given m×n 2D binary grid where "1" is land and \'0\' is water. Return number of islands. An island is surrounded by water and formed by connecting adjacent lands (horizontal/vertical).',
     constraints:['m, n ≤ 300'],
     keywords:['grid','connected','islands','count regions','connected land'],
     step1:{ n_value:'m×n ≤ 90000 → O(mn)', time_needed:'O(m×n)', eliminates:['Nothing — must visit all cells'], allows:['DFS ✅','BFS ✅','Union-Find ✅'] },
@@ -693,7 +693,7 @@ export const RECOGNITION_CHALLENGES: RecognitionChallenge[] = [
     correct_pattern:'dfs', correct_type:'Grid DFS — Flood Fill',
     correct_ds:'Grid + in-place \'0\' marking',
     why_pattern:'"Count connected regions in grid" = DFS. Har unvisited land pe DFS → poora island mark → count++.',
-    approach_line:'for i,j: if grid[i][j]==\'1\': dfs(i,j), count++. DFS: mark \'0\', recurse 4 dirs.',
+    approach_line:'for i,j: if grid[i][j]=="1": dfs(i,j), count++. DFS: mark \'0\', recurse 4 dirs.',
     time_complexity:'O(m×n)', space_complexity:'O(m×n)' },
 
   { id:48, leetcode_num:112, title:'Path Sum', difficulty:'Easy',
@@ -1480,7 +1480,7 @@ export const RECOGNITION_CHALLENGES: RecognitionChallenge[] = [
     time_complexity:'O(n)', space_complexity:'O(1)' },
 
   { id:102, leetcode_num:191, title:'Number of 1 Bits', difficulty:'Easy',
-    description:'Write function returning number of \'1\' bits (Hamming weight) of unsigned integer n.',
+    description:'Write function returning number of "1" bits (Hamming weight) of unsigned integer n.',
     constraints:['Unsigned 32-bit integer'],
     keywords:['count ones','hamming weight','number of 1 bits','bit count','popcount'],
     step1:{ n_value:'32-bit integer — O(1) fixed', time_needed:'O(1) — max 32 iterations', eliminates:['Nothing'], allows:['Bit trick ✅ — n & (n-1)'] },

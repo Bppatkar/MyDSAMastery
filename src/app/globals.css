@@ -31,10 +31,10 @@ html.dark {
   --bg-input:      #0a0a12;
   --border:        #1e1e2e;
   --border-strong: #2a2a3e;
-  --tx-1: #e8e8f0;
-  --tx-2: #9898b8;
-  --tx-3: #5a5a7a;
-  --tx-4: #3a3a5a;
+  --tx-1: #f0f0f8;
+  --tx-2: #c4c4de;
+  --tx-3: #8888aa;
+  --tx-4: #5a5a78;
   --accent:        #10b981;
   --accent-bg:     rgba(16,185,129,0.12);
   --accent-bdr:    rgba(16,185,129,0.25);
