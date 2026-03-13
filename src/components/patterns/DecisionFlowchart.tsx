@@ -93,7 +93,7 @@ export default function DecisionFlowchart() {
     hint: {
       fontSize: 13, color: '#7a7a9a', lineHeight: 1.7,
       padding: '10px 14px', borderRadius: 10,
-      background: '#0a0a12', border: '1px solid #1a1a28', marginTop: 10,
+      background: 'var(--bg-base)', border: '1px solid var(--border)', marginTop: 10,
     } as React.CSSProperties,
     yesBtn: {
       padding: '14px 20px', borderRadius: 12, fontSize: 15, fontWeight: 700,
@@ -204,7 +204,7 @@ export default function DecisionFlowchart() {
           </div>
 
           {!isAns && !isStart && (
-            <div style={{ marginTop: 14, padding: '10px 14px', borderRadius: 10, fontSize: 12, background: '#0a0a12', border: '1px dashed #1e1e2e', color: 'var(--tx-3)', textAlign: 'center' }}>
+            <div style={{ marginTop: 14, padding: '10px 14px', borderRadius: 10, fontSize: 12, background: 'var(--bg-base)', border: '1px dashed #1e1e2e', color: 'var(--tx-3)', textAlign: 'center' }}>
               ⚡ n≤20 → Backtrack | n≤10³ → O(n²) OK | n≤10⁶ → O(n) | n≤10⁹ → O(log n)
             </div>
           )}

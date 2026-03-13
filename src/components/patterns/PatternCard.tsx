@@ -122,7 +122,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
           {pattern.triggers.slice(0, 4).map((t) => (
             <span
               key={t}
-              className="text-[11px] px-2 py-0.5 rounded-full bg-[#1a1a28] text-[var(--tx-3)] border border-[var(--border-strong)]"
+              className="text-[11px] px-2 py-0.5 rounded-full bg-[var(--border)] text-[var(--tx-3)] border border-[var(--border-strong)]"
             >
               {t}
             </span>
@@ -155,7 +155,7 @@ export function PatternCard({ pattern, size = 'md', showLink = true }: PatternCa
         </div>
 
         {/* Progress bar */}
-        <div className="h-1.5 bg-[#1a1a28] rounded-full overflow-hidden">
+        <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700 ease-out"
             style={{

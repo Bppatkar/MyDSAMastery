@@ -29,7 +29,7 @@ const variants: Record<Variant, string> = {
     'border border-[var(--border-strong)] hover:border-emerald-500/50 ' +
     'text-[var(--tx-1)] hover:text-emerald-400 hover:bg-emerald-500/5',
   ghost:
-    'text-[#6b6b8a] hover:text-[var(--tx-1)] hover:bg-[#1c1c2e]',
+    'text-[var(--tx-3)] hover:text-[var(--tx-1)] hover:bg-[var(--bg-hover)]',
   destructive:
     'bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-400',
   link:

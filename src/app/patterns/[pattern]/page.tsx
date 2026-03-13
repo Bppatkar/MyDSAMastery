@@ -109,8 +109,8 @@ export default async function PatternDetailPage({ params }: Props) {
               <ChevronLeft className="w-4 h-4" />
               All Patterns
             </Link>
-            <span className="text-[#2a2a3e]">/</span>
-            <span className="text-[#8888a8]">{pattern.name}</span>
+            <span className="text-[var(--tx-4)]">/</span>
+            <span className="text-[var(--tx-3)]">{pattern.name}</span>
           </div>
 
           {/* Title Row */}
@@ -183,7 +183,7 @@ export default async function PatternDetailPage({ params }: Props) {
                   icon={<span className="text-[10px]">{pattern.icon}</span>}
                   label="Category"
                   value={pattern.category}
-                  valueColor="text-[#8888a8]"
+                  valueColor="text-[var(--tx-3)]"
                 />
               </div>
             </div>
@@ -266,7 +266,7 @@ export default async function PatternDetailPage({ params }: Props) {
                     <div className="text-[11px] text-[var(--tx-3)] uppercase tracking-wider mb-0.5">
                       Previous
                     </div>
-                    <div className="text-sm font-medium text-[#8888a8] group-hover:text-white transition-colors">
+                    <div className="text-sm font-medium text-[var(--tx-2)] transition-colors">
                       {prevPat.icon} {prevPat.name}
                     </div>
                   </div>
@@ -284,7 +284,7 @@ export default async function PatternDetailPage({ params }: Props) {
                     <div className="text-[11px] text-[var(--tx-3)] uppercase tracking-wider mb-0.5">
                       Next
                     </div>
-                    <div className="text-sm font-medium text-[#8888a8] group-hover:text-white transition-colors">
+                    <div className="text-sm font-medium text-[var(--tx-2)] transition-colors">
                       {nextPat.icon} {nextPat.name}
                     </div>
                   </div>
@@ -366,7 +366,7 @@ export default async function PatternDetailPage({ params }: Props) {
                     </span>
                   </div>
                   {/* Line numbers + code */}
-                  <pre className="text-xs bg-[#060609] rounded-b-xl p-5 overflow-x-auto text-[#9a9ab8] leading-6 font-mono scrollbar-thin">
+                  <pre className="text-xs bg-[var(--bg-base)] rounded-b-xl p-5 overflow-x-auto text-[var(--tx-2)] leading-6 font-mono scrollbar-thin">
                     <code>{codeTemplate}</code>
                   </pre>
                 </div>
@@ -489,7 +489,7 @@ function SideCard({
         }}
       >
         {icon}
-        <h3 className="text-sm font-semibold text-[#c8c8e8]">{title}</h3>
+        <h3 className="text-sm font-semibold text-[var(--tx-1)]">{title}</h3>
       </div>
       {/* Card body */}
       <div className={noPadContent ? '' : 'px-5 py-4'}>{children}</div>
@@ -554,12 +554,12 @@ function QuestionRow({
     <div
       className={`
       flex items-center gap-4 px-5 py-3.5
-      hover:bg-[#e8e8f0] transition-colors group
-      ${!isLast ? 'border-b border-[#1a1a28]' : ''}
+      hover:bg-[var(--bg-hover)] transition-colors group
+      ${!isLast ? 'border-b border-[var(--border)]' : ''}
     `}
     >
       {/* Index number */}
-      <span className="text-xs font-mono text-[#3a3a4e] w-6 text-right flex-shrink-0">
+      <span className="text-xs font-mono text-[var(--tx-4)] w-6 text-right flex-shrink-0">
         {index + 1}
       </span>
 
@@ -574,11 +574,11 @@ function QuestionRow({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2.5 flex-wrap">
           {/* LeetCode number */}
-          <span className="text-xs font-mono text-[#4a4a6a] flex-shrink-0">
+          <span className="text-xs font-mono text-[var(--tx-3)] flex-shrink-0">
             #{q.leetcodeNum}
           </span>
           {/* Title */}
-          <span className="text-sm font-medium text-[#c8c8e8] group-hover:text-white transition-colors truncate">
+          <span className="text-sm font-medium text-[var(--tx-1)] transition-colors truncate">
             {q.title}
           </span>
           {/* Difficulty badge */}
@@ -596,7 +596,7 @@ function QuestionRow({
           {q.tags.slice(0, 4).map((tag: string) => (
             <span
               key={tag}
-              className="text-[11px] text-[#4a4a6a] bg-[#0a0a12] px-1.5 py-0.5 rounded border border-[#1a1a28]"
+              className="text-[11px] text-[var(--tx-3)] bg-[var(--bg-base)] px-1.5 py-0.5 rounded border border-[var(--border)]"
             >
               {tag}
             </span>
@@ -628,7 +628,7 @@ function QuestionRow({
           href={q.leetcodeUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2 rounded-lg text-[#3a3a4e] hover:text-emerald-400 hover:bg-emerald-500/8 border border-transparent hover:border-emerald-500/20 transition-all"
+          className="p-2 rounded-lg text-[var(--tx-3)] hover:text-emerald-400 hover:bg-emerald-500/8 border border-transparent hover:border-emerald-500/20 transition-all"
           title={`Open "${q.title}" on LeetCode`}
         >
           <ExternalLink className="w-3.5 h-3.5" />

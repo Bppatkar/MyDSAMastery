@@ -3,13 +3,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useProgressStore } from '@/store/useProgressStore';
-import { BookOpen, Code2, RotateCcw, Brain, BarChart, Sun, Moon } from 'lucide-react';
+import { BookOpen, Code2, RotateCcw, Brain, BarChart, Sun, Moon, Zap } from 'lucide-react';
 
 const NAV = [
   { href:'/patterns',            label:'Patterns',  icon:BookOpen },
   { href:'/practice',            label:'Practice',  icon:Code2 },
   { href:'/pattern-recognition', label:'🧠 Trainer', icon:Brain },
   { href:'/visualizers',         label:'Visualize', icon:BarChart },
+  { href:'/algorithms',          label:'Algorithms', icon:Zap },
   { href:'/revision',            label:'Revision',  icon:RotateCcw },
 ];
 

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-type Algo = 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick';
+type Algo = 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick' | 'heap';
 
 const ALGO_INFO: Record<Algo, { name:string; time:string; space:string; desc:string }> = {
   bubble:    { name:'Bubble Sort',    time:'O(n²)',    space:'O(1)',      desc:'Adjacent elements compare karke swap karo jab tak sorted na ho.' },
@@ -9,6 +9,7 @@ const ALGO_INFO: Record<Algo, { name:string; time:string; space:string; desc:str
   insertion: { name:'Insertion Sort', time:'O(n²)',    space:'O(1)',      desc:'Ek ek element uthao aur sorted part mein sahi jagah daalo.' },
   merge:     { name:'Merge Sort',     time:'O(n log n)',space:'O(n)',    desc:'Array ko divide karo, phir sorted halves ko merge karo.' },
   quick:     { name:'Quick Sort',     time:'O(n log n)',space:'O(log n)',desc:'Pivot choose karo, uske around array partition karo.' },
+  heap:      { name:'Heap Sort',      time:'O(n log n)',space:'O(1)',    desc:'Max-heap banao, root ko end par le jao. Repeat.' },
 };
 
 export default function SortingVisualizer() {
@@ -165,11 +166,38 @@ export default function SortingVisualizer() {
     setRunning(true);
     setSorted([]); setComparing([]); setSwapping([]);
     const a = [...arr];
+
+  const runHeap = async (a: number[]) => {
+    const arr = [...a];
+    const n = arr.length;
+    const heapify = async (n2: number, i: number) => {
+      let largest = i, l = 2*i+1, r = 2*i+2;
+      if (l < n2 && arr[l] > arr[largest]) largest = l;
+      if (r < n2 && arr[r] > arr[largest]) largest = r;
+      if (largest !== i) {
+        setHighlights([i, largest]);
+        await sleep();
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        setBars([...arr]);
+        await heapify(n2, largest);
+      }
+    };
+    for (let i = Math.floor(n/2)-1; i >= 0; i--) await heapify(n, i);
+    for (let i = n-1; i > 0; i--) {
+      setHighlights([0, i]);
+      await sleep();
+      [arr[0], arr[i]] = [arr[i], arr[0]];
+      setBars([...arr]);
+      await heapify(i, 0);
+    }
+    setHighlights([]);
+  };
     if (algo==='bubble')    await runBubble(a);
     if (algo==='selection') await runSelection(a);
     if (algo==='insertion') await runInsertion(a);
     if (algo==='merge')     await runMerge(a);
     if (algo==='quick')     await runQuick(a);
+    if (algo==='heap')      await runHeap(a);
     setRunning(false);
   };
 

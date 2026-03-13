@@ -25,7 +25,7 @@ export function Card({ className, hover = false, glow = 'none', ...props }: Card
       className={cn(
         'bg-[#111118] border border-[var(--border-strong)] rounded-xl',
         'transition-all duration-300',
-        hover && 'hover:bg-[#16161f] hover:border-[#3d3d58] cursor-pointer',
+        hover && 'hover:bg-[var(--bg-hover)] hover:border-[var(--border-strong)] cursor-pointer',
         glow !== 'none' && glowMap[glow],
         className
       )}
