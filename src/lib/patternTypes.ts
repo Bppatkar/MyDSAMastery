@@ -561,3 +561,106 @@ export const PATTERN_TYPES: PatternWithTypes[] = [
 export function getPatternTypes(patternId: string): PatternWithTypes | null {
   return PATTERN_TYPES.find(p => p.id === patternId) ?? null;
 }
+
+// ─── Additional patterns from recognitionData ─────────────────────
+export const EXTRA_PATTERN_TYPES: PatternWithTypes[] = [
+  {
+    id: 'stack', name: 'Stack / Monotonic Stack', icon: '📚', color: '#f43f5e',
+    types: [
+      {
+        name: 'Bracket Matching',
+        description: 'Opening brackets push, closing brackets pop and match. Stack empty at end = valid.',
+        triggers: ['parentheses', 'brackets', 'valid expression', 'balanced', 'nested structure'],
+        dataStructure: 'Stack (array ya built-in)',
+        approach: 'Opening → push. Closing → pop aur match karo. End mein stack empty → valid.',
+        example: 'Valid Parentheses → \'(\',\'{\',\'[\' push, \')\',\'}\',\']\' pop and check',
+        complexity: { time: 'O(n)', space: 'O(n)' },
+      },
+      {
+        name: 'Monotonic Decreasing Stack (Next Greater)',
+        description: 'Track "next greater element" for each element. Stack maintains decreasing order.',
+        triggers: ['next greater element', 'next warmer', 'next larger', 'how many days until'],
+        dataStructure: 'Stack of indices (monotonically decreasing values)',
+        approach: 'For each i: while stack non-empty and arr[i] > arr[stack.top] → pop, ans[popped] = i. Push i.',
+        example: 'Daily Temperatures → for each day, find next warmer day',
+        complexity: { time: 'O(n)', space: 'O(n)' },
+      },
+      {
+        name: 'Monotonic Increasing Stack (Next Smaller)',
+        description: 'Track "next smaller element". Stack maintains increasing order.',
+        triggers: ['next smaller', 'largest rectangle', 'trap rain water', 'area calculation'],
+        dataStructure: 'Stack of indices (monotonically increasing values)',
+        approach: 'For each i: while stack non-empty and arr[i] < arr[stack.top] → pop and calculate. Push i.',
+        example: 'Largest Rectangle in Histogram → find left/right boundary for each bar',
+        complexity: { time: 'O(n)', space: 'O(n)' },
+      },
+    ],
+  },
+  {
+    id: 'hashmap', name: 'HashMap', icon: '#️⃣', color: '#14b8a6',
+    types: [
+      {
+        name: 'Complement Lookup',
+        description: 'Find pair/triplet. Store seen values, check complement in O(1).',
+        triggers: ['find pair', 'two sum', 'sum to target', 'unsorted', 'find two numbers'],
+        dataStructure: 'HashMap {value → index}',
+        approach: 'For each num: complement = target - num. If complement in map → found. Else map[num] = i.',
+        example: 'Two Sum → complement = target - nums[i], check in map',
+        complexity: { time: 'O(n)', space: 'O(n)' },
+      },
+      {
+        name: 'Frequency Count',
+        description: 'Count occurrences of each element. Use count for grouping or finding anomalies.',
+        triggers: ['count frequency', 'most frequent', 'anagram', 'find duplicates', 'character count'],
+        dataStructure: 'HashMap {element → count}',
+        approach: 'Count all elements. Then process counts: find max, group by count, etc.',
+        example: 'Group Anagrams → key=sorted(word), Group Anagrams by same key',
+        complexity: { time: 'O(n)', space: 'O(n)' },
+      },
+      {
+        name: 'Prefix Sum with HashMap',
+        description: 'Track prefix sums. Find subarrays with exact sum.',
+        triggers: ['subarray sum equals k', 'count subarrays with sum', 'prefix sum'],
+        dataStructure: 'HashMap {prefix_sum → count} + running sum',
+        approach: 'prefixSum=0, map={0:1}. For each num: prefixSum+=num. If (prefixSum-k) in map → count+=map[prefixSum-k]. map[prefixSum]++.',
+        example: 'Subarray Sum Equals K → count subarrays with exact sum k',
+        complexity: { time: 'O(n)', space: 'O(n)' },
+      },
+    ],
+  },
+  {
+    id: 'greedy', name: 'Greedy', icon: '💡', color: '#eab308',
+    types: [
+      {
+        name: 'Track Maximum Reach',
+        description: 'Greedily track the farthest reachable index at each step.',
+        triggers: ['can reach last index', 'jump game', 'can jump', 'reachable'],
+        dataStructure: 'Single variable maxReach',
+        approach: 'maxReach=0. For i: if i>maxReach → false. maxReach=max(maxReach, i+nums[i]).',
+        example: 'Jump Game → track max reachable index greedily',
+        complexity: { time: 'O(n)', space: 'O(1)' },
+      },
+      {
+        name: 'Interval Scheduling',
+        description: 'Sort intervals by end time. Greedily pick non-overlapping intervals.',
+        triggers: ['minimum removal', 'non-overlapping intervals', 'maximum non-overlapping', 'activity selection'],
+        dataStructure: 'Sorted intervals + prevEnd tracker',
+        approach: 'Sort by end. prevEnd=-∞. If interval.start ≥ prevEnd → keep, update prevEnd. Else → remove.',
+        example: 'Non-overlapping Intervals → min removals to make non-overlapping',
+        complexity: { time: 'O(n log n)', space: 'O(1)' },
+      },
+      {
+        name: 'Always Pick Local Best',
+        description: 'At each step, make the locally optimal choice. Works when local = global optimal.',
+        triggers: ['minimum operations', 'task scheduler', 'assign cookies', 'always pick best'],
+        dataStructure: 'Sort + single pass',
+        approach: 'Sort by relevant metric. Greedily assign/pick at each step.',
+        example: 'Assign Cookies → sort kids and cookies, greedily match smallest sufficient cookie',
+        complexity: { time: 'O(n log n)', space: 'O(1)' },
+      },
+    ],
+  },
+];
+
+// Merge all pattern types
+export const ALL_PATTERN_TYPES = [...PATTERN_TYPES, ...EXTRA_PATTERN_TYPES];

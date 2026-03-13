@@ -554,7 +554,7 @@ function QuestionRow({
     <div
       className={`
       flex items-center gap-4 px-5 py-3.5
-      hover:bg-[#0f0f1a] transition-colors group
+      hover:bg-[#e8e8f0] transition-colors group
       ${!isLast ? 'border-b border-[#1a1a28]' : ''}
     `}
     >

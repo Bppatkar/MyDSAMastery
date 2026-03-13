@@ -1,74 +1,72 @@
-# DSA Mastery Platform
+# DSA Mastery Platform 🧠
 
-A focused training platform to master Data Structures & Algorithms — specifically designed to help you **identify patterns from problem descriptions** so you can tackle unseen LeetCode questions confidently.
+Ek focused training platform — **LeetCode questions dekho, pattern aur data structure identify karna seekho.**
 
-## Core Mission
+> **Main Goal:** Input, Output, Keywords aur Constraints dekh kar — sirf pattern aur konsa data structure lagega ye pata karna seekhna hai. Individual pattern ke jitne bhi types hote hain, unhe seekhna hai.
 
-> "Given a problem's input, output, constraints, and keywords → instantly know which pattern and data structure to use."
+---
+
+## Core Philosophy 
+
+```
+Step 1: Constraints dekho → Time Complexity decide karo
+Step 2: Input Format dekho → Pattern narrow karo  
+Step 3: Output Format dekho → Approach hint milti hai
+Step 4: Keywords dekho → Final pattern confirm karo
+```
+
+---
 
 ## Features
 
-### ✅ Day 1 — Foundation
-- Home page, layout, navigation, dark/light mode
-- Zustand stores (progress, editor, user)
+### ✅ Day 1-2: Foundation + Patterns
+- 15 DSA patterns, 450 questions
+- Pattern detail pages, quiz, progress tracking
 
-### ✅ Day 2 — Pattern System
-- 15 DSA patterns with 30 questions each (450 total)
-- Pattern detail pages with code templates, complexity, examples
-- Pattern Quiz, Decision Flowchart, Pattern Progress tracking
+### ✅ Day 3: Practice System
+- 450 LeetCode-style questions
+- ✅ **Tick AND Untick** — solved mark karo, phir se click karo toh unmark ho jayega
 
-### ✅ Day 3 — Practice System
-- 450-question practice list with filters (difficulty, pattern, status)
-- Full question view with Monaco editor and progress auto-save
-- **Tick AND untick** solved questions
+### ✅ Day 4: Visualizers (8)
+- Sorting, Binary Search, Two Pointers, Sliding Window
+- Linked List, BST, Graph BFS/DFS, Stack & Queue
 
-### ✅ Day 4 — Visualizers (8 total)
-- Sorting (Bubble, Selection, Insertion, Merge, Quick)
-- Binary Search, Two Pointers, Sliding Window
-- Linked List (insert, delete, reverse, find middle with slow/fast)
-- BST (insert, search, inorder/preorder/postorder)
-- Graph BFS/DFS (animated traversal)
-- Stack & Queue (LIFO/FIFO operations)
+### ✅ Day 5: Pattern Recognition Trainer ⭐ MAIN FEATURE
 
-### ✅ Day 5 — Pattern Recognition Trainer ⭐ MAIN FEATURE
-- **Pattern Trainer**: See input/output/constraints → identify correct pattern
-- **Pattern Types**: Each of 15 patterns broken into 3-5 subtypes with triggers, DS, approach, example
-- **Keyword Triggers**: Reference card of words that reveal each pattern
-- **Decision Guide**: Step-by-step questions to narrow down the pattern
+**Tab 1: 🎯 Pattern Trainer (LeetCode Split-View)**
+- Left side = LeetCode-style problem (description, input, output, constraints, keywords)
+- Right side = 4-step guided analysis:
+  - Step 1: Constraints → n ki value → time complexity decide
+  - Step 2: Input format → sorted/unsorted/tree/graph/string?
+  - Step 3: Output format → list of all / single number / boolean?
+  - Step 4: Keywords → trigger words se pattern confirm
+- 30 real LeetCode problems across 18 patterns
+- Score tracking + weak pattern identification
 
-## Pattern Recognition System
+**Tab 2: 🗂️ Pattern Types**
+- 18 patterns × 3-4 subtypes each (Stack, HashMap, Greedy bhi included)
+- Har subtype: trigger words, data structure, approach, example, complexity
 
-The app teaches you to recognize patterns by:
+**Tab 3: 📋 Recognition Guide**
+- Constraint Guide: n ≤ 20 → Backtracking, n ≤ 10^6 → O(n log n), etc.
+- Input Format Guide: sorted array → Binary Search/Two Pointers, etc.
+- Output Format Guide: List of Lists → Backtracking, Single Value → DP/Greedy
 
-1. **Showing problem context** (not solution) — input type, output type, constraints, keywords
-2. **You guess the pattern** from 4 options
-3. **Immediate feedback** — why this pattern, which trigger words gave it away, which data structure, 1-line approach
-4. **Pattern Types** — not just "Sliding Window" but "Fixed Window vs Variable Window vs Monotonic Deque"
+---
 
-### Pattern Types Breakdown
-
-| Pattern | Types |
-|---------|-------|
-| Sliding Window | Fixed Size, Variable (At Most K), Variable (Exactly K), Deque (Min/Max) |
-| Two Pointers | Opposite Ends, Same Direction, Fast-Slow, Three Pointers |
-| Binary Search | Classic, Answer Space, First/Last Occurrence, 2D Matrix |
-| DFS | Tree Path, Graph Islands, Backtracking, Memoized DFS |
-| BFS | Level-Order, Shortest Path, Multi-Source |
-| Dynamic Programming | 1D Linear, 2D Grid/Sequences, 0/1 Knapsack, Unbounded Knapsack, Interval DP |
-| ... and more |
-
-## Getting Started
+## Setup
 
 ```bash
+unzip -o dsa-mastery-fixed.zip -d .
+cp -r dsa-final/* .
+rm -rf dsa-final/
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Open http://localhost:3000
+
+---
 
 ## Stack
-
-- **Next.js 15** + React 19 + TypeScript
-- **Tailwind v4** + CSS custom properties (dark/light mode)
-- **Zustand** for progress state
-- **Lucide React** icons
+Next.js 15 | React 19 | TypeScript | Tailwind v4 | Zustand | Lucide Icons
