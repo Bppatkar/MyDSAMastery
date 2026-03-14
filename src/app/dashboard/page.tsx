@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { useProgressStore } from '@/store/useProgressStore';
 import { ALL_QUESTION_STUBS } from '@/app/data/questions';
-import { ALL_PATTERN_DATA } from '@/lib/patternData';
 import { BarChart2, RotateCcw, ChevronRight } from 'lucide-react';
 
 const PATTERN_META: Record<string, { icon: string; color: string; name: string }> = {
@@ -43,12 +42,19 @@ export default function DashboardPage() {
 
   const motivMsg = [...MOTIVATIONAL].reverse().find(m => totalSolved >= m.min) ?? MOTIVATIONAL[0];
 
-  const patternBreakdown = useMemo(() => ALL_PATTERN_DATA.map(p => {
-    const meta = PATTERN_META[p.id] ?? { icon: '📌', color: '#64748b', name: p.name };
-    const total = p.questions?.length ?? 30;
-    const stats = patternStats[p.id] ?? { solved: 0, attempted: 0 };
-    return { ...meta, id: p.id, total, solved: stats.solved, attempted: stats.attempted };
-  }).sort((a, b) => b.solved - a.solved), [patternStats]);
+  const patternBreakdown = useMemo(() => {
+    // Build from ALL_QUESTION_STUBS — covers all 15 patterns
+    const patternMap: Record<string, { id:string; count:number }> = {};
+    for (const q of ALL_QUESTION_STUBS) {
+      if (!patternMap[q.patternId]) patternMap[q.patternId] = { id: q.patternId, count: 0 };
+      patternMap[q.patternId].count++;
+    }
+    return Object.values(patternMap).map(p => {
+      const meta = PATTERN_META[p.id] ?? { icon: '📌', color: '#64748b', name: p.id };
+      const stats = patternStats[p.id] ?? { solved: 0, attempted: 0 };
+      return { ...meta, id: p.id, total: p.count, solved: stats.solved, attempted: stats.attempted };
+    }).sort((a, b) => b.solved - a.solved);
+  }, [patternStats]);
 
   const recentSolved = useMemo(() => [...solvedQuestions].reverse().slice(0, 5).map(id => ALL_QUESTION_STUBS.find(q => q.id === id)).filter(Boolean), [solvedQuestions]);
 

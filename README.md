@@ -1,70 +1,57 @@
 # DSA Mastery 🚀
 
-**LeetCode patterns master karne ka sabse simple tarika — Hinglish mein**
+**LeetCode patterns master karne ka sabse systematic tarika — Hinglish mein, beginner-friendly**
 
-> Ek chote se bacche ko bhi samjh aaye, aisa content. Pattern pehchano → Algorithm lagao → Question solve karo.
+> Pattern pehchano → Algorithm choose karo → Question solve karo
 
 ## Quick Start
 
 ```bash
-# Dependencies install karo
 npm install
-
-# Dev server chalao
 npm run dev
-
-# Browser mein kholo
-http://localhost:3000
+# Open http://localhost:3000
 ```
 
-## Pages & Features
+## Pages
 
-| Page | URL | Kya milega |
-|------|-----|-----------|
-| **Home** | `/` | Platform overview, quick stats |
-| **Patterns** | `/patterns` | 15 patterns — description, when to use, examples |
-| **Practice** | `/practice` | 450 questions — filter by pattern/difficulty |
-| **Question Detail** | `/practice/[id]` | Pattern analysis, brute force vs optimal, LeetCode link |
-| **Trainer** | `/pattern-recognition` | 450 questions ka pattern trainer — 4-step approach |
-| **Visualizers** | `/visualizers` | 11 interactive visualizers (sorting, graphs, DP, etc.) |
-| **Algorithms** | `/algorithms` | Pattern → Type → Algorithm reference (Hinglish) |
-| **Revision** | `/revision` | Pattern quiz |
+| Page | URL | Description |
+|------|-----|-------------|
+| **📖 Learn** | `/learn` | Systematic learning — 3 questions per type, full methodology |
+| **📚 Patterns** | `/patterns` | 15 patterns overview |
+| **💻 Practice** | `/practice` | 450 questions, filter by pattern/difficulty |
+| **🧠 Trainer** | `/pattern-recognition` | 450 questions pattern trainer — 4-step Hinglish approach |
+| **⚡ Cheat Sheet** | `/cheatsheet` | Keywords→Patterns, DS Complexity, Time Guide |
+| **📖 Algorithms** | `/algorithms` | Pattern → Type → Brute Force vs Optimal |
+| **🎯 Interview** | `/interview` | Timed mock interview — 3 modes |
+| **📊 Dashboard** | `/dashboard` | Real progress tracking — solved/pattern breakdown |
+| **📊 Visualizers** | `/visualizers` | 11 interactive visualizers |
 
-## 15 Patterns Covered
+## 15 Patterns
 
-Sliding Window · Two Pointers · Binary Search · Fast & Slow Pointers · Merge Intervals · Cyclic Sort · DFS · BFS · Topological Sort · Heap · Subsets/Backtracking · Dynamic Programming · Bit Manipulation · Trie · Graph/Union-Find
+Sliding Window · Two Pointers · Binary Search · Fast & Slow Pointers · Merge Intervals · Cyclic Sort · DFS · BFS · Topological Sort · Heap/PQ · Subsets/Backtracking · Dynamic Programming · Bit Manipulation · Trie · Graph/Union-Find
+
+## Learn Page — Solving Framework (8 Steps)
+
+1. **Question padhte waqt** — keywords notice karo, examples trace karo
+2. **Constraint dekho** — n ki value → allowed complexity → pattern narrow karo  
+3. **Input type dekho** — sorted/array/string/graph → pattern family
+4. **Output type dekho** — single value/list/boolean → approach decide
+5. **Keywords dhundho** — magic words in actual question text
+6. **Brute force socho** — naivest approach, kyu slow hai
+7. **Optimize karo** — pattern identify, kyu yahi use karna hai
+8. **Code + verify** — template follow, edge cases
 
 ## Tech Stack
 
-- **Next.js 15** — App Router
-- **React 19** — UI
-- **TypeScript** — Type safety
-- **Tailwind CSS v4** — Styling
-- **Zustand** — State management
-
-## Project Structure
-
-```
-src/
-├── app/              # Pages (Next.js App Router)
-│   ├── algorithms/   # Algorithms Master Reference
-│   ├── data/         # Question stubs (450 questions)
-│   ├── practice/     # Practice list + question detail
-│   ├── pattern-recognition/  # Pattern trainer
-│   ├── patterns/     # Pattern pages
-│   └── visualizers/  # Interactive visualizers
-├── components/       # Reusable components
-├── data/patterns/    # JSON data (sliding-window, two-pointers, binary-search)
-├── hooks/            # useTheme, usePatterns
-├── lib/              # Core logic (patternData, recognitionData, decisionMatrix)
-└── store/            # Zustand stores (progress, theme)
-```
+Next.js 15 · React 19 · TypeScript · Tailwind CSS v4 · Zustand
 
 ## Developer
 
-**Bhanu Pratap Patkar** — MERN Stack Developer & Software Engineer
-- Email: bhanupratappatkar777@gmail.com
+**Bhanu Pratap Patkar** — MERN Stack Developer
+- Email: bhanupratappatkar777@gmail.com  
 - GitHub: [Bppatkar](https://github.com/Bppatkar)
 - LinkedIn: [bhanu-pratap-patkar](https://linkedin.com/in/bhanu-pratap-patkar)
 
-© 2025-present Bhanu Pratap Patkar. All rights reserved.
+---
+
+© 2025-present Bhanu Pratap Patkar · Jabalpur, Madhya Pradesh
