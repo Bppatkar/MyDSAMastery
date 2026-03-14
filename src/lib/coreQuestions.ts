@@ -1,413 +1,671 @@
 // ═══════════════════════════════════════════════════════════════════
-// CORE QUESTIONS — 3 per pattern type, FREE LeetCode only
-// Deep methodology: HOW to read, identify, and solve each
+// CORE QUESTIONS — Curated: 3 per pattern type, FREE LeetCode only
+// 8-Point Methodology per question
 // ═══════════════════════════════════════════════════════════════════
 
 export interface CoreQuestion {
-  id: number;           // our internal ID
-  lcNum: number;        // LeetCode problem number  
+  id: number;
+  lcNum: number;
   title: string;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   patternId: string;
   patternName: string;
-  typeId: string;       // which sub-type of this pattern
+  typeId: string;
   typeName: string;
-
-  // ─── Deep Methodology ───────────────────────────────────────────
-  // 1. Kaise padhte hain question ko
-  howToRead: string;     // "Ye keywords notice karo question mein..."
-
-  // 2. Constraint dekh kar kya sochte hain
-  constraint: string;    // "n ≤ 10⁵ — isliye..."
-  constraintKyu: string; // "Kyunki n=10⁵ mein O(n²) = 10¹⁰ ops = TLE..."
-
-  // 3. Input dekh kar konsa pattern
-  inputType: string;     // "Sorted array of integers"
-  inputKyu: string;      // "Sorted array + pair = Two Pointers signal..."
-
-  // 4. Keywords in actual question text (not tags)
-  questionKeywords: string[];  // words TO LOOK FOR in problem statement
-  keywordKyu: string;          // "In words dikhe to immediately sochna..."
-
-  // 5. Output type → approach
-  outputType: string;    // "Single integer (max sum)"
-  outputKyu: string;     // "Single value return = aggregate over window..."
-
-  // 6. Pattern + Type identification
-  whyThisPattern: string;   // Full reasoning chain
-  whyThisType: string;      // Why this specific sub-type
-
-  // 7. Brute Force
-  bruteForce: string;        // Simple English, what naive solution is
-  bruteForceWhy: string;     // Why it's slow
-  bruteForceCode: string;    // JS pseudocode
-
-  // 8. Optimal approach
-  approach: string[];        // Step by step Hinglish
-  optimalCode: string;       // JS pseudocode
-
-  // Time/Space
+  // ── 8 Methodology Points ────────────────────────────────────────
+  howToRead: string;
+  constraintAnalysis: string;
+  constraintKyu: string;
+  inputSignal: string;
+  inputKyu: string;
+  keywords: string[];
+  keywordKyu: string;
+  outputSignal: string;
+  // ── Solution ────────────────────────────────────────────────────
+  whyThisPattern: string;
+  whyThisType: string;
+  bruteForce: string;
+  bruteForceComplexity: string;
+  bruteForceKyu: string;
+  optimalSteps: string[];
+  optimalCode: string;
   timeComplexity: string;
   spaceComplexity: string;
   dataStructure: string;
-
-  // LeetCode link
   lcUrl: string;
-  tags: string[];
-  companies: string[];
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// PATTERN 1: SLIDING WINDOW
-// ═══════════════════════════════════════════════════════════════════
-
-const slidingWindowQuestions: CoreQuestion[] = [
-  // Type 1: Fixed-Size Window
-  {
-    id: 1, lcNum: 643, title: 'Maximum Average Subarray I',
-    difficulty: 'Easy', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'fixed-window', typeName: 'Fixed-Size Window',
-    howToRead: 'Question mein "subarray of length k" aur "maximum average" likha hai. Ye fix size hai kyunki k directly given hai. "Contiguous" matlab continuous elements.',
-    constraint: 'n ≤ 10⁵, k ≤ n', constraintKyu: 'n=10⁵ mein O(n) chahiye. Agar O(n×k) kiya (brute) = 10⁵×10⁵ = 10¹⁰ ops = TLE. Window slide karo = O(n).',
-    inputType: 'Integer array + fixed size k', inputKyu: 'Fixed size k diya + contiguous subarray = Fixed Window signal. Variable nahi, isliye shrink nahi karna.',
-    questionKeywords: ['subarray', 'length k', 'maximum', 'average', 'contiguous'],
-    keywordKyu: '"subarray of length k" → Fixed window. "maximum" → track max while sliding. Ye 3 words ek saath = seedha Fixed Window.',
-    outputType: 'Single decimal (maximum average)', outputKyu: 'Ek value return = aggregate track karo sliding karte waqt. Running sum update karo.',
-    whyThisPattern: 'Fixed k size window + max aggregate = Sliding Window Fixed type. O(n) mein possible kyunki har step mein sirf ek add + ek remove.',
-    whyThisType: 'k fixed hai isliye Fixed Window. Variable window mein condition pe shrink karte hain — yahan koi condition nahi, just slide.',
-    bruteForce: 'Har possible starting index i pe length-k subarray ka sum nikalo, max track karo.',
-    bruteForceWhy: 'n × k iterations = O(n×k). k bada ho to TLE. Ek ek bar sum se calculate karo = wasteful.',
-    bruteForceCode: 'let maxSum = -Inf;\nfor (let i = 0; i <= n-k; i++) {\n  let sum = 0;\n  for (let j = i; j < i+k; j++) sum += nums[j]; // ye inner loop wasteful hai\n  maxSum = Math.max(maxSum, sum);\n}\nreturn maxSum / k;',
-    approach: ['Pehle k elements ka sum nikalo (initial window)', 'i=k se start: sum += nums[i] - nums[i-k] (right add, left remove)', 'Har step mein maxSum update karo', 'Return maxSum/k'],
-    optimalCode: 'let sum = nums.slice(0,k).reduce((a,b)=>a+b,0);\nlet max = sum;\nfor (let i=k; i<n; i++) {\n  sum += nums[i] - nums[i-k]; // O(1) update!\n  max = Math.max(max, sum);\n}\nreturn max/k;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Running sum variable only',
-    lcUrl: 'https://leetcode.com/problems/maximum-average-subarray-i/', tags: ['Array', 'Sliding Window'], companies: ['Apple', 'Google'],
-  },
-  {
-    id: 2, lcNum: 1343, title: 'Number of Sub-arrays of Size K and Average ≥ Threshold',
-    difficulty: 'Medium', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'fixed-window', typeName: 'Fixed-Size Window',
-    howToRead: '"Number of sub-arrays" = count karo. "Size K" = fixed window. "Average ≥ threshold" = condition check karo har window pe.',
-    constraint: 'n ≤ 10⁵, 1 ≤ k ≤ n', constraintKyu: 'n=10⁵ → O(n) chahiye. Count chahiye, not just one answer — isliye pure array traverse karo.',
-    inputType: 'Integer array + k + threshold', inputKyu: 'Fixed k + count valid windows = Fixed Window. Condition simple hai (avg ≥ threshold), direct check karo.',
-    questionKeywords: ['number of sub-arrays', 'size k', 'average', 'greater than or equal'],
-    keywordKyu: '"number of sub-arrays" = sliding + count. "size k" = fixed window size. Direct Fixed Window.',
-    outputType: 'Integer count', outputKyu: 'Count chahiye — window valid hai to count++ karo.',
-    whyThisPattern: 'Fixed k window slide karo, har window ka avg check karo. O(n) possible.',
-    whyThisType: 'k fixed, simple threshold check = Fixed Window (Variable window sirf jab shrink karna ho).',
-    bruteForce: 'Har i pe length-k sum nikalo, avg check karo.',
-    bruteForceWhy: 'O(n×k) — n=10⁵, k=10⁴ = 10⁹ ops = TLE.',
-    bruteForceCode: 'let count = 0;\nfor (let i=0; i<=n-k; i++) {\n  let sum = 0;\n  for (let j=i; j<i+k; j++) sum += arr[j];\n  if (sum/k >= threshold) count++;\n}\nreturn count;',
-    approach: ['Initial window sum nikalo', 'Slide: sum += arr[i] - arr[i-k]', 'sum/k >= threshold? count++', 'Return count'],
-    optimalCode: 'let sum = arr.slice(0,k).reduce((a,b)=>a+b,0), count = sum/k>=t?1:0;\nfor (let i=k; i<n; i++) {\n  sum += arr[i]-arr[i-k];\n  if (sum/k >= t) count++;\n}\nreturn count;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Running sum + count variable',
-    lcUrl: 'https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/', tags: ['Array', 'Sliding Window'], companies: ['Amazon'],
-  },
-  {
-    id: 3, lcNum: 567, title: 'Permutation in String',
-    difficulty: 'Medium', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'fixed-window', typeName: 'Fixed-Size Window',
-    howToRead: '"Permutation" = same characters, any order. "s1\'s permutation in s2" = s1 ki length ka window s2 mein dhundho jahan same char frequencies hon.',
-    constraint: 'n ≤ 10⁴', constraintKyu: 'n=10⁴ → O(n) ya O(n×26) OK. 26 characters fix hain — frequency array use karo.',
-    inputType: 'Two strings s1, s2', inputKyu: 's1 ki length = window size (fixed!). Frequency match check = Fixed Window with frequency comparison.',
-    questionKeywords: ['permutation', 'one of s1\'s permutations', 'substring of s2', 'contains'],
-    keywordKyu: '"permutation" = anagram = same char frequency. Ye dekhte hi: fixed window + frequency compare. s1.length = window size.',
-    outputType: 'Boolean', outputKyu: 'True/false = ek bhi valid window mile to true.',
-    whyThisPattern: 's1.length ka fixed window s2 mein slide karo. Har window ki frequency s1 se match karo.',
-    whyThisType: 'Window size fix (s1.length) = Fixed Window. Frequency array O(26) compare.',
-    bruteForce: 'Har window sort karo, s1 sort se compare karo.',
-    bruteForceWhy: 'O(n × k log k) — sorting har window pe.',
-    bruteForceCode: 'const s1Sorted = s1.split("").sort().join("");\nfor (let i=0; i<=s2.length-s1.length; i++) {\n  if (s2.slice(i,i+s1.length).split("").sort().join("") === s1Sorted) return true;\n}\nreturn false;',
-    approach: ['s1 ki frequency count karo (freq1[])', 'Size s1.length ka window s2 mein banao', 'Slide: right char add, left char remove from window freq', 'freq1 === freq2? return true', 'Return false'],
-    optimalCode: 'const f1=new Array(26).fill(0), f2=new Array(26).fill(0);\nconst a="a".charCodeAt(0);\nfor(let c of s1) f1[c.charCodeAt(0)-a]++;\nfor(let i=0;i<s1.length;i++) f2[s2[i].charCodeAt(0)-a]++;\nif(f1.join()===f2.join()) return true;\nfor(let i=s1.length;i<s2.length;i++){\n  f2[s2[i].charCodeAt(0)-a]++;\n  f2[s2[i-s1.length].charCodeAt(0)-a]--;\n  if(f1.join()===f2.join()) return true;\n}\nreturn false;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(26) = O(1)',
-    dataStructure: 'Two frequency arrays of size 26',
-    lcUrl: 'https://leetcode.com/problems/permutation-in-string/', tags: ['String', 'Sliding Window', 'HashMap'], companies: ['Microsoft', 'Amazon'],
-  },
-
-  // Type 2: Variable Window
-  {
-    id: 4, lcNum: 3, title: 'Longest Substring Without Repeating Characters',
-    difficulty: 'Medium', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'variable-window', typeName: 'Variable-Size Window',
-    howToRead: '"Longest" = maximize. "Without repeating" = condition on window. Window badhta hai jab condition OK, shrink karo jab condition violate ho.',
-    constraint: 'n ≤ 5×10⁴', constraintKyu: 'n=50000 → O(n) chahiye. Each char max 2 baar visit hoga (add + remove) = O(n) total.',
-    inputType: 'String', inputKyu: 'String + "no repeating" condition + maximize = Variable Window. Condition violate? Left shrink karo.',
-    questionKeywords: ['longest', 'substring', 'without repeating', 'repeating characters'],
-    keywordKyu: '"longest" + "condition on window" = Variable Window. "without repeating" = HashMap mein char exist karo, duplicate nikla to left badhao.',
-    outputType: 'Integer (max length)', outputKyu: 'Maximize window length = right - left + 1 track karo.',
-    whyThisPattern: 'Window condition = no duplicate. Condition violate? Shrink. Maximize window size.',
-    whyThisType: 'Variable window — size k nahi diya, condition-based shrinking.',
-    bruteForce: 'Har (i,j) pair check karo uniqueness ke liye.',
-    bruteForceWhy: 'O(n²) pairs × O(n) unique check = O(n³) ya O(n²). n=50000 → TLE.',
-    bruteForceCode: 'let max = 0;\nfor (let i=0; i<n; i++) {\n  const seen = new Set();\n  for (let j=i; j<n; j++) {\n    if (seen.has(s[j])) break; // ye break O(n) waste karta hai\n    seen.add(s[j]);\n    max = Math.max(max, j-i+1);\n  }\n}\nreturn max;',
-    approach: ['map = {}, left = 0, maxLen = 0', 'right expand: map[s[right]] already exists?', 'left = max(left, map[s[right]]+1) — jump past duplicate', 'map[s[right]] = right update', 'maxLen = max(maxLen, right-left+1)'],
-    optimalCode: 'const map = {};\nlet left=0, max=0;\nfor(let r=0;r<s.length;r++){\n  if(map[s[r]] >= left) left = map[s[r]]+1; // duplicate found, shrink\n  map[s[r]] = r;\n  max = Math.max(max, r-left+1);\n}\nreturn max;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(min(n,26))',
-    dataStructure: 'HashMap {char → last seen index}',
-    lcUrl: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/', tags: ['String', 'Sliding Window', 'HashMap'], companies: ['Amazon', 'Microsoft', 'Google'],
-  },
-  {
-    id: 5, lcNum: 76, title: 'Minimum Window Substring',
-    difficulty: 'Hard', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'variable-window', typeName: 'Variable-Size Window',
-    howToRead: '"Minimum window" = minimize. "Contains all chars of t" = condition. Ye shrinking window problem hai — pehle expand (valid banao), phir shrink (minimize karo).',
-    constraint: 'n ≤ 10⁵', constraintKyu: 'O(n) chahiye. Dono pointers max n tak jayenge (O(n) each) = O(n) total.',
-    inputType: 'Two strings s, t', inputKyu: 't ke sab chars chahiye s ke window mein. Frequency count karo. Valid window mila to shrink karo minimum ke liye.',
-    questionKeywords: ['minimum window', 'substring', 'contains all characters', 'minimum length'],
-    keywordKyu: '"minimum window" = variable window minimize karo. "contains all characters" = frequency match karo. have/need counter se optimize.',
-    outputType: 'String (minimum window)', outputKyu: 'Minimum window return karo — start+end track karo.',
-    whyThisPattern: 'Variable window: expand jab invalid, shrink jab valid. Minimum track karo.',
-    whyThisType: 'Variable window + minimize + frequency condition = classic Variable Window Minimize.',
-    bruteForce: 'Har (i,j) substring check karo t ke sab chars hain ya nahi.',
-    bruteForceWhy: 'O(n²) substrings × O(|t|) check = O(n²×|t|). n=10⁵ → TLE.',
-    bruteForceCode: 'let minLen = Inf, minStr = "";\nfor(let i=0;i<n;i++) for(let j=i;j<n;j++) {\n  if (contains(s.slice(i,j+1), t)) { // O(|t|) check\n    if(j-i+1 < minLen) { minLen=j-i+1; minStr=s.slice(i,j+1); }\n  }\n}\nreturn minStr;',
-    approach: ['need = freq(t), have = 0, required = unique chars in t', 'right expand: char in need? freq match? have++', 'have === required? valid window mila → shrink left', 'Shrink: left char remove. freq drop below need? have--', 'Minimum window track karo while valid'],
-    optimalCode: 'const need={}, win={};\nfor(const c of t) need[c]=(need[c]??0)+1;\nlet have=0, req=Object.keys(need).length, l=0, res=[-1,0,0];\nfor(let r=0;r<s.length;r++){\n  win[s[r]]=(win[s[r]]??0)+1;\n  if(need[s[r]] && win[s[r]]===need[s[r]]) have++;\n  while(have===req){\n    if(res[0]===-1||r-l+1<res[0]) res=[r-l+1,l,r];\n    win[s[l]]--;\n    if(need[s[l]]&&win[s[l]]<need[s[l]]) have--;\n    l++;\n  }\n}\nreturn res[0]===-1?"":s.slice(res[1],res[2]+1);',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(|t|)',
-    dataStructure: 'Two HashMaps (need + window frequency)',
-    lcUrl: 'https://leetcode.com/problems/minimum-window-substring/', tags: ['String', 'Sliding Window', 'HashMap'], companies: ['Facebook', 'Amazon', 'Google'],
-  },
-  {
-    id: 6, lcNum: 1004, title: 'Max Consecutive Ones III',
-    difficulty: 'Medium', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'variable-window', typeName: 'Variable-Size Window',
-    howToRead: '"Flip at most k zeros" = zeros allowed in window ≤ k. "Maximum consecutive ones" = maximize window length under this condition.',
-    constraint: 'n ≤ 10⁵', constraintKyu: 'O(n) chahiye. Window expand + shrink = each element max 2x visit = O(n).',
-    inputType: 'Binary array + k', inputKyu: 'Binary array + "at most k" condition + maximize = Variable Window. Zeros count ≤ k maintain karo.',
-    questionKeywords: ['flip at most k', 'consecutive ones', 'maximum', 'binary array'],
-    keywordKyu: '"at most k" = window constraint. "consecutive" = window/subarray. "maximum" = maximize window. Direct Variable Window.',
-    outputType: 'Integer (max length)', outputKyu: 'Maximum window size = right - left + 1 track karo.',
-    whyThisPattern: 'Condition: zeros in window ≤ k. Maximize window. Variable window — shrink when zeros > k.',
-    whyThisType: 'Variable window with at-most-k constraint = standard Variable Window.',
-    bruteForce: 'Har subarray check karo: zeros ≤ k? Length track karo.',
-    bruteForceWhy: 'O(n²) — n=10⁵ = 10¹⁰ ops = TLE.',
-    bruteForceCode: 'let max=0;\nfor(let i=0;i<n;i++){\n  let zeros=0;\n  for(let j=i;j<n;j++){\n    if(nums[j]===0) zeros++;\n    if(zeros>k) break;\n    max=Math.max(max,j-i+1);\n  }\n}\nreturn max;',
-    approach: ['zeros = 0, left = 0', 'right expand: nums[right]===0? zeros++', 'zeros > k? shrink: nums[left]===0? zeros--; left++', 'maxLen = max(maxLen, right-left+1)'],
-    optimalCode: 'let left=0,zeros=0,max=0;\nfor(let r=0;r<nums.length;r++){\n  if(nums[r]===0) zeros++;\n  while(zeros>k){ if(nums[left++]===0) zeros--; }\n  max=Math.max(max,r-left+1);\n}\nreturn max;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Zero counter + two pointers',
-    lcUrl: 'https://leetcode.com/problems/max-consecutive-ones-iii/', tags: ['Array', 'Sliding Window', 'Binary Array'], companies: ['Facebook', 'Google'],
-  },
-
-  // Type 3: Exactly K (atMost trick)
-  {
-    id: 7, lcNum: 930, title: 'Binary Subarrays With Sum',
-    difficulty: 'Medium', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'exactly-k', typeName: 'Exactly K (atMost Trick)',
-    howToRead: '"Number of subarrays" = count. "Sum equals goal" = exact sum condition. Direct sliding window se "exactly" condition hard hai — atMost trick use karo.',
-    constraint: 'n ≤ 3×10⁴', constraintKyu: 'O(n) chahiye. atMost(k) function O(n) mein — call 2 baar karo.',
-    inputType: 'Binary array + goal', inputKyu: 'Binary array + exact sum = Prefix Sum bhi chalega, ya atMost trick: exactly(k) = atMost(k) - atMost(k-1).',
-    questionKeywords: ['number of subarrays', 'sum equals', 'goal', 'binary array'],
-    keywordKyu: '"exactly equals" wali condition → atMost trick. exactly(k) = atMost(k) - atMost(k-1). Ye mathematical insight yaad karo!',
-    outputType: 'Integer count', outputKyu: 'Count of valid subarrays = atMost(goal) - atMost(goal-1).',
-    whyThisPattern: 'Exactly = atMost(k) - atMost(k-1). Ye sliding window ki ek important variation hai.',
-    whyThisType: 'Exactly K window — direct sliding window se nahi, atMost subtraction se.',
-    bruteForce: 'Har (i,j) subarray ka sum check karo = goal?',
-    bruteForceWhy: 'O(n²) = 9×10⁸ ops. TLE.',
-    bruteForceCode: 'let count=0;\nfor(let i=0;i<n;i++) {\n  let sum=0;\n  for(let j=i;j<n;j++) {\n    sum+=nums[j];\n    if(sum===goal) count++;\n  }\n}\nreturn count;',
-    approach: ['atMost(k): window mein sum ≤ k. count += right-left+1', 'Exactly(k) = atMost(k) - atMost(k-1)', 'Return atMost(goal) - atMost(goal-1)'],
-    optimalCode: 'function atMost(k) {\n  let l=0, sum=0, cnt=0;\n  for(let r=0;r<nums.length;r++){\n    sum+=nums[r];\n    while(sum>k) sum-=nums[l++];\n    cnt+=r-l+1; // all subarrays ending at r with sum<=k\n  }\n  return cnt;\n}\nreturn atMost(goal) - atMost(goal-1);',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Two pointers + running sum',
-    lcUrl: 'https://leetcode.com/problems/binary-subarrays-with-sum/', tags: ['Array', 'Sliding Window', 'Prefix Sum'], companies: ['Google'],
-  },
-  {
-    id: 8, lcNum: 992, title: 'Subarrays with K Different Integers',
-    difficulty: 'Hard', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'exactly-k', typeName: 'Exactly K (atMost Trick)',
-    howToRead: '"Exactly k different integers" = exactly k distinct. Direct window hard hai — atMost trick! exactly(k) = atMost(k) - atMost(k-1).',
-    constraint: 'n ≤ 2×10⁴', constraintKyu: 'O(n) chahiye. atMost function O(n) = final O(n).',
-    inputType: 'Integer array + k', inputKyu: 'Distinct count condition + exactly = atMost trick. HashMap se distinct count track karo.',
-    questionKeywords: ['exactly k different', 'subarrays', 'k different integers'],
-    keywordKyu: '"exactly k different" → immediately atMost trick socho. exactly(k) = atMost(k) - atMost(k-1). HashMap distinct track.',
-    outputType: 'Integer count', outputKyu: 'Count of valid subarrays.',
-    whyThisPattern: 'Exactly K distinct = classic atMost subtraction trick.',
-    whyThisType: 'Exactly K window with HashMap for distinct count.',
-    bruteForce: 'O(n²) subarray distinct check.',
-    bruteForceWhy: 'O(n²) = TLE for n=2×10⁴.',
-    bruteForceCode: 'let count=0;\nfor(let i=0;i<n;i++){\n  const set=new Set();\n  for(let j=i;j<n;j++){\n    set.add(nums[j]);\n    if(set.size===k) count++;\n    if(set.size>k) break;\n  }\n}\nreturn count;',
-    approach: ['atMost(k): window distinct ≤ k, count += r-l+1', 'Return atMost(k) - atMost(k-1)'],
-    optimalCode: 'function atMost(k){\n  const map={}; let l=0,cnt=0,dist=0;\n  for(let r=0;r<nums.length;r++){\n    if(!map[nums[r]]) dist++;\n    map[nums[r]]=(map[nums[r]]??0)+1;\n    while(dist>k){ map[nums[l]]--; if(!map[nums[l]]) dist--; l++; }\n    cnt+=r-l+1;\n  }\n  return cnt;\n}\nreturn atMost(k)-atMost(k-1);',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(k)',
-    dataStructure: 'HashMap {value → count} for distinct tracking',
-    lcUrl: 'https://leetcode.com/problems/subarrays-with-k-different-integers/', tags: ['Array', 'Sliding Window', 'HashMap'], companies: ['Google', 'Amazon'],
-  },
-  {
-    id: 9, lcNum: 209, title: 'Minimum Size Subarray Sum',
-    difficulty: 'Medium', patternId: 'sliding-window', patternName: 'Sliding Window',
-    typeId: 'exactly-k', typeName: 'Variable Window — Minimize',
-    howToRead: '"Minimal length" = minimize window. "Sum ≥ target" = condition. Expand jab sum chhota, shrink jab sum ≥ target.',
-    constraint: 'n ≤ 10⁵', constraintKyu: 'O(n log n) bhi chalega (binary search approach), par O(n) sliding window better.',
-    inputType: 'Positive integer array + target', inputKyu: 'Positive numbers + sum condition + minimize = Variable Window. Positive numbers = window valid rehta hai jab sum badhta hai.',
-    questionKeywords: ['minimal length', 'subarray', 'sum greater than or equal', 'target'],
-    keywordKyu: '"minimal length" + "sum ≥ target" = Variable Window minimize. Positive numbers important — negative hote to condition complex hoti.',
-    outputType: 'Integer (min length)', outputKyu: 'Minimum window length — shrink karo jab valid.',
-    whyThisPattern: 'Variable window minimize: expand right, shrink left when sum ≥ target, track minimum.',
-    whyThisType: 'Variable window minimize (vs maximize in longest problems).',
-    bruteForce: 'O(n²) subarray sum check.',
-    bruteForceWhy: 'O(n²) = TLE.',
-    bruteForceCode: 'let min=Inf;\nfor(let i=0;i<n;i++){\n  let sum=0;\n  for(let j=i;j<n;j++){\n    sum+=nums[j];\n    if(sum>=target){min=Math.min(min,j-i+1);break;}\n  }\n}\nreturn min===Inf?0:min;',
-    approach: ['sum=0, left=0, minLen=Inf', 'right expand: sum += nums[right]', 'sum >= target? minLen = min(minLen, right-left+1); sum -= nums[left]; left++', 'Return minLen'],
-    optimalCode: 'let sum=0,l=0,min=Inf;\nfor(let r=0;r<n;r++){\n  sum+=nums[r];\n  while(sum>=target){\n    min=Math.min(min,r-l+1);\n    sum-=nums[l++];\n  }\n}\nreturn min===Inf?0:min;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Running sum + two pointers',
-    lcUrl: 'https://leetcode.com/problems/minimum-size-subarray-sum/', tags: ['Array', 'Sliding Window', 'Binary Search'], companies: ['Facebook', 'Amazon'],
-  },
-];
-
-// ═══════════════════════════════════════════════════════════════════
-// PATTERN 2: TWO POINTERS
-// ═══════════════════════════════════════════════════════════════════
-
-const twoPointerQuestions: CoreQuestion[] = [
-  // Type 1: Opposite Ends (Converging)
-  {
-    id: 10, lcNum: 167, title: 'Two Sum II - Input Array Is Sorted',
-    difficulty: 'Medium', patternId: 'two-pointers', patternName: 'Two Pointers',
-    typeId: 'opposite-ends', typeName: 'Opposite Ends (Converging)',
-    howToRead: '"Sorted array" + "two numbers that add up to target" = Two Pointers. Sorted = left/right se start karo, converge karo.',
-    constraint: 'n ≤ 3×10⁴, sorted array', constraintKyu: 'Sorted + O(1) space required → Two Pointers. HashMap bhi O(n) but O(n) space. Two Pointers O(n) time + O(1) space.',
-    inputType: 'Sorted integer array + target', inputKyu: 'SORTED + pair dhundna = Two Pointers signal #1. Sorted array ka yahi fayda hai — left/right se start karo.',
-    questionKeywords: ['sorted', 'two numbers', 'add up to target', 'one-based index'],
-    keywordKyu: '"sorted" word directly = Two Pointers sochna shuru karo. "Two numbers" = pair = left+right pointers.',
-    outputType: 'Two indices (1-indexed)', outputKyu: 'Indices return karo — while loop mein track karo.',
-    whyThisPattern: 'Sorted array + pair = Two Pointers classic. O(1) space, O(n) time.',
-    whyThisType: 'Opposite ends: left=0, right=n-1. Sum chhota → left++. Sum bada → right--.',
-    bruteForce: 'Har pair (i,j) check karo.',
-    bruteForceWhy: 'O(n²) pairs. n=3×10⁴ → 9×10⁸ = TLE.',
-    bruteForceCode: 'for(let i=0;i<n;i++) for(let j=i+1;j<n;j++) if(nums[i]+nums[j]===t) return [i+1,j+1];',
-    approach: ['left = 0, right = n-1', 'sum = nums[left] + nums[right]', 'sum < target → left++ (bada chahiye)', 'sum > target → right-- (chhota chahiye)', 'sum === target → return [left+1, right+1]'],
-    optimalCode: 'let l=0, r=nums.length-1;\nwhile(l<r){\n  const sum=nums[l]+nums[r];\n  if(sum===target) return [l+1,r+1];\n  sum<target ? l++ : r--;\n}\nreturn [];',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Two index variables (no extra space)',
-    lcUrl: 'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/', tags: ['Array', 'Two Pointers', 'Binary Search'], companies: ['Amazon', 'Microsoft'],
-  },
-  {
-    id: 11, lcNum: 11, title: 'Container With Most Water',
-    difficulty: 'Medium', patternId: 'two-pointers', patternName: 'Two Pointers',
-    typeId: 'opposite-ends', typeName: 'Opposite Ends (Converging)',
-    howToRead: '"Maximum amount of water" = maximize area. Area = min(h[l], h[r]) × (r-l). Maximize karne ke liye: shorter side ko move karo.',
-    constraint: 'n ≤ 10⁵', constraintKyu: 'O(n) chahiye. Two Pointers: ek pass mein solution. O(n²) brute = TLE.',
-    inputType: 'Integer array (heights)', inputKyu: 'Maximize value between two elements = Two Pointers opposite ends. Shorter height move karo — longer height ko move karna waste hai (area sirf chhota hoga).',
-    questionKeywords: ['container', 'most water', 'vertical lines', 'maximum'],
-    keywordKyu: '"most water" + "two vertical lines" = area between two indices = Two Pointers. Greedy insight: chhoti height move karo.',
-    outputType: 'Integer (max water)', outputKyu: 'Maximize area = min(h[l],h[r]) × (r-l). Track max while converging.',
-    whyThisPattern: 'Two boundaries, maximize value = Two Pointers Opposite Ends with greedy move.',
-    whyThisType: 'Opposite ends converging — shorter height pointer move karo (greedy proof).',
-    bruteForce: 'Har pair (i,j) ka area calculate karo.',
-    bruteForceWhy: 'O(n²). n=10⁵ → 10¹⁰ = TLE.',
-    bruteForceCode: 'let max=0;\nfor(let i=0;i<n;i++) for(let j=i+1;j<n;j++)\n  max=Math.max(max, Math.min(h[i],h[j])*(j-i));\nreturn max;',
-    approach: ['l=0, r=n-1, maxWater=0', 'area = min(h[l],h[r]) × (r-l)', 'maxWater = max(maxWater, area)', 'h[l] < h[r]? l++ : r-- (chhoti height move karo)', 'Return maxWater'],
-    optimalCode: 'let l=0,r=h.length-1,max=0;\nwhile(l<r){\n  max=Math.max(max, Math.min(h[l],h[r])*(r-l));\n  h[l]<h[r] ? l++ : r--; // chhota move karo\n}\nreturn max;',
-    timeComplexity: 'O(n)', spaceComplexity: 'O(1)',
-    dataStructure: 'Two pointers only',
-    lcUrl: 'https://leetcode.com/problems/container-with-most-water/', tags: ['Array', 'Two Pointers', 'Greedy'], companies: ['Amazon', 'Facebook', 'Google'],
-  },
-  {
-    id: 12, lcNum: 15, title: '3Sum',
-    difficulty: 'Medium', patternId: 'two-pointers', patternName: 'Two Pointers',
-    typeId: 'opposite-ends', typeName: 'Opposite Ends — Fix One + Two Pointers',
-    howToRead: '"Triplet that sums to zero" = 3 numbers. Fix ek number, baaki 2 ke liye Two Pointers. Sort pehle karo.',
-    constraint: 'n ≤ 3×10³', constraintKyu: 'O(n²) chalega. Sort O(n log n) + Two Pointers O(n²) = O(n²) total.',
-    inputType: 'Integer array (unsorted)', inputKyu: 'Sort karo pehle. Phir har i ke liye Two Pointers [i+1, n-1]. Duplicates skip karo carefully.',
-    questionKeywords: ['three numbers', 'sum to zero', 'triplets', 'does not contain duplicate triplets'],
-    keywordKyu: '"triplets" = three elements = Fix+Two Pointers. "no duplicate triplets" = duplicate skip logic add karo.',
-    outputType: 'List of triplets', outputKyu: 'All valid triplets collect karo — duplicates avoid karo.',
-    whyThisPattern: 'n=3 numbers: Fix ek, Two Pointers baaki ke liye. Sort enables Two Pointers.',
-    whyThisType: 'Fix One + Two Pointers = classic 3Sum approach.',
-    bruteForce: 'Har 3 elements ka combination check karo.',
-    bruteForceWhy: 'O(n³). n=3000 → 27×10⁹ = TLE.',
-    bruteForceCode: 'const res=[];\nfor(let i=0;i<n;i++) for(let j=i+1;j<n;j++) for(let k=j+1;k<n;k++)\n  if(nums[i]+nums[j]+nums[k]===0) res.push([nums[i],nums[j],nums[k]]);\nreturn [...new Set(res.map(t=>t.sort()))]; // dedup bhi complex hai',
-    approach: ['Sort nums', 'Har i: agar nums[i]>0 break (sorted, sum kabhi 0 nahi hoga)', 'Duplicate i skip karo', 'l=i+1, r=n-1: Two Pointers', 'sum<0→l++, sum>0→r--, sum===0→add, l/r duplicates skip'],
-    optimalCode: 'nums.sort((a,b)=>a-b);\nconst res=[];\nfor(let i=0;i<n-2;i++){\n  if(nums[i]>0) break;\n  if(i>0 && nums[i]===nums[i-1]) continue;\n  let l=i+1,r=n-1;\n  while(l<r){\n    const s=nums[i]+nums[l]+nums[r];\n    if(s===0){res.push([nums[i],nums[l],nums[r]]);while(l<r&&nums[l]===nums[l+1])l++;while(l<r&&nums[r]===nums[r-1])r--;l++;r--;}\n    else s<0?l++:r--;\n  }\n}\nreturn res;',
-    timeComplexity: 'O(n²)', spaceComplexity: 'O(1)',
-    dataStructure: 'Sorted array + index variables',
-    lcUrl: 'https://leetcode.com/problems/3sum/', tags: ['Array', 'Two Pointers', 'Sorting'], companies: ['Facebook', 'Amazon', 'Microsoft'],
-  },
-];
-
-// ═══════════════════════════════════════════════════════════════════
-// PATTERN 3: BINARY SEARCH
-// ═══════════════════════════════════════════════════════════════════
-
-const binarySearchQuestions: CoreQuestion[] = [
-  {
-    id: 13, lcNum: 704, title: 'Binary Search',
-    difficulty: 'Easy', patternId: 'binary-search', patternName: 'Binary Search',
-    typeId: 'classic-bs', typeName: 'Classic Search in Sorted Array',
-    howToRead: '"Sorted array" + "find target" + O(log n) = Classic Binary Search. Direct template.',
-    constraint: 'n ≤ 10⁴, sorted', constraintKyu: 'Sorted = Binary Search possible. O(log n) ≈ 14 steps for n=10⁴.',
-    inputType: 'Sorted integer array + target', inputKyu: 'Sorted + search = Binary Search. Left/right narrow karo.',
-    questionKeywords: ['sorted array', 'search', 'target', 'return index', 'O(log n)'],
-    keywordKyu: '"sorted" + "O(log n)" = Binary Search direct. Classic template: lo=0, hi=n-1, mid check.',
-    outputType: 'Index (-1 if not found)', outputKyu: '-1 return for not found = loop ends bina match ke.',
-    whyThisPattern: 'Sorted array → Binary Search. Every step search space half hota hai.',
-    whyThisType: 'Classic exact search. (vs Answer Space BS jo unsorted pe hota hai)',
-    bruteForce: 'Linear scan ek ek check karo.',
-    bruteForceWhy: 'O(n). n=10⁴ = 10K ops. BS = 14 ops. 700× faster!',
-    bruteForceCode: 'for(let i=0;i<n;i++) if(nums[i]===target) return i;\nreturn -1;',
-    approach: ['lo=0, hi=n-1', 'mid = Math.floor((lo+hi)/2)', 'nums[mid]===target? return mid', 'nums[mid]<target? lo=mid+1 (right half)', 'nums[mid]>target? hi=mid-1 (left half)', 'Loop end → return -1'],
-    optimalCode: 'let lo=0,hi=nums.length-1;\nwhile(lo<=hi){\n  const mid=(lo+hi)>>1;\n  if(nums[mid]===t) return mid;\n  nums[mid]<t ? lo=mid+1 : hi=mid-1;\n}\nreturn -1;',
-    timeComplexity: 'O(log n)', spaceComplexity: 'O(1)',
-    dataStructure: 'lo, hi, mid integer variables',
-    lcUrl: 'https://leetcode.com/problems/binary-search/', tags: ['Array', 'Binary Search'], companies: ['Microsoft', 'Apple'],
-  },
-  {
-    id: 14, lcNum: 875, title: 'Koko Eating Bananas',
-    difficulty: 'Medium', patternId: 'binary-search', patternName: 'Binary Search',
-    typeId: 'bs-answer-space', typeName: 'Binary Search on Answer Space',
-    howToRead: '"Minimum eating speed" = answer space pe Binary Search karo (speed range: 1 to max(piles)). canFinish(speed) function O(n) mein check karo.',
-    constraint: 'piles ≤ 10⁴, h ≤ 10⁹', constraintKyu: 'Answer range = [1, max(piles)]. BS on answer = O(max × log(max)) ≈ O(n log n).',
-    inputType: 'Integer array (piles) + h', inputKyu: 'Minimize/maximize a value = BS on Answer Space. canDo(k) monotonic function = BS applicable.',
-    questionKeywords: ['minimum speed', 'finish within h hours', 'eating speed k'],
-    keywordKyu: '"minimum speed such that..." = BS on answer space. canFinish(k): sorted answers mein faster k = easier to finish. Monotonic!',
-    outputType: 'Integer (minimum speed)', outputKyu: 'Minimum valid answer = left boundary binary search.',
-    whyThisPattern: 'Answer range pe BS. canFinish monotonic (agar k chalega, k+1 bhi chalega).',
-    whyThisType: 'BS on Answer Space — array sorted nahi but answer range monotonic.',
-    bruteForce: '1 se max(piles) tak har speed try karo.',
-    bruteForceWhy: 'O(max × n). max=10⁹ = TLE.',
-    bruteForceCode: 'for(let k=1;k<=Math.max(...piles);k++){\n  let hours=0;\n  for(const p of piles) hours+=Math.ceil(p/k);\n  if(hours<=h) return k; // ye O(max×n) = TLE\n}',
-    approach: ['lo=1, hi=max(piles)', 'canFinish(k): sum of ceil(p/k) ≤ h?', 'BS: canFinish(mid)? hi=mid (smaller might work) : lo=mid+1', 'Return lo'],
-    optimalCode: 'const canFinish=(k)=>piles.reduce((s,p)=>s+Math.ceil(p/k),0)<=h;\nlet lo=1,hi=Math.max(...piles);\nwhile(lo<hi){\n  const mid=(lo+hi)>>1;\n  canFinish(mid) ? hi=mid : lo=mid+1;\n}\nreturn lo;',
-    timeComplexity: 'O(n log m)', spaceComplexity: 'O(1)',
-    dataStructure: 'lo, hi on answer space',
-    lcUrl: 'https://leetcode.com/problems/koko-eating-bananas/', tags: ['Array', 'Binary Search'], companies: ['Facebook', 'Amazon', 'Google'],
-  },
-  {
-    id: 15, lcNum: 33, title: 'Search in Rotated Sorted Array',
-    difficulty: 'Medium', patternId: 'binary-search', patternName: 'Binary Search',
-    typeId: 'rotated-bs', typeName: 'Binary Search in Rotated Array',
-    howToRead: '"Rotated sorted array" = ek half hamesha sorted. Determine karo konsa half sorted hai, phir target us mein hai ya nahi.',
-    constraint: 'n ≤ 5000, O(log n) required', constraintKyu: 'O(log n) explicitly required = Binary Search. Rotated = ek twist — sorted half identify karo.',
-    inputType: 'Rotated sorted integer array + target', inputKyu: 'Rotated sorted = modified BS. Ek half sorted hoga hamesha — check karo konsa, phir decide karo.',
-    questionKeywords: ['rotated', 'sorted array', 'O(log n)', 'search target'],
-    keywordKyu: '"rotated sorted" + "O(log n)" = special BS. Key insight: ek half always sorted.',
-    outputType: 'Index (-1 if not found)', outputKyu: '-1 if not found — same as classic BS.',
-    whyThisPattern: 'Modified Binary Search on rotated array. Ek half sorted = use that to narrow.',
-    whyThisType: 'Rotated Array BS — ek additional condition check karo each step.',
-    bruteForce: 'Linear scan.',
-    bruteForceWhy: 'O(n). O(log n) required explicitly.',
-    bruteForceCode: 'return nums.indexOf(target);',
-    approach: ['lo=0, hi=n-1', 'mid = (lo+hi)>>1', 'nums[mid]===target? return mid', 'Left half sorted? (nums[lo]<=nums[mid])', '  target in [lo..mid]? hi=mid-1 else lo=mid+1', 'Right half sorted: target in [mid..hi]? lo=mid+1 else hi=mid-1'],
-    optimalCode: 'let lo=0,hi=nums.length-1;\nwhile(lo<=hi){\n  const m=(lo+hi)>>1;\n  if(nums[m]===t) return m;\n  if(nums[lo]<=nums[m]){ // left half sorted\n    t>=nums[lo]&&t<nums[m] ? hi=m-1 : lo=m+1;\n  } else { // right half sorted\n    t>nums[m]&&t<=nums[hi] ? lo=m+1 : hi=m-1;\n  }\n}\nreturn -1;',
-    timeComplexity: 'O(log n)', spaceComplexity: 'O(1)',
-    dataStructure: 'lo, hi pointers',
-    lcUrl: 'https://leetcode.com/problems/search-in-rotated-sorted-array/', tags: ['Array', 'Binary Search'], companies: ['Facebook', 'Amazon', 'Microsoft'],
-  },
-];
-
-// ─── Export all together ─────────────────────────────────────────
 export const CORE_QUESTIONS: CoreQuestion[] = [
-  ...slidingWindowQuestions,
-  ...twoPointerQuestions,
-  ...binarySearchQuestions,
+
+  // ═══════════════════════════════════
+  // SLIDING WINDOW — Fixed Window (3)
+  // ═══════════════════════════════════
+  {
+    id:1, lcNum:643, title:'Maximum Average Subarray I', difficulty:'Easy',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-fixed', typeName:'Fixed-Size Window',
+    howToRead:'"Subarray of length k" aur "maximum average" dikha. Window size k = FIXED. Ek hi pass mein ho jaata hai.',
+    constraintAnalysis:'n ≤ 10⁵, k ≤ n',
+    constraintKyu:'n=10⁵ → O(n) chahiye. Har window ka sum alag nikalo = O(n×k) = 10¹⁰ ops = TLE. Slide karo = O(1) per step = O(n) total.',
+    inputSignal:'Integer array + fixed size k',
+    inputKyu:'Fixed k + contiguous + maximize = Fixed Window. Variable window tabhi jab k nahi diya ya condition pe shrink karna ho.',
+    keywords:['subarray', 'length k', 'maximum average', 'contiguous'],
+    keywordKyu:'"subarray of length k" → window fixed. "maximum" → max track karo slide karte waqt. Ye 2 words = Fixed Window immediately.',
+    outputSignal:'Single decimal. Single value = aggregate (sum) track karo, max update karo.',
+    whyThisPattern:'Fixed k + maximize aggregate = Sliding Window Fixed type.',
+    whyThisType:'k diya hai isliye Fixed. Variable tabhi jab condition pe shrink karo.',
+    bruteForce:'Har starting index i pe sum(arr[i..i+k-1]) alag se nikalo.',
+    bruteForceComplexity:'O(n×k)',
+    bruteForceKyu:'Har window O(k) kaam. Total O(n×k). k=10⁴, n=10⁵ = 10⁹ = TLE.',
+    optimalSteps:['Pehle k elements ka sum nikalo','i=k se: sum += nums[i] - nums[i-k] (right add, left remove)','maxSum update karo har step mein','Return maxSum/k'],
+    optimalCode:`let sum=nums.slice(0,k).reduce((a,b)=>a+b,0),max=sum;
+for(let i=k;i<n;i++){
+  sum+=nums[i]-nums[i-k]; // O(1) update!
+  max=Math.max(max,sum);
+}
+return max/k;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Running sum variable',
+    lcUrl:'https://leetcode.com/problems/maximum-average-subarray-i/'
+  },
+  {
+    id:2, lcNum:567, title:'Permutation in String', difficulty:'Medium',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-fixed', typeName:'Fixed-Size Window',
+    howToRead:'"Permutation of s1 is substring of s2" = s1 ki length ka window s2 mein dhundho jahan character frequency same ho. Window size = s1.length = FIXED.',
+    constraintAnalysis:'n ≤ 10⁴ (s1), m ≤ 10⁴ (s2)',
+    constraintKyu:'O(n). Frequency array of 26 = O(1) compare per step.',
+    inputSignal:'Two strings s1, s2',
+    inputKyu:'s1.length = window size (fixed!). Anagram check = frequency compare = Fixed Window.',
+    keywords:["permutation", "one of s1's permutations", "substring of s2"],
+    keywordKyu:'"permutation" = anagram = same character frequency. Dekhte hi: fixed window (s1.length) + frequency compare.',
+    outputSignal:'Boolean. Ek bhi valid window = true.',
+    whyThisPattern:'Fixed window s2 mein slide karo, frequency compare karo.',
+    whyThisType:'Window size fixed = s1.length.',
+    bruteForce:'Har window sort karo, s1 sort se compare karo.',
+    bruteForceComplexity:'O(n × k log k)',
+    bruteForceKyu:'Sorting har window pe = wasteful.',
+    optimalSteps:['s1 ki frequency array banao (f1)','s2 pe initial window frequency banao (f2)','f1===f2? return true','Slide: right add, left remove from f2','Compare karo har step'],
+    optimalCode:`const a="a".charCodeAt(0);
+const f1=new Array(26).fill(0),f2=new Array(26).fill(0);
+for(const c of s1) f1[c.charCodeAt(0)-a]++;
+for(let i=0;i<s1.length;i++) f2[s2[i].charCodeAt(0)-a]++;
+if(f1.toString()===f2.toString()) return true;
+for(let i=s1.length;i<s2.length;i++){
+  f2[s2[i].charCodeAt(0)-a]++;
+  f2[s2[i-s1.length].charCodeAt(0)-a]--;
+  if(f1.toString()===f2.toString()) return true;
+}
+return false;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(26)=O(1)', dataStructure:'Two frequency arrays[26]',
+    lcUrl:'https://leetcode.com/problems/permutation-in-string/'
+  },
+  {
+    id:3, lcNum:1343, title:'Number of Sub-arrays of Size K and Average ≥ Threshold', difficulty:'Medium',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-fixed', typeName:'Fixed-Size Window',
+    howToRead:'"Number of sub-arrays" = count. "Size K" = fixed window. "Average ≥ threshold" = condition check karo har window pe. Count valid ones.',
+    constraintAnalysis:'n ≤ 10⁵, 1 ≤ k ≤ n',
+    constraintKyu:'O(n). Fixed window slide = O(1) per step.',
+    inputSignal:'Integer array + k + threshold',
+    inputKyu:'Fixed k + count valid windows = Fixed Window. Condition simple (avg ≥ t) = check after sliding.',
+    keywords:['number of sub-arrays', 'size k', 'average greater than or equal', 'threshold'],
+    keywordKyu:'"number of sub-arrays" = count. "size k" = fixed window. Direct Fixed Window.',
+    outputSignal:'Integer count. window valid hai to count++.',
+    whyThisPattern:'Fixed k window, condition check, count = Fixed Window.',
+    whyThisType:'k fixed, threshold check = Fixed Window standard.',
+    bruteForce:'Har i pe length-k sum nikalo, avg check karo.',
+    bruteForceComplexity:'O(n×k)',
+    bruteForceKyu:'O(n×k). n=10⁵, k=10⁴ = 10⁹ = TLE.',
+    optimalSteps:['Initial k window ka sum','Slide: sum += arr[i] - arr[i-k]','sum/k >= threshold? count++','Return count'],
+    optimalCode:`let sum=arr.slice(0,k).reduce((a,b)=>a+b,0),count=sum/k>=t?1:0;
+for(let i=k;i<n;i++){
+  sum+=arr[i]-arr[i-k];
+  if(sum/k>=t) count++;
+}
+return count;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Running sum + count',
+    lcUrl:'https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/'
+  },
+
+  // ═══════════════════════════════════
+  // SLIDING WINDOW — Variable Window (3)
+  // ═══════════════════════════════════
+  {
+    id:4, lcNum:3, title:'Longest Substring Without Repeating Characters', difficulty:'Medium',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-variable', typeName:'Variable-Size Window',
+    howToRead:'"Longest" = maximize window. "Without repeating" = condition on window. Condition violate ho (duplicate) → left shrink karo.',
+    constraintAnalysis:'s.length ≤ 5×10⁴',
+    constraintKyu:'O(n). Har char max 2 baar visit hoga (add + remove) = O(n) total.',
+    inputSignal:'String',
+    inputKyu:'String + unique condition + maximize = Variable Window. Duplicate mila → left badhao.',
+    keywords:['longest', 'substring', 'without repeating characters'],
+    keywordKyu:'"longest" + "condition on window" = Variable Window Maximize. "without repeating" = HashMap se duplicate check.',
+    outputSignal:'Integer (max length). right-left+1 maximize karo.',
+    whyThisPattern:'Maximize window under condition = Variable Window.',
+    whyThisType:'Variable (not fixed) kyunki condition pe shrink karna hai.',
+    bruteForce:'Har (i,j) pair uniqueness check karo.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'O(n²). n=5×10⁴ = 25×10⁸ = TLE.',
+    optimalSteps:['map={char→last_index}, left=0','right expand: char in window? left=max(left, map[char]+1)','map[char]=right update','maxLen = max(maxLen, right-left+1)'],
+    optimalCode:`const map={};let l=0,max=0;
+for(let r=0;r<s.length;r++){
+  if(map[s[r]]>=l) l=map[s[r]]+1;
+  map[s[r]]=r;
+  max=Math.max(max,r-l+1);
+}
+return max;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(min(n,26))', dataStructure:'HashMap {char→last index}',
+    lcUrl:'https://leetcode.com/problems/longest-substring-without-repeating-characters/'
+  },
+  {
+    id:5, lcNum:76, title:'Minimum Window Substring', difficulty:'Hard',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-variable', typeName:'Variable-Size Window',
+    howToRead:'"Minimum window" = minimize. "Contains all characters of t" = condition. Expand jab invalid, shrink jab valid. Minimum save karo.',
+    constraintAnalysis:'n ≤ 10⁵',
+    constraintKyu:'O(n). Left aur right dono max n tak jaayenge = O(n) total.',
+    inputSignal:'Two strings s, t',
+    inputKyu:'t ke sab chars chahiye window mein. have/need counter = Variable Window Minimize.',
+    keywords:['minimum window', 'substring', 'contains all characters of t'],
+    keywordKyu:'"minimum window" + "contains all" → expand until valid, then shrink. have/need pattern use karo.',
+    outputSignal:'String (minimum valid window). start+end indices track karo.',
+    whyThisPattern:'Variable window: expand until valid, shrink to minimize.',
+    whyThisType:'Variable window minimize.',
+    bruteForce:'Har (i,j) substring check karo.',
+    bruteForceComplexity:'O(n²×|t|)',
+    bruteForceKyu:'Exponential. TLE.',
+    optimalSteps:['need=freq(t), have=0, req=unique chars in t','right: win[c]++; freq match? have++','have===req? shrink: min update, win[c]--, drop? have--; l++','Return min window'],
+    optimalCode:`const need={},win={};
+for(const c of t) need[c]=(need[c]??0)+1;
+let have=0,req=Object.keys(need).length,l=0,res=[-1,0,0];
+for(let r=0;r<s.length;r++){
+  win[s[r]]=(win[s[r]]??0)+1;
+  if(need[s[r]]&&win[s[r]]===need[s[r]]) have++;
+  while(have===req){
+    if(res[0]===-1||r-l+1<res[0]) res=[r-l+1,l,r];
+    win[s[l]]--; if(need[s[l]]&&win[s[l]]<need[s[l]]) have--;
+    l++;
+  }
+}
+return res[0]===-1?'':s.slice(res[1],res[2]+1);`,
+    timeComplexity:'O(n)', spaceComplexity:'O(|t|)', dataStructure:'Two HashMaps (need + window)',
+    lcUrl:'https://leetcode.com/problems/minimum-window-substring/'
+  },
+  {
+    id:6, lcNum:1004, title:'Max Consecutive Ones III', difficulty:'Medium',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-variable', typeName:'Variable-Size Window',
+    howToRead:'"At most k zeros flip" = window mein ≤ k zeros allowed. "Maximum consecutive ones" = maximize window length. zeros>k → left shrink.',
+    constraintAnalysis:'n ≤ 10⁵',
+    constraintKyu:'O(n). Har element max 2x visit = O(n).',
+    inputSignal:'Binary array + k',
+    inputKyu:'Binary array + at-most-k condition + maximize = Variable Window.',
+    keywords:['flip at most k zeros', 'maximum consecutive ones', 'binary array'],
+    keywordKyu:'"at most k" → window constraint. "consecutive" → subarray. "maximum" → maximize. Teen words = Variable Window At-Most-K.',
+    outputSignal:'Integer (max length). r-l+1 maximize.',
+    whyThisPattern:'Condition: zeros ≤ k. Maximize window length.',
+    whyThisType:'At-most-k = Variable Window standard.',
+    bruteForce:'Har subarray: zeros ≤ k? length track.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'TLE.',
+    optimalSteps:['zeros=0, left=0','right: nums[r]===0? zeros++','zeros>k? shrink: nums[l]===0? zeros--; l++','max=max(max, r-l+1)'],
+    optimalCode:`let l=0,zeros=0,max=0;
+for(let r=0;r<nums.length;r++){
+  if(nums[r]===0) zeros++;
+  while(zeros>k){ if(nums[l++]===0) zeros--; }
+  max=Math.max(max,r-l+1);
+}
+return max;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Zero counter + two pointers',
+    lcUrl:'https://leetcode.com/problems/max-consecutive-ones-iii/'
+  },
+
+  // ═══════════════════════════════════
+  // SLIDING WINDOW — Exactly K (3)
+  // ═══════════════════════════════════
+  {
+    id:7, lcNum:930, title:'Binary Subarrays With Sum', difficulty:'Medium',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-exact', typeName:'Exactly K (atMost Trick)',
+    howToRead:'"Sum equals goal" exact condition. Trick: exactly(k) = atMost(k) - atMost(k-1). Direct exact sliding mushkil hai.',
+    constraintAnalysis:'n ≤ 3×10⁴',
+    constraintKyu:'O(n). atMost O(n) × 2 calls = O(n).',
+    inputSignal:'Binary array + goal',
+    inputKyu:'Exact sum condition = atMost trick.',
+    keywords:['number of subarrays', 'sum equals', 'goal'],
+    keywordKyu:'"sum equals" (exact) → atMost trick. exactly(k) = atMost(k) - atMost(k-1).',
+    outputSignal:'Integer count.',
+    whyThisPattern:'Exactly K = atMost(K) - atMost(K-1).',
+    whyThisType:'Exactly K window.',
+    bruteForce:'Har (i,j) sum===goal? count++.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'9×10⁸ = TLE.',
+    optimalSteps:['atMost(k): sum≤k, cnt+=r-l+1','Return atMost(goal)-atMost(goal-1)'],
+    optimalCode:`function atMost(k){
+  let l=0,sum=0,cnt=0;
+  for(let r=0;r<nums.length;r++){
+    sum+=nums[r];
+    while(sum>k) sum-=nums[l++];
+    cnt+=r-l+1;
+  }
+  return cnt;
+}
+return atMost(goal)-atMost(goal-1);`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Two pointers + running sum',
+    lcUrl:'https://leetcode.com/problems/binary-subarrays-with-sum/'
+  },
+  {
+    id:8, lcNum:992, title:'Subarrays with K Different Integers', difficulty:'Hard',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-exact', typeName:'Exactly K (atMost Trick)',
+    howToRead:'"Exactly k different integers". Same atMost trick: exactly(k)=atMost(k)-atMost(k-1). HashMap se distinct track.',
+    constraintAnalysis:'n ≤ 2×10⁴',
+    constraintKyu:'O(n). atMost O(n) × 2 = O(n).',
+    inputSignal:'Integer array + k',
+    inputKyu:'Exactly K distinct = atMost trick.',
+    keywords:['exactly k different', 'good subarrays', 'k different integers'],
+    keywordKyu:'"exactly k different" → atMost trick. Har "exactly" wala window problem.',
+    outputSignal:'Integer count.',
+    whyThisPattern:'Exactly K distinct = atMost(K)-atMost(K-1).',
+    whyThisType:'Exactly K with HashMap.',
+    bruteForce:'Har subarray distinct count check.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'TLE.',
+    optimalSteps:['atMost(k): distinct≤k, cnt+=r-l+1','Return atMost(k)-atMost(k-1)'],
+    optimalCode:`function atMost(k){
+  const map={}; let l=0,cnt=0,dist=0;
+  for(let r=0;r<nums.length;r++){
+    if(!map[nums[r]]) dist++;
+    map[nums[r]]=(map[nums[r]]??0)+1;
+    while(dist>k){ map[nums[l]]--; if(!map[nums[l]]) dist--; l++; }
+    cnt+=r-l+1;
+  }
+  return cnt;
+}
+return atMost(k)-atMost(k-1);`,
+    timeComplexity:'O(n)', spaceComplexity:'O(k)', dataStructure:'HashMap {value→count}',
+    lcUrl:'https://leetcode.com/problems/subarrays-with-k-different-integers/'
+  },
+  {
+    id:9, lcNum:209, title:'Minimum Size Subarray Sum', difficulty:'Medium',
+    patternId:'sliding-window', patternName:'Sliding Window', typeId:'sw-exact', typeName:'Variable Window — Minimize',
+    howToRead:'"Minimal length" = minimize. "Sum ≥ target" = condition. Expand right, jab sum≥target shrink left.',
+    constraintAnalysis:'n ≤ 10⁵, positive integers',
+    constraintKyu:'Positive numbers important — negative hote to sum shrink nahi hota. Positive = window valid condition monotonic = Two Pointers chalega.',
+    inputSignal:'Positive integer array + target',
+    inputKyu:'Positive + sum condition + minimize = Variable Window Minimize.',
+    keywords:['minimal length', 'sum greater than or equal to target', 'subarray', 'positive integers'],
+    keywordKyu:'"minimal length" + "sum ≥" → minimize window. "positive integers" → variable window applicable.',
+    outputSignal:'Integer (min length, 0 if none).',
+    whyThisPattern:'Variable window minimize: expand until valid, shrink.',
+    whyThisType:'Minimize window.',
+    bruteForce:'Har subarray sum≥target? min length.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'TLE.',
+    optimalSteps:['sum=0, l=0, min=Inf','right: sum+=nums[r]','sum>=target? min=min(min,r-l+1); sum-=nums[l]; l++','Return min'],
+    optimalCode:`let sum=0,l=0,min=Infinity;
+for(let r=0;r<n;r++){
+  sum+=nums[r];
+  while(sum>=target){ min=Math.min(min,r-l+1); sum-=nums[l++]; }
+}
+return min===Infinity?0:min;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Running sum + two pointers',
+    lcUrl:'https://leetcode.com/problems/minimum-size-subarray-sum/'
+  },
+
+  // ═══════════════════════════════════
+  // TWO POINTERS — Opposite Ends (3)
+  // ═══════════════════════════════════
+  {
+    id:10, lcNum:167, title:'Two Sum II - Input Array Is Sorted', difficulty:'Medium',
+    patternId:'two-pointers', patternName:'Two Pointers', typeId:'tp-opposite', typeName:'Opposite Ends (Converging)',
+    howToRead:'"Sorted array" + "two numbers add up to target" + "O(1) space" = Two Pointers Opposite Ends.',
+    constraintAnalysis:'n ≤ 3×10⁴, sorted, O(1) extra space',
+    constraintKyu:'"O(1) extra space" directly likha. HashMap O(n) space = nahi chalega. Two Pointers = O(n) time + O(1) space.',
+    inputSignal:'SORTED integer array + target',
+    inputKyu:'SORTED + pair find = Two Pointers signal #1. Left badhao sum chhota, right ghatao sum bada.',
+    keywords:['sorted', 'two numbers', 'add up to', 'O(1) extra space'],
+    keywordKyu:'"sorted" → Two Pointers immediately. "O(1) space" → HashMap nahi, Two Pointers.',
+    outputSignal:'Two 1-indexed integers.',
+    whyThisPattern:'Sorted + O(1) space + pair = Two Pointers Opposite Ends.',
+    whyThisType:'sum chhota → left++; sum bada → right--.',
+    bruteForce:'Har pair (i,j) check.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'O(n²). n=3×10⁴ → TLE.',
+    optimalSteps:['l=0, r=n-1','sum=nums[l]+nums[r]','sum<target → l++','sum>target → r--','sum===target → return [l+1,r+1]'],
+    optimalCode:`let l=0,r=nums.length-1;
+while(l<r){
+  const s=nums[l]+nums[r];
+  if(s===target) return [l+1,r+1];
+  s<target ? l++ : r--;
+}
+return [];`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Two index variables',
+    lcUrl:'https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/'
+  },
+  {
+    id:11, lcNum:11, title:'Container With Most Water', difficulty:'Medium',
+    patternId:'two-pointers', patternName:'Two Pointers', typeId:'tp-opposite', typeName:'Opposite Ends (Converging)',
+    howToRead:'Area = min(h[l],h[r])×(r-l). Maximize karo. Chhoti height pointer move karo — greedy insight.',
+    constraintAnalysis:'n ≤ 10⁵',
+    constraintKyu:'O(n). Two Pointers = ek pass. O(n²) brute = TLE.',
+    inputSignal:'Integer array (heights)',
+    inputKyu:'Maximize between two boundaries = Two Pointers + greedy move.',
+    keywords:['container', 'most water', 'vertical lines', 'maximum amount'],
+    keywordKyu:'"most water" = area between two boundaries = Two Pointers. Chhoti height move karo.',
+    outputSignal:'Integer (max area). Max track karo converging.',
+    whyThisPattern:'Two boundaries, maximize = Two Pointers + greedy.',
+    whyThisType:'Opposite ends, chhoti side move.',
+    bruteForce:'Har pair (i,j) area.',
+    bruteForceComplexity:'O(n²)',
+    bruteForceKyu:'n=10⁵ → TLE.',
+    optimalSteps:['l=0, r=n-1, max=0','area=min(h[l],h[r])×(r-l), max update','h[l]<h[r] → l++ else r--'],
+    optimalCode:`let l=0,r=h.length-1,max=0;
+while(l<r){
+  max=Math.max(max,Math.min(h[l],h[r])*(r-l));
+  h[l]<h[r] ? l++ : r--;
+}
+return max;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Two pointers only',
+    lcUrl:'https://leetcode.com/problems/container-with-most-water/'
+  },
+  {
+    id:12, lcNum:15, title:'3Sum', difficulty:'Medium',
+    patternId:'two-pointers', patternName:'Two Pointers', typeId:'tp-opposite', typeName:'Fix One + Two Pointers',
+    howToRead:'"Triplet sum = 0" = Fix ek (outer loop), baaki 2 ke liye Two Pointers. Sort pehle.',
+    constraintAnalysis:'n ≤ 3×10³',
+    constraintKyu:'O(n²) chalega. Sort O(n log n) + nested Two Pointers O(n²) = O(n²).',
+    inputSignal:'Integer array (unsorted)',
+    inputKyu:'Sort karo. Har i ke liye Two Pointers [i+1, n-1]. Duplicates skip.',
+    keywords:['three numbers', 'sum to zero', 'all unique triplets', 'no duplicate triplets'],
+    keywordKyu:'"triplets" = 3 elements = Fix+Two Pointers. "no duplicate" = dup skip logic.',
+    outputSignal:'List of unique triplets.',
+    whyThisPattern:'Fix one + Two Pointers for remaining = 3Sum classic.',
+    whyThisType:'Fix One + Opposite Ends.',
+    bruteForce:'Har 3 elements combo.',
+    bruteForceComplexity:'O(n³)',
+    bruteForceKyu:'n=3000 → TLE.',
+    optimalSteps:['Sort nums','Har i: nums[i]>0 break; dup skip','l=i+1,r=n-1','sum===0 push+skip dups, sum<0 l++, sum>0 r--'],
+    optimalCode:`nums.sort((a,b)=>a-b);const res=[];
+for(let i=0;i<n-2;i++){
+  if(nums[i]>0) break;
+  if(i>0&&nums[i]===nums[i-1]) continue;
+  let l=i+1,r=n-1;
+  while(l<r){
+    const s=nums[i]+nums[l]+nums[r];
+    if(s===0){
+      res.push([nums[i],nums[l],nums[r]]);
+      while(l<r&&nums[l]===nums[l+1])l++;
+      while(l<r&&nums[r]===nums[r-1])r--;
+      l++;r--;
+    } else s<0?l++:r--;
+  }
+}
+return res;`,
+    timeComplexity:'O(n²)', spaceComplexity:'O(1)', dataStructure:'Sorted array + indices',
+    lcUrl:'https://leetcode.com/problems/3sum/'
+  },
+
+  // ═══════════════════════════════════
+  // TWO POINTERS — Same Direction (3)
+  // ═══════════════════════════════════
+  {
+    id:13, lcNum:283, title:'Move Zeroes', difficulty:'Easy',
+    patternId:'two-pointers', patternName:'Two Pointers', typeId:'tp-samedirection', typeName:'Same Direction (Slow-Fast Read/Write)',
+    howToRead:'"Move all zeroes to end" + "in-place" = Slow writer + Fast reader. Slow writes non-zero, Fast scans all.',
+    constraintAnalysis:'n ≤ 10⁴, in-place required',
+    constraintKyu:'In-place = O(1) space. Slow-fast = O(n) one pass.',
+    inputSignal:'Integer array, in-place',
+    inputKyu:'In-place partition = same direction Two Pointers. Slow = write position.',
+    keywords:['move all zeroes', 'to the end', 'in-place', 'maintain relative order'],
+    keywordKyu:'"in-place" + "move elements" → same direction Two Pointers. Slow writer technique.',
+    outputSignal:'Void (in-place). Modify array directly.',
+    whyThisPattern:'Read-write two pointers = classic in-place.',
+    whyThisType:'Same direction: slow writes, fast reads.',
+    bruteForce:'Non-zeros collect, zeros append.',
+    bruteForceComplexity:'O(n) extra space',
+    bruteForceKyu:'Extra array = O(n) space. In-place required.',
+    optimalSteps:['slow=0 (write pointer)','fast scan: nums[fast]!==0 → nums[slow++]=nums[fast]','Fill remaining with 0'],
+    optimalCode:`let slow=0;
+for(let fast=0;fast<nums.length;fast++)
+  if(nums[fast]!==0) nums[slow++]=nums[fast];
+while(slow<nums.length) nums[slow++]=0;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Two index variables',
+    lcUrl:'https://leetcode.com/problems/move-zeroes/'
+  },
+  {
+    id:14, lcNum:26, title:'Remove Duplicates from Sorted Array', difficulty:'Easy',
+    patternId:'two-pointers', patternName:'Two Pointers', typeId:'tp-samedirection', typeName:'Same Direction (Slow-Fast Read/Write)',
+    howToRead:'"Sorted" + "remove duplicates in-place" = Slow writer + Fast reader. Sorted = consecutive duplicates easy check.',
+    constraintAnalysis:'n ≤ 3×10⁴, sorted, in-place',
+    constraintKyu:'O(n) + O(1) space. Slow-fast = O(n) one pass.',
+    inputSignal:'Sorted array, in-place',
+    inputKyu:'Sorted + in-place + remove duplicates = Same Direction Two Pointers.',
+    keywords:['sorted array', 'remove duplicates', 'in-place', 'relative order'],
+    keywordKyu:'"sorted" + "in-place" + "remove duplicates" → slow/fast. Sorted = consecutive dups easy.',
+    outputSignal:'Integer (new length k). slow pointer = k.',
+    whyThisPattern:'Sorted in-place = slow-fast classic.',
+    whyThisType:'Same direction read/write.',
+    bruteForce:'Set mein unique track, array mein bharo.',
+    bruteForceComplexity:'O(n) extra space',
+    bruteForceKyu:'Extra space. In-place required.',
+    optimalSteps:['slow=1','fast=1: nums[fast]!==nums[fast-1] → nums[slow++]=nums[fast]','Return slow'],
+    optimalCode:`if(!nums.length) return 0;
+let slow=1;
+for(let fast=1;fast<nums.length;fast++)
+  if(nums[fast]!==nums[fast-1]) nums[slow++]=nums[fast];
+return slow;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(1)', dataStructure:'Two index variables',
+    lcUrl:'https://leetcode.com/problems/remove-duplicates-from-sorted-array/'
+  },
+  {
+    id:15, lcNum:977, title:'Squares of a Sorted Array', difficulty:'Easy',
+    patternId:'two-pointers', patternName:'Two Pointers', typeId:'tp-samedirection', typeName:'Opposite Ends — Fill from Back',
+    howToRead:'"Sorted array with negatives" + "squares sorted" = biggest squares at both ends. Fill result from back.',
+    constraintAnalysis:'n ≤ 10⁴, sorted (neg to pos)',
+    constraintKyu:'O(n). Two Pointers = O(n) vs Sort after squaring = O(n log n).',
+    inputSignal:'Sorted array (neg to pos)',
+    inputKyu:'Sorted with negatives → biggest squares at extremes. Fill result[] from largest.',
+    keywords:['sorted array', 'squares', 'non-decreasing order', 'negative numbers'],
+    keywordKyu:'"squares" + "sorted input with negatives" → biggest at both ends. Two Pointers fill from back.',
+    outputSignal:'Sorted array of squares. Fill pos=n-1 to 0.',
+    whyThisPattern:'Two extremes have largest values = Two Pointers.',
+    whyThisType:'Fill from back variant.',
+    bruteForce:'Square all, then sort.',
+    bruteForceComplexity:'O(n log n)',
+    bruteForceKyu:'Sorting > Two Pointers O(n).',
+    optimalSteps:['l=0, r=n-1, pos=n-1','Math.abs(nums[l])>Math.abs(nums[r])? res[pos--]=l² l++','else res[pos--]=r² r--'],
+    optimalCode:`const res=new Array(n);let l=0,r=n-1,pos=n-1;
+while(l<=r){
+  if(Math.abs(nums[l])>Math.abs(nums[r])) res[pos--]=nums[l]*nums[l++];
+  else res[pos--]=nums[r]*nums[r--];
+}
+return res;`,
+    timeComplexity:'O(n)', spaceComplexity:'O(n)', dataStructure:'Result array + two pointers',
+    lcUrl:'https://leetcode.com/problems/squares-of-a-sorted-array/'
+  },
+
+  // ═══════════════════════════════════
+  // BINARY SEARCH — Classic (3)
+  // ═══════════════════════════════════
+  {
+    id:16, lcNum:704, title:'Binary Search', difficulty:'Easy',
+    patternId:'binary-search', patternName:'Binary Search', typeId:'bs-classic', typeName:'Classic Search in Sorted Array',
+    howToRead:'"Sorted array" + "find target" + "O(log n)" = Classic Binary Search. lo/hi/mid template.',
+    constraintAnalysis:'n ≤ 10⁴, sorted, O(log n)',
+    constraintKyu:'"O(log n)" directly likha. n=10⁴ → linear = 10K steps. BS = 14 steps. 700× faster!',
+    inputSignal:'Sorted integer array + target',
+    inputKyu:'SORTED + SEARCH = BS. Har step search space half karo.',
+    keywords:['sorted array', 'target', 'return index', 'O(log n)'],
+    keywordKyu:'"sorted" + "search" = Binary Search. "O(log n)" confirm karta hai.',
+    outputSignal:'Index (-1 if not found).',
+    whyThisPattern:'Sorted → BS. Every step eliminates half.',
+    whyThisType:'Classic exact search.',
+    bruteForce:'Linear scan.',
+    bruteForceComplexity:'O(n)',
+    bruteForceKyu:'O(n) vs O(log n). n=10⁹ → TLE.',
+    optimalSteps:['lo=0, hi=n-1','mid=(lo+hi)>>1','nums[mid]===t → return mid','<t → lo=mid+1','>t → hi=mid-1','End → -1'],
+    optimalCode:`let lo=0,hi=nums.length-1;
+while(lo<=hi){
+  const m=(lo+hi)>>1;
+  if(nums[m]===t) return m;
+  nums[m]<t ? lo=m+1 : hi=m-1;
+}
+return -1;`,
+    timeComplexity:'O(log n)', spaceComplexity:'O(1)', dataStructure:'lo, hi, mid integers',
+    lcUrl:'https://leetcode.com/problems/binary-search/'
+  },
+  {
+    id:17, lcNum:35, title:'Search Insert Position', difficulty:'Easy',
+    patternId:'binary-search', patternName:'Binary Search', typeId:'bs-classic', typeName:'Classic Search + Insertion Point',
+    howToRead:'"Where would target be inserted?" = left boundary BS. Loop end pe lo = insertion point.',
+    constraintAnalysis:'n ≤ 10⁴, sorted, distinct',
+    constraintKyu:'O(log n). lo at loop end = insertion position.',
+    inputSignal:'Sorted distinct array + target',
+    inputKyu:'Sorted + insert position = BS. lo at end = correct position.',
+    keywords:['search', 'if found return its index', 'if not found where it would be inserted'],
+    keywordKyu:'"where it would be inserted" → lo at loop end = answer.',
+    outputSignal:'Index (found or insert position).',
+    whyThisPattern:'Sorted = BS. lo at end = insertion point.',
+    whyThisType:'Classic BS + insertion insight.',
+    bruteForce:'Linear scan first position ≥ target.',
+    bruteForceComplexity:'O(n)',
+    bruteForceKyu:'O(log n) better.',
+    optimalSteps:['Same as BS','Return lo at loop end (insertion point)'],
+    optimalCode:`let lo=0,hi=nums.length-1;
+while(lo<=hi){
+  const m=(lo+hi)>>1;
+  if(nums[m]===t) return m;
+  nums[m]<t ? lo=m+1 : hi=m-1;
+}
+return lo; // insertion point`,
+    timeComplexity:'O(log n)', spaceComplexity:'O(1)', dataStructure:'lo, hi pointers',
+    lcUrl:'https://leetcode.com/problems/search-insert-position/'
+  },
+  {
+    id:18, lcNum:34, title:'Find First and Last Position of Element in Sorted Array', difficulty:'Medium',
+    patternId:'binary-search', patternName:'Binary Search', typeId:'bs-classic', typeName:'Left/Right Boundary BS',
+    howToRead:'"First and last position" = left boundary BS + right boundary BS. Do alag functions.',
+    constraintAnalysis:'n ≤ 10⁵, O(log n) required',
+    constraintKyu:'"O(log n)" = BS. Ek search nahi, left + right alag dhundho.',
+    inputSignal:'Sorted array with duplicates + target',
+    inputKyu:'Sorted + duplicates + boundaries = Two Binary Searches.',
+    keywords:['first position', 'last position', 'sorted array', 'O(log n)'],
+    keywordKyu:'"first and last" = leftBS + rightBS. Left: found→hi=mid-1. Right: found→lo=mid+1.',
+    outputSignal:'[leftIdx, rightIdx] or [-1,-1].',
+    whyThisPattern:'Boundaries in sorted = BS variation.',
+    whyThisType:'Left + Right Boundary BS.',
+    bruteForce:'Linear scan dono ends.',
+    bruteForceComplexity:'O(n)',
+    bruteForceKyu:'O(log n) required.',
+    optimalSteps:['leftBS: found→res=mid, hi=mid-1 (go left)','rightBS: found→res=mid, lo=mid+1 (go right)','Return [left, right]'],
+    optimalCode:`function bs(goLeft){
+  let lo=0,hi=nums.length-1,res=-1;
+  while(lo<=hi){
+    const m=(lo+hi)>>1;
+    if(nums[m]===t){ res=m; goLeft?hi=m-1:lo=m+1; }
+    else nums[m]<t ? lo=m+1 : hi=m-1;
+  }
+  return res;
+}
+return [bs(true), bs(false)];`,
+    timeComplexity:'O(log n)', spaceComplexity:'O(1)', dataStructure:'lo, hi, res variables',
+    lcUrl:'https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/'
+  },
+
+  // ═══════════════════════════════════
+  // BINARY SEARCH — Answer Space (3)
+  // ═══════════════════════════════════
+  {
+    id:19, lcNum:875, title:'Koko Eating Bananas', difficulty:'Medium',
+    patternId:'binary-search', patternName:'Binary Search', typeId:'bs-answerspace', typeName:'Binary Search on Answer Space',
+    howToRead:'"Minimum speed" = minimize a value. Speed range [1, max(piles)]. canFinish(speed) = O(n) check. Monotonic function = BS on answer space.',
+    constraintAnalysis:'piles ≤ 10⁴, h ≤ 10⁹',
+    constraintKyu:'Answer range [1, max]. BS on range = O(n log max). Direct try = O(max×n) = TLE.',
+    inputSignal:'Array (piles) + h',
+    inputKyu:'"Minimum k such that condition" = BS on answer space. canDo(k) monotonic = BS.',
+    keywords:['minimum speed', 'finish all bananas', 'within h hours', 'eating speed k'],
+    keywordKyu:'"minimum ... such that" = BS on answer. canFinish monotonic (faster k → always finishes).',
+    outputSignal:'Integer (minimum speed). lo at loop end.',
+    whyThisPattern:'canFinish monotonic on speed → BS on answer range.',
+    whyThisType:'Answer space BS (not array index).',
+    bruteForce:'1 se max(piles) tak try.',
+    bruteForceComplexity:'O(max × n)',
+    bruteForceKyu:'max=10⁹ = TLE.',
+    optimalSteps:['lo=1, hi=max(piles)','canFinish(k): sum(ceil(p/k))<=h','canFinish(mid)? hi=mid else lo=mid+1','Return lo'],
+    optimalCode:`const can=k=>piles.reduce((s,p)=>s+Math.ceil(p/k),0)<=h;
+let lo=1,hi=Math.max(...piles);
+while(lo<hi){
+  const m=(lo+hi)>>1;
+  can(m) ? hi=m : lo=m+1;
+}
+return lo;`,
+    timeComplexity:'O(n log m)', spaceComplexity:'O(1)', dataStructure:'lo, hi on answer space',
+    lcUrl:'https://leetcode.com/problems/koko-eating-bananas/'
+  },
+  {
+    id:20, lcNum:1011, title:'Capacity To Ship Packages Within D Days', difficulty:'Medium',
+    patternId:'binary-search', patternName:'Binary Search', typeId:'bs-answerspace', typeName:'Binary Search on Answer Space',
+    howToRead:'"Minimum weight capacity" = minimize. Capacity range [max(w), sum(w)]. canShip(cap) = greedy check.',
+    constraintAnalysis:'n ≤ 5×10⁴',
+    constraintKyu:'O(n log sum). canShip O(n) × log(sum) = acceptable.',
+    inputSignal:'Weights array + d',
+    inputKyu:'"Minimum capacity such that" = BS on [max,sum].',
+    keywords:['minimum weight capacity', 'ship within d days', 'capacity of ship'],
+    keywordKyu:'"minimum capacity" → BS on answer. Koko jaisa pattern.',
+    outputSignal:'Integer (minimum capacity).',
+    whyThisPattern:'Same as Koko — minimize answer, monotonic check.',
+    whyThisType:'Answer space BS.',
+    bruteForce:'max(w) se sum(w) tak try.',
+    bruteForceComplexity:'O(sum × n)',
+    bruteForceKyu:'sum bahut bada = TLE.',
+    optimalSteps:['lo=max(w), hi=sum(w)','canShip(cap): greedy days<=d','canShip(mid)? hi=mid else lo=mid+1','Return lo'],
+    optimalCode:`const can=c=>{let d=1,cur=0;for(const w of weights){if(cur+w>c){d++;cur=0;}cur+=w;}return d<=days;};
+let lo=Math.max(...weights),hi=weights.reduce((a,b)=>a+b,0);
+while(lo<hi){const m=(lo+hi)>>1;can(m)?hi=m:lo=m+1;}
+return lo;`,
+    timeComplexity:'O(n log sum)', spaceComplexity:'O(1)', dataStructure:'lo, hi on capacity range',
+    lcUrl:'https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/'
+  },
+  {
+    id:21, lcNum:33, title:'Search in Rotated Sorted Array', difficulty:'Medium',
+    patternId:'binary-search', patternName:'Binary Search', typeId:'bs-rotated', typeName:'Modified BS — Rotated Array',
+    howToRead:'"Rotated sorted" + "O(log n)" = Modified BS. Ek half hamesha sorted. Sorted half se decide karo target kidhar.',
+    constraintAnalysis:'n ≤ 5000, O(log n) required',
+    constraintKyu:'"O(log n)" explicitly = BS. Rotation = extra condition.',
+    inputSignal:'Rotated sorted array + target',
+    inputKyu:'Rotated = modified BS. Check sorted half, narrow search.',
+    keywords:['rotated', 'sorted array', 'O(log n)', 'search'],
+    keywordKyu:'"rotated" + "O(log n)" = Modified BS. Ek half sorted hoga hamesha.',
+    outputSignal:'Index (-1 if not found).',
+    whyThisPattern:'Modified BS — rotation creates two sorted halves.',
+    whyThisType:'Rotated array BS.',
+    bruteForce:'Linear scan.',
+    bruteForceComplexity:'O(n)',
+    bruteForceKyu:'O(log n) required.',
+    optimalSteps:['lo=0,hi=n-1','Left sorted? nums[lo]<=nums[m]','Target in left range? hi=m-1 else lo=m+1','Right sorted: target in right? lo=m+1 else hi=m-1'],
+    optimalCode:`let lo=0,hi=nums.length-1;
+while(lo<=hi){
+  const m=(lo+hi)>>1;
+  if(nums[m]===t) return m;
+  if(nums[lo]<=nums[m]){
+    t>=nums[lo]&&t<nums[m] ? hi=m-1 : lo=m+1;
+  } else {
+    t>nums[m]&&t<=nums[hi] ? lo=m+1 : hi=m-1;
+  }
+}
+return -1;`,
+    timeComplexity:'O(log n)', spaceComplexity:'O(1)', dataStructure:'lo, hi pointers',
+    lcUrl:'https://leetcode.com/problems/search-in-rotated-sorted-array/'
+  },
 ];
 
+// ─── Derived lookups ────────────────────────────────────────────
 export const CORE_BY_PATTERN: Record<string, CoreQuestion[]> = {};
 export const CORE_BY_TYPE: Record<string, CoreQuestion[]> = {};
+export const TYPE_ORDER: Record<string, string[]> = {
+  'sliding-window': ['sw-fixed','sw-variable','sw-exact'],
+  'two-pointers':   ['tp-opposite','tp-samedirection'],
+  'binary-search':  ['bs-classic','bs-answerspace','bs-rotated'],
+};
+export const TYPE_NAMES: Record<string, string> = {
+  'sw-fixed':'Fixed-Size Window','sw-variable':'Variable-Size Window','sw-exact':'Exactly K / Minimize',
+  'tp-opposite':'Opposite Ends (Converging)','tp-samedirection':'Same Direction (Fast-Slow)',
+  'bs-classic':'Classic Search','bs-answerspace':'Answer Space BS','bs-rotated':'Modified BS',
+};
 
 for (const q of CORE_QUESTIONS) {
   if (!CORE_BY_PATTERN[q.patternId]) CORE_BY_PATTERN[q.patternId] = [];
@@ -415,7 +673,3 @@ for (const q of CORE_QUESTIONS) {
   if (!CORE_BY_TYPE[q.typeId]) CORE_BY_TYPE[q.typeId] = [];
   CORE_BY_TYPE[q.typeId].push(q);
 }
-
-export const PATTERN_QUESTION_COUNT: Record<string, number> = Object.fromEntries(
-  Object.entries(CORE_BY_PATTERN).map(([k, v]) => [k, v.length])
-);
