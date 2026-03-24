@@ -242,6 +242,7 @@ for(let right=0;right<s.length;right++){
       {
         id: "dp", title: "Dynamic Programming", emoji: "🔄",
         complexity: { best: "O(n)", avg: "O(n²)", worst: "O(n×W)", space: "O(n)" },
+        mentalModel: "Ek simple sawaal: 'Kya maine yeh subproblem pehle solve kiya?' Agar haan — table mein dekho, return karo. Nahi — solve karo, table mein rakho. Fibonacci bina DP: fib(5) → fib(4)+fib(3) → ... fib(3) BAAR BAAR calculate hota hai → O(2^n). DP ke saath: ek baar calculate, table mein store → O(n). Real-world analogy: Pehle solve ki hui problem dobara mat solve karo — copy karo notes se.",
         kyu: "Recursion mein same subproblems baar baar solve hote hain → O(2^n). DP: ek baar solve karo, store karo → O(n) ya O(n²).",
         kaise: `Fibonacci naive: O(2^n)
 fib(5) calls fib(3) TWICE, fib(2) THRICE...
@@ -265,6 +266,7 @@ dp=[0,1,1,2,3,5] → dp[n] ✅ O(n) time O(1) space`,
       {
         id: "backtracking", title: "Backtracking", emoji: "🔙",
         complexity: { best: "O(2^n)", avg: "O(2^n)", worst: "O(n!)", space: "O(n)" },
+        mentalModel: "Sochlo outfits try karna — shirt A pehni, pants B try kari, nahi chali → pants B utaro (BACKTRACK), pants C try karo. CHOOSE → EXPLORE → UNCHOOSE. Yahi backtracking hai. Pruning = socho pehle: 'Kya is branch mein koi valid solution ho sakta hai?' Nahi → jaao hi mat. Yeh O(n!) ko practically bahut chhota bana deta hai.",
         kyu: "Saari possibilities explore karo — but smart: invalid branch mein jaao hi mat (pruning). O(n!) → practically much better.",
         kaise: `Universal Template:
 function bt(path, options){
@@ -392,18 +394,26 @@ export default function Algorithms() {
       {/* Content */}
       {chapter && (
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ background: "#111827", borderRadius: "20px", padding: "40px", border: `1px solid ${section.color}25` }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: "20px", padding: "36px", border: `1px solid ${section.color}25` }}>
 
             {/* Header */}
-            <div style={{ marginBottom: "32px" }}>
-              <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "8px" }}>{section.title}</div>
-              <h1 style={{ fontSize: "32px", fontWeight: 800, color: section.color, display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{ marginBottom: "28px" }}>
+              <div style={{ fontSize: "12px", color: "var(--text-3)", marginBottom: "8px" }}>{section.title}</div>
+              <h1 style={{ fontSize: "30px", fontWeight: 800, color: section.color, display: "flex", alignItems: "center", gap: "12px" }}>
                 <span>{chapter.emoji}</span> {chapter.title}
               </h1>
             </div>
 
+            {/* Mental Model — shown before complexity */}
+            {chapter.mentalModel && (
+              <div style={{ background: `${section.color}08`, borderRadius: "12px", padding: "18px 20px", marginBottom: "24px", border: `1px solid ${section.color}25` }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: section.color, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>💡 Mental Model — Aise Sochte Hain</div>
+                <p style={{ fontSize: "13.5px", color: "var(--text-2)", lineHeight: 1.75 }}>{chapter.mentalModel}</p>
+              </div>
+            )}
+
             {/* Complexity badges */}
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "32px", background: "#0f172a", padding: "20px", borderRadius: "12px" }}>
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "28px", background: "var(--bg-surface)", padding: "18px", borderRadius: "12px" }}>
               {[
                 { label: "Best", val: chapter.complexity.best },
                 { label: "Average", val: chapter.complexity.avg },
@@ -421,7 +431,7 @@ export default function Algorithms() {
             {/* Why */}
             <section style={{ marginBottom: "28px" }}>
               <h2 style={{ fontSize: "15px", fontWeight: 700, color: section.color, marginBottom: "10px" }}>❓ Kyu Use Karte Hain?</h2>
-              <div style={{ background: "#0f172a", borderRadius: "10px", padding: "18px", color: "#cbd5e1", fontSize: "14px", lineHeight: 1.7 }}>
+              <div style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "18px", color: "var(--text-2)", fontSize: "14px", lineHeight: 1.7 }}>
                 {chapter.kyu}
               </div>
             </section>
@@ -430,8 +440,8 @@ export default function Algorithms() {
             <section style={{ marginBottom: "28px" }}>
               <h2 style={{ fontSize: "15px", fontWeight: 700, color: section.color, marginBottom: "10px" }}>🧠 Kaise Kaam Karta Hai?</h2>
               <pre style={{
-                background: "#0a0f1e", borderRadius: "10px", padding: "20px",
-                border: `1px solid ${section.color}20`, fontSize: "12px", color: "#94a3b8",
+                background: "var(--bg-base)", borderRadius: "10px", padding: "20px",
+                border: `1px solid ${section.color}20`, fontSize: "12px", color: "var(--text-2)",
                 overflowX: "auto", lineHeight: 1.8, whiteSpace: "pre-wrap",
                 fontFamily: "'Fira Code', monospace",
               }}>{chapter.kaise}</pre>
@@ -452,8 +462,8 @@ export default function Algorithms() {
                   ))}
                 </div>
                 <pre style={{
-                  background: "#0a0f1e", borderRadius: "10px", padding: "20px",
-                  border: `1px solid ${section.color}20`, fontSize: "12px", color: "#a5b4fc",
+                  background: "var(--bg-base)", borderRadius: "10px", padding: "20px",
+                  border: `1px solid ${section.color}20`, fontSize: "12px", color: "var(--text-2)",
                   overflowX: "auto", lineHeight: 1.8, fontFamily: "'Fira Code', monospace",
                 }}>{chapter.templates[templateIdx].code}</pre>
               </section>
@@ -513,7 +523,7 @@ export default function Algorithms() {
             {/* Note */}
             {chapter.note && (
               <div style={{ background: `${section.color}08`, borderRadius: "10px", padding: "16px", border: `1px solid ${section.color}20` }}>
-                <span style={{ fontSize: "13px", color: section.color }}>💡 <strong>Note:</strong> {chapter.note}</span>
+                <span style={{ fontSize: "13px", color: section.color }}>💡 <strong style={{color:"var(--text-1)"}}>Note:</strong> {chapter.note}</span>
               </div>
             )}
           </div>

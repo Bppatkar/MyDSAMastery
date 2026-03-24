@@ -1,159 +1,51 @@
 "use client";
 import Link from "next/link";
 
-const stats = [
-  { label: "Data Structures", value: "11", color: "#22d3ee" },
-  { label: "Cheat Sheets", value: "4", color: "#fbbf24" },
-  { label: "Algorithm Patterns", value: "15+", color: "#a78bfa" },
-  { label: "Visualizations", value: "20+", color: "#34d399" },
-  { label: "LeetCode Problems", value: "150+", color: "#fb923c" },
+const pages = [
+  { href:"/data-structures", emoji:"📦", title:"Data Structures", color:"var(--accent-cyan)", desc:"Array se Trie tak — har structure kyun bana, kya problem solve karta hai, aur operations ki complexity roots ke saath.", topics:["Array → Linked List → Stack → Queue","Hash Table → BST → AVL → Heap","Graph → Trie"] },
+  { href:"/algorithms", emoji:"⚙️", title:"Algorithms & Patterns", color:"var(--accent-violet)", desc:"Two Pointers, Sliding Window, DP, Backtracking — har pattern ki mental model. Sliding window real mein hoti nahi — hum sirf assume karte hain.", topics:["Two Pointers (4 subtypes)","Sliding Window (3 subtypes)","Binary Search on Answer","DP vs Greedy decision"] },
+  { href:"/visualizations", emoji:"🎮", title:"Interactive Visualizations", color:"var(--accent-green)", desc:"Dekho — array bars sort hote, two pointers move karte, BST mein nodes insert hote. Step karo, pause karo, samjho.", topics:["Sorting Algorithms animated","Binary Search","BST Insert & Search","BFS & DFS Graph"] },
+  { href:"/cheatsheet", emoji:"📋", title:"Cheat Sheet", color:"var(--accent-amber)", desc:"60 seconds mein pattern pehchano. Real-life analogies, 16 Array/String patterns, 4-Step constraint-to-code framework.", topics:["Pattern → Analogy → Keywords","n → Complexity → Pattern map","4-Step Interview Framework"] },
+  { href:"/revision", emoji:"🔁", title:"Revision Hub", color:"var(--accent-rose)", desc:"Active recall — yaad karo ki padha kya tha. Har DS aur algorithm ka summary, memorize list, aur revision ke time dhyan rakhne wali baatein.", topics:["DS quick summaries + operations","Algorithm pattern recap","Kya memorize karna hai vs samajhna"] },
+  { href:"/practice", emoji:"🧩", title:"Pattern Identify Karo", color:"var(--accent-orange)", desc:"Naya question dekha — kaunsa pattern lagega? Kyun? Step by step sochna seekho. Beginner se confident tak ka systematic roadmap.", topics:["Problem → Pattern (4 steps)","Subtype identify karna","Practice problems with hints"] },
 ];
 
-const sections = [
-  {
-    href: "/data-structures",
-    emoji: "📦",
-    title: "Data Structures",
-    subtitle: "Array se Trie tak — Poori Evolution",
-    desc: "Samjho ki har data structure kyun banaya gaya, pehle wale ki kya dikkat thi, aur har operation ki complexity kya hai aur kyun.",
-    color: "#22d3ee",
-    glow: "rgba(34,211,238,0.15)",
-    border: "rgba(34,211,238,0.25)",
-    topics: ["Array", "Linked List", "Stack & Queue", "Hash Table", "BST & AVL", "Heap", "Graph", "Trie"],
-  },
-  {
-    href: "/algorithms",
-    emoji: "⚙️",
-    title: "Algorithms",
-    subtitle: "Patterns, Templates aur LeetCode Problems",
-    desc: "Linear Search se Binary Search tak, Bubble Sort se Quick Sort tak — har algorithm ki origin samjho aur usse kab, kyu use karein.",
-    color: "#a78bfa",
-    glow: "rgba(139,92,246,0.15)",
-    border: "rgba(139,92,246,0.25)",
-    topics: ["Two Pointers", "Sliding Window", "Binary Search", "Sorting Algorithms", "Dynamic Programming", "Backtracking", "Graph BFS/DFS", "Greedy"],
-  },
-  {
-    href: "/visualizations",
-    emoji: "🎮",
-    title: "Visualizations",
-    subtitle: "Dekho, Samjho, Khelo",
-    desc: "Step-by-step interactive visualizations — array bars sort hote dekhna, two pointers move karte dekhna, BST mein nodes insert hote dekhna.",
-    color: "#34d399",
-    glow: "rgba(52,211,153,0.15)",
-    border: "rgba(52,211,153,0.25)",
-    topics: ["Bubble/Selection/Insertion Sort", "Merge Sort / Quick Sort", "Binary Search", "Two Pointers", "Sliding Window", "Stack & Queue", "BST Insert/Search", "BFS & DFS Graph"],
-  },
-  {
-    href: '/cheatsheet',
-    emoji: '📋',
-    title: 'Cheat Sheet',
-    subtitle: 'Pattern Analogy + Interview Reference + Complexity Table',
-    desc: 'Teeno images ka content — Pattern ki Real-Life Analogy, Array/String patterns, Interview Use-When guide, aur full complexity reference table.',
-    color: '#fbbf24',
-    glow: 'rgba(251,191,36,0.15)',
-    border: 'rgba(251,191,36,0.25)',
-    topics: ['Pattern → Analogy → Solves', '16 Array/String Patterns', 'Interview Use When Guide', 'Complexity Quick Ref', 'n → Pattern Map', '60-sec Recognition'],
-  },
-];
-
-export default function Home() {
-  return (
-    <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "60px 24px" }}>
-
-      {/* Hero */}
-      <div style={{ textAlign: "center", marginBottom: "80px" }}>
-        <div style={{ display: "inline-block", padding: "6px 20px", borderRadius: "999px", background: "rgba(34,211,238,0.1)", border: "1px solid rgba(34,211,238,0.2)", marginBottom: "24px" }}>
-          <span style={{ fontSize: "13px", color: "#22d3ee", fontWeight: 500 }}>✨ Beginner se SDE-2 tak ka safar</span>
-        </div>
-
-        <h1 style={{ fontSize: "clamp(40px, 6vw, 72px)", fontWeight: 800, lineHeight: 1.1, marginBottom: "24px" }}>
-          <span style={{ background: "linear-gradient(135deg, #22d3ee, #a78bfa, #34d399)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            DSA Master Guide
-          </span>
-          <br />
-          <span style={{ color: "#e2e8f0" }}>Hinglish Mein 🧠</span>
+export default function Home(){
+  return(
+    <div style={{maxWidth:"1100px",margin:"0 auto",padding:"60px 24px 40px"}}>
+      <div style={{textAlign:"center",marginBottom:"64px"}}>
+        <h1 style={{fontSize:"clamp(34px,6vw,64px)",fontWeight:900,lineHeight:1.08,marginBottom:"18px",letterSpacing:"-1px"}}>
+          <span style={{background:"linear-gradient(135deg,var(--accent-cyan),var(--accent-violet),var(--accent-green))",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>AlgoMitra</span>
+          <br/>
+          <span style={{color:"var(--text-1)",fontSize:"0.62em",fontWeight:700}}>DSA ko Samjho — Ratto Nahi</span>
         </h1>
-
-        <p style={{ fontSize: "18px", color: "#94a3b8", maxWidth: "600px", margin: "0 auto 40px", lineHeight: 1.7 }}>
-          Koi ratta nahi — <strong style={{ color: "#e2e8f0" }}>roots samjho</strong>. Har data structure kyun bana, 
-          har algorithm kaise kaam karta hai, aur interview mein pattern kaise pehchano.
+        <p style={{fontSize:"15px",color:"var(--text-2)",maxWidth:"540px",margin:"0 auto 32px",lineHeight:1.8}}>
+          Har data structure aur algorithm ki <strong style={{color:"var(--text-1)"}}>roots samjho</strong> — kyu bana, kya problem solve karta hai, aur interview mein pattern kaise pehchano. Hinglish mein.
         </p>
-
-        <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/data-structures" style={{
-            padding: "14px 32px", borderRadius: "12px", textDecoration: "none",
-            background: "linear-gradient(135deg, #06b6d4, #22d3ee)", color: "#0a0f1e",
-            fontWeight: 700, fontSize: "15px", transition: "all 0.2s",
-          }}>
-            📦 Data Structures Padho
-          </Link>
-          <Link href="/visualizations" style={{
-            padding: "14px 32px", borderRadius: "12px", textDecoration: "none",
-            background: "rgba(52,211,153,0.12)", color: "#34d399",
-            fontWeight: 700, fontSize: "15px",
-            border: "1px solid rgba(52,211,153,0.3)",
-          }}>
-            🎮 Visualizations Dekho
-          </Link>
+        <div style={{display:"flex",gap:"12px",justifyContent:"center",flexWrap:"wrap"}}>
+          <Link href="/data-structures" style={{padding:"12px 26px",borderRadius:"10px",textDecoration:"none",background:"linear-gradient(135deg,var(--accent-cyan),#06b6d4)",color:"#04081a",fontWeight:700,fontSize:"14px"}}>📦 Data Structures se Shuru</Link>
+          <Link href="/practice" style={{padding:"12px 26px",borderRadius:"10px",textDecoration:"none",background:"var(--bg-elevated)",color:"var(--accent-orange)",fontWeight:700,fontSize:"14px",border:"1px solid var(--border)"}}>🧩 Pattern Identify Karo</Link>
         </div>
       </div>
 
-      {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", marginBottom: "80px" }}>
-        {stats.map(({ label, value, color }) => (
-          <div key={label} style={{
-            background: "#111827", borderRadius: "16px", padding: "28px 20px",
-            border: `1px solid ${color}22`, textAlign: "center",
-          }}>
-            <div style={{ fontSize: "42px", fontWeight: 800, color }}>{value}</div>
-            <div style={{ fontSize: "13px", color: "#64748b", marginTop: "4px" }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Section Cards */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-        {sections.map(({ href, emoji, title, subtitle, desc, color, glow, border, topics }) => (
-          <Link key={href} href={href} style={{ textDecoration: "none" }}>
-            <div style={{
-              background: "#111827", borderRadius: "20px", padding: "36px",
-              border: `1px solid ${border}`,
-              boxShadow: `0 0 40px ${glow}`,
-              transition: "transform 0.2s, box-shadow 0.2s",
-              cursor: "pointer",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; }}>
-              
-              <div style={{ display: "flex", gap: "32px", alignItems: "flex-start", flexWrap: "wrap" }}>
-                <div style={{ flex: 1, minWidth: "280px" }}>
-                  <div style={{ fontSize: "40px", marginBottom: "12px" }}>{emoji}</div>
-                  <h2 style={{ fontSize: "28px", fontWeight: 700, color, marginBottom: "6px" }}>{title}</h2>
-                  <p style={{ fontSize: "14px", color: "#64748b", marginBottom: "16px" }}>{subtitle}</p>
-                  <p style={{ fontSize: "15px", color: "#94a3b8", lineHeight: 1.7 }}>{desc}</p>
-                  <div style={{ marginTop: "20px", display: "inline-flex", alignItems: "center", gap: "8px", color }}>
-                    <span style={{ fontWeight: 600, fontSize: "14px" }}>Padhna shuru karo</span>
-                    <span>→</span>
-                  </div>
-                </div>
-                
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", maxWidth: "320px" }}>
-                  {topics.map(t => (
-                    <span key={t} style={{
-                      padding: "6px 14px", borderRadius: "8px", fontSize: "12px", fontWeight: 500,
-                      background: `${color}12`, color, border: `1px solid ${color}25`,
-                    }}>{t}</span>
-                  ))}
-                </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(320px,1fr))",gap:"16px"}}>
+        {pages.map(p=>(
+          <Link key={p.href} href={p.href} style={{textDecoration:"none"}}>
+            <div style={{background:"var(--bg-card)",borderRadius:"16px",padding:"26px",border:"1px solid var(--border)",transition:"transform .2s,border-color .2s,box-shadow .2s",height:"100%"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-3px)";e.currentTarget.style.borderColor=p.color;e.currentTarget.style.boxShadow=`0 8px 30px ${p.color}18`;}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.borderColor="var(--border)";e.currentTarget.style.boxShadow=""}}>
+              <div style={{fontSize:"30px",marginBottom:"10px"}}>{p.emoji}</div>
+              <div style={{fontSize:"17px",fontWeight:700,color:p.color,marginBottom:"9px"}}>{p.title}</div>
+              <p style={{fontSize:"13px",color:"var(--text-2)",lineHeight:1.7,marginBottom:"14px"}}>{p.desc}</p>
+              <div style={{display:"flex",flexDirection:"column",gap:"5px"}}>
+                {p.topics.map(t=>(
+                  <div key={t} style={{fontSize:"11.5px",color:"var(--text-3)",paddingLeft:"10px",borderLeft:`2px solid ${p.color}40`}}>{t}</div>
+                ))}
               </div>
+              <div style={{marginTop:"18px",fontSize:"12px",color:p.color,fontWeight:600}}>Padhna shuru karo →</div>
             </div>
           </Link>
         ))}
-      </div>
-
-      {/* Footer note */}
-      <div style={{ textAlign: "center", marginTop: "80px", color: "#374151", fontSize: "13px" }}>
-        <p>Koi bhi data structure "best" nahi hota — problem dekho, sahi tool choose karo. 🎯</p>
       </div>
     </div>
   );

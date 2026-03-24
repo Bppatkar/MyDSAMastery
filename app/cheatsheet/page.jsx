@@ -83,7 +83,7 @@ const patternTable = [
     keywords: ["range sum", "subarray sum equals k", "prefix", "cumulative"],
   },
   {
-    pattern: "Monotonic Stack / Queue", emoji: "🥞", color: "#94a3b8",
+    pattern: "Monotonic Stack / Queue", emoji: "🥞", color: "var(--text-2)",
     analogy: "\"Stacking plates: tallest first\"",
     useWhen: "Need next greater/smaller element efficiently",
     solves: ["Next Greater Element", "Daily Temperatures", "Largest Rectangle"],
@@ -202,7 +202,7 @@ const arrayStringPatterns = [
     tip: "Har index se odd aur even expand karo — O(n²)",
   },
   {
-    title: "Stack", color: "#94a3b8", border: "#94a3b840", bg: "#94a3b808",
+    title: "Stack", color: "var(--text-2)", border: "#94a3b840", bg: "#94a3b808",
     subtitle: "String Validation",
     examples: ["Valid Parentheses", "Decode String"],
     tip: "LIFO — matching pairs, nested structures, undo",
@@ -332,19 +332,19 @@ function PatternTableView({ searchQuery }) {
   return (
     <div>
       <div style={{ marginBottom: "24px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#e2e8f0", marginBottom: "6px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--text-1)", marginBottom: "6px" }}>
           🎯 Pattern → Real-Life Analogy → Kya Solve Karta Hai
         </h2>
-        <p style={{ fontSize: "13px", color: "#64748b" }}>
+        <p style={{ fontSize: "13px", color: "var(--text-3)" }}>
           {filtered.length} patterns • Analogy se pattern yaad karo — interview mein click karega
         </p>
       </div>
 
-      <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid #1e293b" }}>
+      <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--border)" }}>
         {/* Header */}
-        <div style={{ display: "grid", gridTemplateColumns: "220px 1fr 1fr 1fr", background: "#0f172a", padding: "14px 20px", borderBottom: "1px solid #1e293b" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "220px 1fr 1fr 1fr", background: "var(--bg-surface)", padding: "14px 20px", borderBottom: "1px solid var(--border)" }}>
           {["🎯 Pattern", "💡 Real-Life Analogy", "⏰ Kab Use Karein", "✅ Kya Solve Karta Hai"].map(h => (
-            <div key={h} style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</div>
+            <div key={h} style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</div>
           ))}
         </div>
 
@@ -354,7 +354,7 @@ function PatternTableView({ searchQuery }) {
             display: "grid", gridTemplateColumns: "220px 1fr 1fr 1fr",
             padding: "16px 20px", alignItems: "center",
             background: i % 2 === 0 ? "#111827" : "#0f172a",
-            borderBottom: "1px solid #1e293b",
+            borderBottom: "1px solid var(--border)",
             transition: "background 0.15s",
           }}>
             {/* Pattern name */}
@@ -364,12 +364,12 @@ function PatternTableView({ searchQuery }) {
             </div>
 
             {/* Analogy */}
-            <div style={{ fontSize: "13px", color: "#94a3b8", fontStyle: "italic", paddingRight: "16px" }}>
+            <div style={{ fontSize: "13px", color: "var(--text-2)", fontStyle: "italic", paddingRight: "16px" }}>
               {p.analogy}
             </div>
 
             {/* Use When */}
-            <div style={{ fontSize: "12px", color: "#64748b", paddingRight: "16px", lineHeight: 1.5 }}>
+            <div style={{ fontSize: "12px", color: "var(--text-3)", paddingRight: "16px", lineHeight: 1.5 }}>
               {p.useWhen}
             </div>
 
@@ -387,19 +387,19 @@ function PatternTableView({ searchQuery }) {
       </div>
 
       {/* Keywords reference */}
-      <div style={{ marginTop: "24px", background: "#0f172a", borderRadius: "16px", padding: "24px", border: "1px solid #1e293b" }}>
-        <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#e2e8f0", marginBottom: "20px" }}>
+      <div style={{ marginTop: "24px", background: "var(--bg-surface)", borderRadius: "16px", padding: "24px", border: "1px solid var(--border)" }}>
+        <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-1)", marginBottom: "20px" }}>
           🔑 Problem mein keyword dikhe → Pattern choose karo
         </h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }}>
           {filtered.map(p => (
-            <div key={p.pattern} style={{ background: "#111827", borderRadius: "10px", padding: "14px", border: `1px solid ${p.color}20` }}>
+            <div key={p.pattern} style={{ background: "var(--bg-card)", borderRadius: "10px", padding: "14px", border: `1px solid ${p.color}20` }}>
               <div style={{ fontSize: "12px", fontWeight: 700, color: p.color, marginBottom: "8px" }}>
                 {p.emoji} {p.pattern}
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
                 {p.keywords.map(k => (
-                  <span key={k} style={{ padding: "2px 8px", borderRadius: "5px", fontSize: "10px", background: "#0f172a", color: "#94a3b8", border: "1px solid #334155", fontStyle: "italic" }}>
+                  <span key={k} style={{ padding: "2px 8px", borderRadius: "5px", fontSize: "10px", background: "var(--bg-surface)", color: "var(--text-2)", border: "1px solid #334155", fontStyle: "italic" }}>
                     "{k}"
                   </span>
                 ))}
@@ -422,10 +422,10 @@ function ArrayStringView({ searchQuery }) {
   return (
     <div>
       <div style={{ marginBottom: "24px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#e2e8f0", marginBottom: "6px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--text-1)", marginBottom: "6px" }}>
           📝 Top 16 Array & String Patterns
         </h2>
-        <p style={{ fontSize: "13px", color: "#64748b" }}>
+        <p style={{ fontSize: "13px", color: "var(--text-3)" }}>
           Array aur String problems ke liye most important patterns — har ek pe classic examples
         </p>
       </div>
@@ -442,20 +442,20 @@ function ArrayStringView({ searchQuery }) {
           onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}>
 
             <div style={{ fontSize: "16px", fontWeight: 800, color: p.color, marginBottom: "4px" }}>{p.title}</div>
-            <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "14px", fontStyle: "italic" }}>{p.subtitle}</div>
+            <div style={{ fontSize: "12px", color: "var(--text-3)", marginBottom: "14px", fontStyle: "italic" }}>{p.subtitle}</div>
 
             <div style={{ marginBottom: "12px" }}>
               {p.examples.map(e => (
                 <div key={e} style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "6px" }}>
                   <span style={{ color: p.color, fontSize: "12px", flexShrink: 0, marginTop: "1px" }}>●</span>
-                  <span style={{ fontSize: "12px", color: "#94a3b8", lineHeight: 1.4 }}>{e}</span>
+                  <span style={{ fontSize: "12px", color: "var(--text-2)", lineHeight: 1.4 }}>{e}</span>
                 </div>
               ))}
             </div>
 
-            <div style={{ background: "#0f172a", borderRadius: "8px", padding: "10px 12px", borderLeft: `3px solid ${p.color}` }}>
-              <span style={{ fontSize: "11px", color: "#64748b" }}>💡 </span>
-              <span style={{ fontSize: "11px", color: "#94a3b8" }}>{p.tip}</span>
+            <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "10px 12px", borderLeft: `3px solid ${p.color}` }}>
+              <span style={{ fontSize: "11px", color: "var(--text-3)" }}>💡 </span>
+              <span style={{ fontSize: "11px", color: "var(--text-2)" }}>{p.tip}</span>
             </div>
           </div>
         ))}
@@ -475,10 +475,10 @@ function InterviewView({ searchQuery }) {
   return (
     <div>
       <div style={{ marginBottom: "24px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#e2e8f0", marginBottom: "6px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--text-1)", marginBottom: "6px" }}>
           🚀 Top DSA Patterns for Interview
         </h2>
-        <p style={{ fontSize: "13px", color: "#64748b" }}>
+        <p style={{ fontSize: "13px", color: "var(--text-3)" }}>
           {filtered.length} patterns — "Use When" criteria ke saath. Interview mein yeh sochkar pattern choose karo.
         </p>
       </div>
@@ -486,7 +486,7 @@ function InterviewView({ searchQuery }) {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "16px" }}>
         {filtered.map(p => (
           <div key={p.title} style={{
-            background: "#111827", borderRadius: "16px", padding: "24px",
+            background: "var(--bg-card)", borderRadius: "16px", padding: "24px",
             border: `1px solid ${p.color}30`,
             boxShadow: `0 0 20px ${p.color}08`,
             transition: "transform 0.15s, border-color 0.15s",
@@ -502,24 +502,24 @@ function InterviewView({ searchQuery }) {
 
             {/* Example */}
             <div style={{ background: `${p.color}10`, borderRadius: "8px", padding: "12px", marginBottom: "14px", border: `1px solid ${p.color}20` }}>
-              <div style={{ fontSize: "10px", color: "#64748b", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" }}>Example</div>
-              <div style={{ fontSize: "13px", color: "#e2e8f0", fontWeight: 600 }}>{p.example}</div>
+              <div style={{ fontSize: "10px", color: "var(--text-3)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" }}>Example</div>
+              <div style={{ fontSize: "13px", color: "var(--text-1)", fontWeight: 600 }}>{p.example}</div>
             </div>
 
             {/* Use When */}
             <div style={{ marginBottom: "12px" }}>
-              <div style={{ fontSize: "11px", color: "#64748b", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "6px" }}>
+              <div style={{ fontSize: "11px", color: "var(--text-3)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "6px" }}>
                 ⏰ Kab Use Karein
               </div>
-              <div style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.6, paddingLeft: "8px", borderLeft: `2px solid ${p.color}50` }}>
+              <div style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.6, paddingLeft: "8px", borderLeft: `2px solid ${p.color}50` }}>
                 {p.useWhen}
               </div>
             </div>
 
             {/* How */}
-            <div style={{ background: "#0f172a", borderRadius: "8px", padding: "10px 12px" }}>
+            <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "10px 12px" }}>
               <span style={{ fontSize: "11px", color: p.color }}>🧠 </span>
-              <span style={{ fontSize: "11px", color: "#64748b" }}>{p.detail}</span>
+              <span style={{ fontSize: "11px", color: "var(--text-3)" }}>{p.detail}</span>
             </div>
           </div>
         ))}
@@ -568,10 +568,10 @@ function QuickRefView() {
     <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
       {/* Constraint → Pattern mapping */}
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#e2e8f0", marginBottom: "6px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--text-1)", marginBottom: "6px" }}>
           📏 n ki Value → Kaunsa Pattern?
         </h2>
-        <p style={{ fontSize: "13px", color: "#64748b", marginBottom: "20px" }}>
+        <p style={{ fontSize: "13px", color: "var(--text-3)", marginBottom: "20px" }}>
           Constraints dekho → max allowed complexity → pattern decide karo
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -579,12 +579,12 @@ function QuickRefView() {
             <div key={c.n} style={{
               display: "grid", gridTemplateColumns: "140px 160px 1fr",
               alignItems: "center", gap: "16px",
-              background: "#111827", borderRadius: "12px", padding: "16px 20px",
+              background: "var(--bg-card)", borderRadius: "12px", padding: "16px 20px",
               border: `1px solid ${c.color}25`,
             }}>
               <code style={{ fontSize: "14px", fontWeight: 800, color: c.color, fontFamily: "'Fira Code', monospace" }}>{c.n}</code>
               <code style={{ fontSize: "13px", color: "#fbbf24", fontFamily: "'Fira Code', monospace", background: "#fbbf2410", padding: "4px 10px", borderRadius: "6px" }}>{c.ok}</code>
-              <span style={{ fontSize: "13px", color: "#94a3b8" }}>{c.patterns}</span>
+              <span style={{ fontSize: "13px", color: "var(--text-2)" }}>{c.patterns}</span>
             </div>
           ))}
         </div>
@@ -592,13 +592,13 @@ function QuickRefView() {
 
       {/* Complexity table */}
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "#e2e8f0", marginBottom: "20px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--text-1)", marginBottom: "20px" }}>
           ⚡ Pattern Complexity Quick Reference
         </h2>
-        <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid #1e293b" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 160px 140px", background: "#0f172a", padding: "12px 20px", borderBottom: "1px solid #1e293b" }}>
+        <div style={{ borderRadius: "16px", overflow: "hidden", border: "1px solid var(--border)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 160px 140px", background: "var(--bg-surface)", padding: "12px 20px", borderBottom: "1px solid var(--border)" }}>
             {["Pattern / Operation", "Time", "Space"].map(h => (
-              <div key={h} style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</div>
+              <div key={h} style={{ fontSize: "11px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</div>
             ))}
           </div>
           {complexityData.map((row, i) => (
@@ -608,17 +608,17 @@ function QuickRefView() {
               background: i % 2 === 0 ? "#111827" : "#0f172a",
               borderBottom: "1px solid #0f172a",
             }}>
-              <span style={{ fontSize: "13px", color: "#e2e8f0" }}>{row.pattern}</span>
+              <span style={{ fontSize: "13px", color: "var(--text-1)" }}>{row.pattern}</span>
               <code style={{ fontSize: "12px", color: row.color, fontFamily: "'Fira Code', monospace", background: `${row.color}10`, padding: "3px 10px", borderRadius: "6px", width: "fit-content" }}>{row.time}</code>
-              <code style={{ fontSize: "12px", color: "#94a3b8", fontFamily: "'Fira Code', monospace" }}>{row.space}</code>
+              <code style={{ fontSize: "12px", color: "var(--text-2)", fontFamily: "'Fira Code', monospace" }}>{row.space}</code>
             </div>
           ))}
         </div>
       </div>
 
       {/* Interview day checklist */}
-      <div style={{ background: "#0f172a", borderRadius: "16px", padding: "28px", border: "1px solid #1e293b" }}>
-        <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#e2e8f0", marginBottom: "20px" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "16px", padding: "28px", border: "1px solid var(--border)" }}>
+        <h2 style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-1)", marginBottom: "20px" }}>
           📋 Interview Day — 60-Second Pattern Recognition
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }}>
@@ -634,10 +634,10 @@ function QuickRefView() {
             { q: "Prefix 'autocomplete'?", a: "→ Trie", color: "#f43f5e" },
             { q: "Cycle in LL?", a: "→ Fast & Slow Pointers", color: "#e879f9" },
             { q: "Overlapping intervals?", a: "→ Sort by start + merge", color: "#6ee7b7" },
-            { q: "n ≤ 20 + 'all'?", a: "→ Backtracking brute force ok", color: "#94a3b8" },
+            { q: "n ≤ 20 + 'all'?", a: "→ Backtracking brute force ok", color: "var(--text-2)" },
           ].map(({ q, a, color }) => (
-            <div key={q} style={{ background: "#111827", borderRadius: "10px", padding: "14px 16px", border: `1px solid ${color}20`, display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
-              <span style={{ fontSize: "13px", color: "#94a3b8" }}>{q}</span>
+            <div key={q} style={{ background: "var(--bg-card)", borderRadius: "10px", padding: "14px 16px", border: `1px solid ${color}20`, display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "13px", color: "var(--text-2)" }}>{q}</span>
               <span style={{ fontSize: "13px", fontWeight: 700, color, flexShrink: 0 }}>{a}</span>
             </div>
           ))}
@@ -649,14 +649,221 @@ function QuickRefView() {
 
 // ─── Main Cheat Sheet Page ────────────────────────────────────
 const tabs = [
-  { id: "pattern-table", label: "🎯 Pattern Recognition", desc: "Analogy + Solves" },
+  { id: "four-step", label: "🎯 4-Step Framework", desc: "Constraint → Pattern" },
+  { id: "pattern-table", label: "🔑 Pattern Recognition", desc: "Analogy + Solves" },
   { id: "array-string", label: "📝 Array & String", desc: "16 Patterns" },
   { id: "interview", label: "🚀 Interview Patterns", desc: "Use When" },
   { id: "quick-ref", label: "⚡ Quick Reference", desc: "Complexity" },
 ];
 
+
+// ─── Step 1: Complexity Origins ──────────────────────────────
+const complexityOrigins = [
+  { complexity:"O(1)", name:"Constant", source:"No loop, direct formula/address calculation", examples:["Array access arr[i]","HashMap lookup","Math formula","XOR bit trick"], color:"#34d399" },
+  { complexity:"O(log n)", name:"Logarithmic", source:"Har step pe problem HALF ho jaati hai — n → n/2 → n/4 → 1", examples:["Binary Search","BST operations","Heap insert/delete","Binary Search on Answer"], color:"#22d3ee" },
+  { complexity:"O(n)", name:"Linear", source:"Two Pointers: combined n moves. Sliding Window: right kabhi left nahi jaata", examples:["Two Pointers (opposite/same)","Sliding Window","HashMap scan","Linear Search"], color:"#38bdf8" },
+  { complexity:"O(n log n)", name:"Linearithmic", source:"3 sources: (1) Sorting — log₂(n!) ≈ n log n bits needed. (2) Heap: n×log n operations. (3) Binary Search inside loop", examples:["Merge Sort, Quick Sort","Heap Sort","Binary Search in loop"], color:"#a78bfa" },
+  { complexity:"O(n²)", name:"Quadratic", source:"Nested loops — har element ke liye baaki saara input dekho", examples:["Bubble/Selection Sort","Naive substring search","Nested DP"], color:"#fbbf24" },
+  { complexity:"O(2^n)", name:"Exponential", source:"Har element pe 2 choices — lo ya mat lo. n decisions → 2×2×...×2 = 2^n branches", examples:["Backtracking (subsets)","Fibonacci naive","Power set"], color:"#fb923c" },
+  { complexity:"O(n!)", name:"Factorial", source:"Positions fill karo — first pe n choices, second pe n-1, ... → n×(n-1)×...×1 = n!", examples:["Permutations","Travelling Salesman brute","N-Queens brute"], color:"#fb7185" },
+];
+
+// Step 1: n → complexity → pattern
+const constraintMap = [
+  { n:"n ≤ 20", complexity:"O(2^n) ya O(n!)", color:"#34d399", patterns:["Backtracking","Brute Force Permutations","DFS all paths"], reason:"2^20 ≈ 10 lakh — acceptable. Har element pe 2 choices → 2^n." },
+  { n:"n ≤ 300", complexity:"O(n³)", color:"#22d3ee", patterns:["Floyd-Warshall","3D DP","Matrix multiplication"], reason:"3 nested loops fine for small n." },
+  { n:"n ≤ 10,000", complexity:"O(n²)", color:"#38bdf8", patterns:["Bubble/Insertion Sort","Naive string match","Nested DP"], reason:"10^8 operations — border pe, but ok." },
+  { n:"n ≤ 10⁶", complexity:"O(n log n)", color:"#a78bfa", patterns:["Merge Sort, Heap Sort","BFS/DFS (dense)","Dijkstra","DP with binary search"], reason:"Sorting info theory: log₂(n!) ≈ n log n comparisons minimum." },
+  { n:"n ≤ 10⁷", complexity:"O(n)", color:"#fbbf24", patterns:["Two Pointers","Sliding Window","HashMap","Prefix Sum"], reason:"Two Pointers: combined n moves. Sliding Window: right kabhi left nahi jaata." },
+  { n:"n ≥ 10⁷", complexity:"O(log n) ya O(1)", color:"#fb923c", patterns:["Binary Search","Math Formula","Bit Manipulation","XOR tricks"], reason:"Har step pe problem half. n=10^6 → 20 steps. O(1) = direct formula." },
+];
+
+// Step 2: Input → Pattern
+const inputMap = [
+  { input:"Sorted Array", patterns:["Binary Search","Two Pointers","Greedy (sort first)"], why:"Order guaranteed → half karo ya dono ends se aao" },
+  { input:"Unsorted Array + pairs", patterns:["HashMap (complement)","Sort then Two Pointers"], why:"HashMap O(1) lookup. Sort karo toh Two Pointers possible" },
+  { input:"Subarray / Substring", patterns:["Sliding Window","Prefix Sum + HashMap"], why:"Continuous = window. Range sum = prefix" },
+  { input:"String (palindrome/anagram)", patterns:["Two Pointers","Expand Around Center","HashMap freq"], why:"Symmetric → dono ends. Anagram → same frequency" },
+  { input:"Linked List", patterns:["Fast-Slow Pointers","Reverse (prev/curr/next)"], why:"Cycle → dono milenge. Middle → fast 2 steps, slow 1 step" },
+  { input:"Binary Tree / BST", patterns:["DFS (recursion)","BFS (Queue level-order)"], why:"DFS = all paths, subtree. BFS = level, shortest in tree" },
+  { input:"Graph (nodes + edges)", patterns:["BFS (unweighted shortest)","DFS (components/cycles)","Dijkstra (weighted +ve)","Topological Sort (DAG)"], why:"BFS = ripple. DFS = deep dive. Dijkstra = BFS + priority" },
+  { input:"2D Grid", patterns:["DFS/BFS (4-dir)","DP (path counting)"], why:"Grid = graph with fixed 4 neighbors. Island = connected component" },
+  { input:"Intervals", patterns:["Sort by start/end","Merge Intervals","Heap (meeting rooms)"], why:"Sort karo phir overlap check karo" },
+];
+
+// Step 3: Output → Pattern
+const outputMap = [
+  { output:"List of Lists (all subsets/paths)", pattern:"Backtracking", why:"Saari possibilities enumerate karni hain — CHOOSE EXPLORE UNCHOOSE" },
+  { output:"Single number (max/min/count)", pattern:"DP ya Greedy", why:"Overlapping subproblems → DP. Local=Global optimal → Greedy" },
+  { output:"Boolean (possible ya nahi)", pattern:"DP / BFS / DFS", why:"Reachability check" },
+  { output:"Modified in-place array", pattern:"Two Pointers", why:"Extra space avoid — slow/fast pointers" },
+  { output:"Sorted / Ordered output", pattern:"Topo Sort / Sort / Heap", why:"Dependencies → Topo. Priority → Heap" },
+  { output:"Kth element", pattern:"Heap (min size K) / QuickSelect", why:"Partial sort — don't need full sort" },
+];
+
+// Step 4: Keyword triggers
+const keywordMap = [
+  { keyword:'"substring" / "subarray" + condition', pattern:"Sliding Window", color:"#a78bfa" },
+  { keyword:'"sorted" + target sum / pairs', pattern:"Two Pointers", color:"#22d3ee" },
+  { keyword:'"palindrome"', pattern:"Two Pointers / Expand Around Center", color:"#22d3ee" },
+  { keyword:'"k largest" / "top k" / "kth"', pattern:"Heap (min-heap size K)", color:"#fb923c" },
+  { keyword:'"median" / "stream"', pattern:"Two Heaps (max+min)", color:"#f59e0b" },
+  { keyword:'"parentheses" / "brackets" / "nested"', pattern:"Stack", color:"#94a3b8" },
+  { keyword:'"next greater element"', pattern:"Monotonic Stack", color:"#94a3b8" },
+  { keyword:'"anagram" / "frequency" / "duplicates"', pattern:"HashMap", color:"#fbbf24" },
+  { keyword:'"prefix" / "autocomplete" / "starts with"', pattern:"Trie", color:"#f43f5e" },
+  { keyword:'"connected components" / "groups"', pattern:"Union-Find / DFS", color:"#4ade80" },
+  { keyword:'"dependencies" / "prerequisites"', pattern:"Topological Sort", color:"#e879f9" },
+  { keyword:'"cycle" in list/graph', pattern:"Fast-Slow Pointers / DFS", color:"#818cf8" },
+  { keyword:'"minimize maximum" / "maximize minimum"', pattern:"Binary Search on Answer", color:"#38bdf8" },
+  { keyword:'"number of ways" / "how many"', pattern:"DP (counting)", color:"#fbbf24" },
+  { keyword:'"xor" / "single number" / "power of 2"', pattern:"Bit Manipulation", color:"#67e8f9" },
+  { keyword:'"in-place" / "without extra space"', pattern:"Two Pointers / Bit Manipulation", color:"#22d3ee" },
+];
+
+function FourStepView() {
+  const [activeStep, setActiveStep] = useState(1);
+  const steps = [
+    { num:1, label:"Constraints (n)", emoji:"📏", color:"#22d3ee" },
+    { num:2, label:"Input Format", emoji:"📥", color:"#a78bfa" },
+    { num:3, label:"Output Format", emoji:"📤", color:"#34d399" },
+    { num:4, label:"Keywords", emoji:"🔑", color:"#fbbf24" },
+  ];
+
+  return (
+    <div>
+      <div style={{ marginBottom: "24px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "var(--text-1)", marginBottom: "8px" }}>🎯 4-Step Framework — Koi Bhi Problem Dekho</h2>
+        <p style={{ fontSize: "13px", color: "var(--text-3)", lineHeight: 1.7 }}>
+          Pehle yeh 4 cheezein check karo — code likhne se pehle. Pattern identify ho jaayega 90% problems mein.
+        </p>
+      </div>
+
+      {/* Step selector */}
+      <div style={{ display: "flex", gap: "8px", marginBottom: "24px", flexWrap: "wrap" }}>
+        {steps.map(s => (
+          <button key={s.num} onClick={() => setActiveStep(s.num)} style={{
+            padding: "10px 20px", borderRadius: "9px", cursor: "pointer",
+            background: activeStep === s.num ? `${s.color}15` : "var(--bg-elevated)",
+            border: `1px solid ${activeStep === s.num ? s.color : "var(--border)"}`,
+            color: activeStep === s.num ? s.color : "var(--text-2)",
+            fontWeight: activeStep === s.num ? 700 : 400, fontSize: "13px",
+          }}>
+            {s.emoji} Step {s.num}: {s.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Step 1: n → complexity */}
+      {activeStep === 1 && (
+        <div>
+          <div style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "28px", border: "1px solid var(--border)", marginBottom: "20px" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#22d3ee", marginBottom: "16px" }}>
+              📏 n ki Value → Allowed Complexity → Pattern
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {constraintMap.map(r => (
+                <div key={r.n} style={{ display: "grid", gridTemplateColumns: "110px 200px 1fr 1fr", gap: "12px", alignItems: "start", background: "var(--bg-surface)", borderRadius: "10px", padding: "13px 16px", border: "1px solid var(--border)" }}>
+                  <code style={{ fontSize: "13px", fontWeight: 800, color: r.color, fontFamily: "'Fira Code', monospace" }}>{r.n}</code>
+                  <code style={{ fontSize: "11px", color: "var(--accent-amber)", background: "rgba(251,191,36,0.08)", padding: "3px 8px", borderRadius: "5px", fontFamily: "'Fira Code', monospace" }}>{r.complexity}</code>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                    {r.patterns.map(p => <span key={p} style={{ fontSize: "11px", padding: "2px 8px", borderRadius: "5px", background: `${r.color}12`, color: r.color }}>{p}</span>)}
+                  </div>
+                  <span style={{ fontSize: "11px", color: "var(--text-3)", lineHeight: 1.5 }}>{r.reason}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "28px", border: "1px solid var(--border)" }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#22d3ee", marginBottom: "16px" }}>
+              🧠 Complexity kahan se aati hai? (Roots)
+            </h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))", gap: "10px" }}>
+              {complexityOrigins.map(o => (
+                <div key={o.complexity} style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "14px", border: `1px solid ${o.color}20` }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <code style={{ fontSize: "14px", fontWeight: 800, color: o.color, fontFamily: "'Fira Code', monospace" }}>{o.complexity}</code>
+                    <span style={{ fontSize: "12px", color: "var(--text-3)" }}>{o.name}</span>
+                  </div>
+                  <p style={{ fontSize: "12px", color: "var(--text-2)", lineHeight: 1.5, marginBottom: "8px" }}>{o.source}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                    {o.examples.map(e => <span key={e} style={{ fontSize: "10px", padding: "2px 7px", borderRadius: "4px", background: `${o.color}10`, color: o.color, border: `1px solid ${o.color}20` }}>{e}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Step 2: Input Format */}
+      {activeStep === 2 && (
+        <div style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "28px", border: "1px solid var(--border)" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#a78bfa", marginBottom: "16px" }}>
+            📥 Input ki Shape → Pattern ka Hint
+          </h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px,1fr))", gap: "12px" }}>
+            {inputMap.map(r => (
+              <div key={r.input} style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "16px", border: "1px solid var(--border)" }}>
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "#a78bfa", marginBottom: "6px" }}>{r.input}</div>
+                <p style={{ fontSize: "11.5px", color: "var(--text-3)", marginBottom: "8px", lineHeight: 1.5 }}>{r.why}</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                  {r.patterns.map(p => <span key={p} style={{ fontSize: "11px", padding: "2px 9px", borderRadius: "5px", background: "rgba(167,139,250,0.1)", color: "#a78bfa", border: "1px solid rgba(167,139,250,0.2)" }}>{p}</span>)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Step 3: Output Format */}
+      {activeStep === 3 && (
+        <div style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "28px", border: "1px solid var(--border)" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#34d399", marginBottom: "16px" }}>
+            📤 Output ki Shape → Algorithm Family
+          </h3>
+          <div style={{ marginBottom: "20px", background: "rgba(251,191,36,0.06)", borderRadius: "10px", padding: "14px", border: "1px solid rgba(251,191,36,0.15)", fontSize: "13px", color: "var(--text-2)" }}>
+            💡 <strong style={{ color: "var(--accent-amber)" }}>Key insight:</strong> "Kitne ways hain?" → Single number → <strong>DP</strong>. "Saare ways batao" → List of lists → <strong>Backtracking</strong>.
+            Same problem, alag output → alag algorithm family.
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px,1fr))", gap: "12px" }}>
+            {outputMap.map(r => (
+              <div key={r.output} style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "16px", border: "1px solid var(--border)" }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "#34d399", marginBottom: "6px" }}>{r.output}</div>
+                <p style={{ fontSize: "11.5px", color: "var(--text-3)", marginBottom: "8px" }}>{r.why}</p>
+                <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-1)" }}>→ {r.pattern}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Step 4: Keywords */}
+      {activeStep === 4 && (
+        <div style={{ background: "var(--bg-card)", borderRadius: "16px", padding: "28px", border: "1px solid var(--border)" }}>
+          <h3 style={{ fontSize: "16px", fontWeight: 700, color: "#fbbf24", marginBottom: "8px" }}>
+            🔑 Problem mein yeh words dikh jaayein → Pattern pakka
+          </h3>
+          <p style={{ fontSize: "13px", color: "var(--text-3)", marginBottom: "20px" }}>
+            Trick keywords: "in-place" → Two Pointers. "without extra space" → Bit/TP. "stream" → Heap. "contiguous" → Sliding Window. "subsequence (not subarray)" → DP.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px,1fr))", gap: "8px" }}>
+            {keywordMap.map(r => (
+              <div key={r.keyword} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "10px", background: "var(--bg-surface)", borderRadius: "8px", padding: "12px 14px", border: `1px solid ${r.color}18` }}>
+                <span style={{ fontSize: "12px", color: "var(--text-2)", fontStyle: "italic" }}>{r.keyword}</span>
+                <span style={{ fontSize: "12px", fontWeight: 700, color: r.color, flexShrink: 0 }}>→ {r.pattern}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function CheatSheet() {
-  const [activeTab, setActiveTab] = useState("pattern-table");
+  const [activeTab, setActiveTab] = useState("four-step");
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -672,27 +879,27 @@ export default function CheatSheet() {
             DSA Cheat Sheet
           </span>
         </h1>
-        <p style={{ color: "#64748b", fontSize: "15px" }}>
+        <p style={{ color: "var(--text-3)", fontSize: "15px" }}>
           Pattern Analogy • Array & String Patterns • Interview "Use When" Guide • Complexity Table
         </p>
       </div>
 
       {/* Search */}
       <div style={{ position: "relative", marginBottom: "28px", maxWidth: "500px", margin: "0 auto 28px" }}>
-        <div style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "#64748b", fontSize: "16px" }}>🔍</div>
+        <div style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "var(--text-3)", fontSize: "16px" }}>🔍</div>
         <input
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
           placeholder="Pattern, keyword, ya problem name likho..."
           style={{
             width: "100%", padding: "12px 16px 12px 44px",
-            borderRadius: "12px", background: "#111827",
-            color: "#e2e8f0", border: "1px solid #334155",
+            borderRadius: "12px", background: "var(--bg-card)",
+            color: "var(--text-1)", border: "1px solid #334155",
             fontSize: "14px", outline: "none",
           }}
         />
         {searchQuery && (
-          <button onClick={() => setSearchQuery("")} style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#64748b", cursor: "pointer", fontSize: "16px" }}>✕</button>
+          <button onClick={() => setSearchQuery("")} style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-3)", cursor: "pointer", fontSize: "16px" }}>✕</button>
         )}
       </div>
 
@@ -718,6 +925,7 @@ export default function CheatSheet() {
 
       {/* Content */}
       <div>
+        {activeTab === "four-step" && <FourStepView />}
         {activeTab === "pattern-table" && <PatternTableView searchQuery={searchQuery} />}
         {activeTab === "array-string" && <ArrayStringView searchQuery={searchQuery} />}
         {activeTab === "interview" && <InterviewView searchQuery={searchQuery} />}

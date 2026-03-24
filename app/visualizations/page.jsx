@@ -61,7 +61,7 @@ export default function Visualizations() {
             <h2 style={{ fontSize: "18px", fontWeight: 700, marginBottom: "4px", background: "linear-gradient(135deg, #22d3ee, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               🎮 Visualizations
             </h2>
-            <p style={{ fontSize: "12px", color: "#64748b" }}>Interactive — dekho aur samjho</p>
+            <p style={{ fontSize: "12px", color: "var(--text-3)" }}>Interactive — dekho aur samjho</p>
           </div>
 
           {categories.map(cat => (
@@ -90,10 +90,10 @@ export default function Visualizations() {
           ))}
 
           {/* Quick reference */}
-          <div style={{ background: "#0f172a", borderRadius: "12px", padding: "16px", border: "1px solid #1e293b" }}>
-            <div style={{ fontSize: "12px", fontWeight: 700, color: "#64748b", marginBottom: "12px" }}>Color Legend</div>
+          <div style={{ background: "var(--bg-surface)", borderRadius: "12px", padding: "16px", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-3)", marginBottom: "12px" }}>Color Legend</div>
             {[
-              { color: "#334155", label: "Normal / Unsorted" },
+              { color: "var(--bg-elevated)", label: "Normal / Unsorted" },
               { color: "#fbbf24", label: "Comparing" },
               { color: "#fb7185", label: "Swapping" },
               { color: "#34d399", label: "Sorted / Found" },
@@ -103,7 +103,7 @@ export default function Visualizations() {
             ].map(({ color, label }) => (
               <div key={label} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
                 <div style={{ width: "12px", height: "12px", borderRadius: "3px", background: color, flexShrink: 0 }} />
-                <span style={{ fontSize: "11px", color: "#64748b" }}>{label}</span>
+                <span style={{ fontSize: "11px", color: "var(--text-3)" }}>{label}</span>
               </div>
             ))}
           </div>
@@ -113,19 +113,19 @@ export default function Visualizations() {
       {/* Main content */}
       <div style={{ flex: 1, minWidth: 0 }}>
         {current && (
-          <div style={{ background: "#111827", borderRadius: "20px", padding: "36px", border: `1px solid ${current.catColor}20`, boxShadow: `0 0 40px ${current.catColor}08` }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: "20px", padding: "36px", border: `1px solid ${current.catColor}20`, boxShadow: `0 0 40px ${current.catColor}08` }}>
 
             {/* Header */}
             <div style={{ marginBottom: "28px" }}>
               <h1 style={{ fontSize: "28px", fontWeight: 800, color: current.catColor, display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
                 <span>{current.emoji}</span> {current.label}
               </h1>
-              <p style={{ fontSize: "14px", color: "#64748b" }}>{current.desc}</p>
+              <p style={{ fontSize: "14px", color: "var(--text-3)" }}>{current.desc}</p>
             </div>
 
             {/* Visualization */}
             <Suspense fallback={
-              <div style={{ height: "300px", display: "flex", alignItems: "center", justifyContent: "center", color: "#64748b" }}>
+              <div style={{ height: "300px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-3)" }}>
                 Loading...
               </div>
             }>
@@ -136,18 +136,18 @@ export default function Visualizations() {
 
         {/* All viz grid at bottom */}
         <div style={{ marginTop: "28px" }}>
-          <h2 style={{ fontSize: "16px", fontWeight: 700, color: "#94a3b8", marginBottom: "16px" }}>Saare Visualizations</h2>
+          <h2 style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-2)", marginBottom: "16px" }}>Saare Visualizations</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "12px" }}>
             {allVizs.map(viz => (
               <button key={viz.id} onClick={() => { setActiveViz(viz.id); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{
                 padding: "16px", borderRadius: "12px", cursor: "pointer", textAlign: "left",
-                background: activeViz === viz.id ? `${viz.catColor}12` : "#0f172a",
-                border: `1px solid ${activeViz === viz.id ? viz.catColor : "#1e293b"}`,
+                background: activeViz === viz.id ? `${viz.catColor}12` : "var(--bg-surface)",
+                border: `1px solid ${activeViz === viz.id ? viz.catColor : "var(--bg-elevated)"}`,
                 transition: "all 0.15s",
               }}>
                 <div style={{ fontSize: "24px", marginBottom: "6px" }}>{viz.emoji}</div>
                 <div style={{ fontSize: "13px", fontWeight: 600, color: activeViz === viz.id ? viz.catColor : "#e2e8f0" }}>{viz.label}</div>
-                <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px", lineHeight: 1.4 }}>{viz.desc.split("—")[0]}</div>
+                <div style={{ fontSize: "11px", color: "var(--text-3)", marginTop: "4px", lineHeight: 1.4 }}>{viz.desc.split("—")[0]}</div>
               </button>
             ))}
           </div>

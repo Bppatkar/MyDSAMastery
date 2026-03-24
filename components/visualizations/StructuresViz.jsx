@@ -33,7 +33,7 @@ export function StackViz() {
 
   return (
     <div>
-      <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "20px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "13px", color: "var(--text-2)", marginBottom: "20px", lineHeight: 1.6 }}>
         LIFO — Last In, First Out. Sirf TOP se push aur pop. O(1) dono operations. 📚
       </p>
 
@@ -48,8 +48,8 @@ export function StackViz() {
             return (
               <div key={`${val}-${stack.length - 1 - i}`} style={{
                 width: "120px", padding: "12px 0", textAlign: "center",
-                background: isTop ? "#818cf820" : "#1e293b",
-                border: `2px solid ${isTop ? "#818cf8" : "#334155"}`,
+                background: isTop ? "#818cf820" : "var(--bg-elevated)",
+                border: `2px solid ${isTop ? "#818cf8" : "var(--bg-elevated)"}`,
                 borderRadius: "8px", fontSize: "20px", fontWeight: 700,
                 color: isTop ? "#818cf8" : "#94a3b8",
                 transition: "all 0.3s",
@@ -58,33 +58,33 @@ export function StackViz() {
               }}>{val}</div>
             );
           })}
-          <div style={{ width: "120px", height: "4px", background: "#334155", borderRadius: "2px" }} />
-          <div style={{ fontSize: "11px", color: "#64748b" }}>BOTTOM</div>
+          <div style={{ width: "120px", height: "4px", background: "var(--bg-elevated)", borderRadius: "2px" }} />
+          <div style={{ fontSize: "11px", color: "var(--text-3)" }}>BOTTOM</div>
         </div>
 
         {/* Info */}
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div style={{ background: "#0f172a", borderRadius: "10px", padding: "12px 16px", border: "1px solid #1e293b" }}>
-            <div style={{ fontSize: "11px", color: "#64748b" }}>Size</div>
+          <div style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "12px 16px", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "11px", color: "var(--text-3)" }}>Size</div>
             <div style={{ fontSize: "24px", fontWeight: 800, color: "#818cf8" }}>{stack.length}</div>
           </div>
-          <div style={{ background: "#0f172a", borderRadius: "10px", padding: "12px 16px", border: "1px solid #1e293b" }}>
-            <div style={{ fontSize: "11px", color: "#64748b" }}>Top</div>
+          <div style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "12px 16px", border: "1px solid var(--border)" }}>
+            <div style={{ fontSize: "11px", color: "var(--text-3)" }}>Top</div>
             <div style={{ fontSize: "24px", fontWeight: 800, color: "#34d399" }}>{stack.length ? stack[stack.length - 1] : "—"}</div>
           </div>
         </div>
       </div>
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#818cf8", border: "1px solid #818cf830", minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#818cf8", border: "1px solid #818cf830", minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {msg}
       </div>
 
       <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
         <input value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === "Enter" && push()}
-          placeholder="Value..." style={{ width: "100px", padding: "7px 12px", borderRadius: "7px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "13px" }} />
-        <button onClick={push} style={{ padding: "7px 16px", borderRadius: "7px", background: "#818cf8", color: "#0a0f1e", fontWeight: 700, border: "none", cursor: "pointer" }}>Push ↑</button>
-        <button onClick={pop} style={{ padding: "7px 16px", borderRadius: "7px", background: "#0f172a", color: "#fb7185", fontWeight: 700, border: "1px solid #fb718550", cursor: "pointer" }}>Pop ↓</button>
+          placeholder="Value..." style={{ width: "100px", padding: "7px 12px", borderRadius: "7px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px" }} />
+        <button onClick={push} style={{ padding: "7px 16px", borderRadius: "7px", background: "#818cf8", color: "var(--bg-base)", fontWeight: 700, border: "none", cursor: "pointer" }}>Push ↑</button>
+        <button onClick={pop} style={{ padding: "7px 16px", borderRadius: "7px", background: "var(--bg-surface)", color: "#fb7185", fontWeight: 700, border: "1px solid #fb718550", cursor: "pointer" }}>Pop ↓</button>
       </div>
     </div>
   );
@@ -112,7 +112,7 @@ export function QueueViz() {
 
   return (
     <div>
-      <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "20px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "13px", color: "var(--text-2)", marginBottom: "20px", lineHeight: 1.6 }}>
         FIFO — First In, First Out. REAR se add, FRONT se remove. BFS mein use hoti hai. O(1) dono operations. 🚶
       </p>
 
@@ -124,8 +124,8 @@ export function QueueViz() {
           ) : queue.map((val, i) => (
             <div key={`${val}-${i}`} style={{
               width: "60px", height: "60px", display: "flex", alignItems: "center", justifyContent: "center",
-              background: i === 0 ? "#22d3ee20" : i === queue.length - 1 ? "#a78bfa20" : "#1e293b",
-              border: `2px solid ${i === 0 ? "#22d3ee" : i === queue.length - 1 ? "#a78bfa" : "#334155"}`,
+              background: i === 0 ? "#22d3ee20" : i === queue.length - 1 ? "#a78bfa20" : "var(--bg-elevated)",
+              border: `2px solid ${i === 0 ? "#22d3ee" : i === queue.length - 1 ? "#a78bfa" : "var(--bg-elevated)"}`,
               borderRadius: "8px", fontSize: "18px", fontWeight: 700,
               color: i === 0 ? "#22d3ee" : i === queue.length - 1 ? "#a78bfa" : "#94a3b8",
               transition: "all 0.3s",
@@ -133,19 +133,19 @@ export function QueueViz() {
           ))}
           <div style={{ fontSize: "11px", color: "#a78bfa", fontWeight: 700, marginLeft: "6px" }}>← REAR (enqueue)</div>
         </div>
-        <div style={{ textAlign: "center", fontSize: "11px", color: "#64748b" }}>Queue size: {queue.length}</div>
+        <div style={{ textAlign: "center", fontSize: "11px", color: "var(--text-3)" }}>Queue size: {queue.length}</div>
       </div>
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#22d3ee", border: "1px solid #22d3ee30", minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#22d3ee", border: "1px solid #22d3ee30", minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {msg}
       </div>
 
       <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
         <input value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === "Enter" && enqueue()}
-          placeholder="Value..." style={{ width: "100px", padding: "7px 12px", borderRadius: "7px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "13px" }} />
-        <button onClick={enqueue} style={{ padding: "7px 16px", borderRadius: "7px", background: "#a78bfa", color: "#0a0f1e", fontWeight: 700, border: "none", cursor: "pointer" }}>Enqueue →</button>
-        <button onClick={dequeue} style={{ padding: "7px 16px", borderRadius: "7px", background: "#0f172a", color: "#22d3ee", fontWeight: 700, border: "1px solid #22d3ee50", cursor: "pointer" }}>← Dequeue</button>
+          placeholder="Value..." style={{ width: "100px", padding: "7px 12px", borderRadius: "7px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px" }} />
+        <button onClick={enqueue} style={{ padding: "7px 16px", borderRadius: "7px", background: "#a78bfa", color: "var(--bg-base)", fontWeight: 700, border: "none", cursor: "pointer" }}>Enqueue →</button>
+        <button onClick={dequeue} style={{ padding: "7px 16px", borderRadius: "7px", background: "var(--bg-surface)", color: "#22d3ee", fontWeight: 700, border: "1px solid #22d3ee50", cursor: "pointer" }}>← Dequeue</button>
       </div>
     </div>
   );
@@ -160,11 +160,11 @@ function BSTNode({ val, x, y, highlight, left, right, allNodes }) {
 
   return (
     <g>
-      {leftNode && <line x1={x} y1={y} x2={leftNode.x} y2={leftNode.y} stroke="#334155" strokeWidth="2" />}
-      {rightNode && <line x1={x} y1={y} x2={rightNode.x} y2={rightNode.y} stroke="#334155" strokeWidth="2" />}
+      {leftNode && <line x1={x} y1={y} x2={leftNode.x} y2={leftNode.y} stroke="var(--bg-elevated)" strokeWidth="2" />}
+      {rightNode && <line x1={x} y1={y} x2={rightNode.x} y2={rightNode.y} stroke="var(--bg-elevated)" strokeWidth="2" />}
       <circle cx={x} cy={y} r={r}
-        fill={isHighlight ? "#fb923c20" : "#1e293b"}
-        stroke={isHighlight ? "#fb923c" : "#334155"}
+        fill={isHighlight ? "#fb923c20" : "var(--bg-elevated)"}
+        stroke={isHighlight ? "#fb923c" : "var(--bg-elevated)"}
         strokeWidth={isHighlight ? 3 : 2}
       />
       <text x={x} y={y + 5} textAnchor="middle" fill={isHighlight ? "#fb923c" : "#94a3b8"} fontSize="14" fontWeight="700">{val}</text>
@@ -284,11 +284,11 @@ export function BSTViz() {
 
   return (
     <div>
-      <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "13px", color: "var(--text-2)", marginBottom: "16px", lineHeight: 1.6 }}>
         BST Rule: Left &lt; Node &lt; Right. Insert ya search karo aur path dekho. O(log n) average. 🌳
       </p>
 
-      <svg width="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ background: "#0a0f1e", borderRadius: "12px", marginBottom: "16px", border: "1px solid #1e293b", maxHeight: "280px" }}>
+      <svg width="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ background: "var(--bg-base)", borderRadius: "12px", marginBottom: "16px", border: "1px solid var(--border)", maxHeight: "280px" }}>
         {positions.map(n => {
           const isPath = path.includes(n.val);
           const isFound = found === n.val;
@@ -296,11 +296,11 @@ export function BSTViz() {
           const rightPos = positions.find(p => p.val === n.right);
           return (
             <g key={n.val}>
-              {leftPos && <line x1={n.x} y1={n.y} x2={leftPos.x} y2={leftPos.y} stroke={isPath && path.includes(leftPos.val) ? "#fb923c" : "#1e293b"} strokeWidth="2" />}
-              {rightPos && <line x1={n.x} y1={n.y} x2={rightPos.x} y2={rightPos.y} stroke={isPath && path.includes(rightPos.val) ? "#fb923c" : "#1e293b"} strokeWidth="2" />}
+              {leftPos && <line x1={n.x} y1={n.y} x2={leftPos.x} y2={leftPos.y} stroke={isPath && path.includes(leftPos.val) ? "#fb923c" : "var(--bg-elevated)"} strokeWidth="2" />}
+              {rightPos && <line x1={n.x} y1={n.y} x2={rightPos.x} y2={rightPos.y} stroke={isPath && path.includes(rightPos.val) ? "#fb923c" : "var(--bg-elevated)"} strokeWidth="2" />}
               <circle cx={n.x} cy={n.y} r={22}
-                fill={isFound ? "#34d39915" : isPath ? "#fb923c15" : "#1e293b"}
-                stroke={isFound ? "#34d399" : isPath ? "#fb923c" : "#334155"}
+                fill={isFound ? "#34d39915" : isPath ? "#fb923c15" : "var(--bg-elevated)"}
+                stroke={isFound ? "#34d399" : isPath ? "#fb923c" : "var(--bg-elevated)"}
                 strokeWidth={isPath ? 3 : 2} />
               <text x={n.x} y={n.y + 5} textAnchor="middle" fill={isFound ? "#34d399" : isPath ? "#fb923c" : "#94a3b8"} fontSize="13" fontWeight="700">{n.val}</text>
             </g>
@@ -308,22 +308,22 @@ export function BSTViz() {
         })}
       </svg>
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#fb923c", border: "1px solid #fb923c30", minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#fb923c", border: "1px solid #fb923c30", minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {msg}
       </div>
 
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
         <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
           <input value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyDown={e => e.key === "Enter" && insertVal()}
-            placeholder="Insert..." style={{ width: "90px", padding: "6px 10px", borderRadius: "6px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "12px" }} />
-          <button onClick={insertVal} style={{ padding: "6px 12px", borderRadius: "6px", background: "#fb923c", color: "#0a0f1e", fontWeight: 700, border: "none", cursor: "pointer", fontSize: "12px" }}>Insert</button>
+            placeholder="Insert..." style={{ width: "90px", padding: "6px 10px", borderRadius: "6px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "12px" }} />
+          <button onClick={insertVal} style={{ padding: "6px 12px", borderRadius: "6px", background: "#fb923c", color: "var(--bg-base)", fontWeight: 700, border: "none", cursor: "pointer", fontSize: "12px" }}>Insert</button>
         </div>
         <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
           <input value={searchVal} onChange={e => setSearchVal(e.target.value)} onKeyDown={e => e.key === "Enter" && searchNode()}
-            placeholder="Search..." style={{ width: "90px", padding: "6px 10px", borderRadius: "6px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "12px" }} />
-          <button onClick={searchNode} style={{ padding: "6px 12px", borderRadius: "6px", background: "#34d399", color: "#0a0f1e", fontWeight: 700, border: "none", cursor: "pointer", fontSize: "12px" }}>Search</button>
+            placeholder="Search..." style={{ width: "90px", padding: "6px 10px", borderRadius: "6px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "12px" }} />
+          <button onClick={searchNode} style={{ padding: "6px 12px", borderRadius: "6px", background: "#34d399", color: "var(--bg-base)", fontWeight: 700, border: "none", cursor: "pointer", fontSize: "12px" }}>Search</button>
         </div>
-        <button onClick={() => { setValues([50, 30, 70, 20, 40, 60, 80]); setTreeData(computeTree([50, 30, 70, 20, 40, 60, 80])); setPath([]); setFound(null); setMsg("Reset!"); }} style={{ padding: "6px 12px", borderRadius: "6px", background: "#1e293b", color: "#94a3b8", border: "1px solid #334155", cursor: "pointer", fontSize: "12px" }}>🔄 Reset</button>
+        <button onClick={() => { setValues([50, 30, 70, 20, 40, 60, 80]); setTreeData(computeTree([50, 30, 70, 20, 40, 60, 80])); setPath([]); setFound(null); setMsg("Reset!"); }} style={{ padding: "6px 12px", borderRadius: "6px", background: "var(--bg-elevated)", color: "var(--text-2)", border: "1px solid var(--border)", cursor: "pointer", fontSize: "12px" }}>🔄 Reset</button>
       </div>
     </div>
   );
@@ -397,20 +397,20 @@ export function GraphViz() {
           <button key={m} onClick={() => { setMode(m); setRevealCount(0); setMsg("Start dabao"); }} style={{
             padding: "7px 16px", borderRadius: "8px", cursor: "pointer", fontWeight: 700, fontSize: "13px",
             background: mode === m ? (m === "bfs" ? "#22d3ee15" : "#a78bfa15") : "transparent",
-            border: `1px solid ${mode === m ? (m === "bfs" ? "#22d3ee" : "#a78bfa") : "#334155"}`,
+            border: `1px solid ${mode === m ? (m === "bfs" ? "#22d3ee" : "#a78bfa") : "var(--bg-elevated)"}`,
             color: mode === m ? (m === "bfs" ? "#22d3ee" : "#a78bfa") : "#64748b",
           }}>{m.toUpperCase()} {m === "bfs" ? "(Queue)" : "(Stack/Recursion)"}</button>
         ))}
-        <select value={start} onChange={e => { setStart(e.target.value); setRevealCount(0); }} style={{ padding: "6px 10px", borderRadius: "7px", background: "#0f172a", color: "#94a3b8", border: "1px solid #334155", cursor: "pointer" }}>
+        <select value={start} onChange={e => { setStart(e.target.value); setRevealCount(0); }} style={{ padding: "6px 10px", borderRadius: "7px", background: "var(--bg-surface)", color: "var(--text-2)", border: "1px solid var(--border)", cursor: "pointer" }}>
           {GRAPH_NODES.map(n => <option key={n.id}>{n.id}</option>)}
         </select>
-        <button onClick={play} style={{ padding: "7px 16px", borderRadius: "8px", background: mode === "bfs" ? "#22d3ee" : "#a78bfa", color: "#0a0f1e", fontWeight: 700, border: "none", cursor: "pointer" }}>▶ Play</button>
-        <button onClick={() => { setRevealCount(0); setMsg("Reset"); }} style={{ padding: "7px 12px", borderRadius: "8px", background: "#1e293b", color: "#94a3b8", border: "1px solid #334155", cursor: "pointer" }}>🔄</button>
+        <button onClick={play} style={{ padding: "7px 16px", borderRadius: "8px", background: mode === "bfs" ? "#22d3ee" : "#a78bfa", color: "var(--bg-base)", fontWeight: 700, border: "none", cursor: "pointer" }}>▶ Play</button>
+        <button onClick={() => { setRevealCount(0); setMsg("Reset"); }} style={{ padding: "7px 12px", borderRadius: "8px", background: "var(--bg-elevated)", color: "var(--text-2)", border: "1px solid var(--border)", cursor: "pointer" }}>🔄</button>
       </div>
 
-      <svg viewBox="0 0 400 310" style={{ width: "100%", background: "#0a0f1e", borderRadius: "12px", marginBottom: "12px", border: "1px solid #1e293b", maxHeight: "280px" }}>
+      <svg viewBox="0 0 400 310" style={{ width: "100%", background: "var(--bg-base)", borderRadius: "12px", marginBottom: "12px", border: "1px solid var(--border)", maxHeight: "280px" }}>
         {GRAPH_EDGES.map(([a, b]) => (
-          <line key={`${a}-${b}`} x1={nodePos[a].x} y1={nodePos[a].y} x2={nodePos[b].x} y2={nodePos[b].y} stroke={revealed.has(a) && revealed.has(b) ? (mode === "bfs" ? "#22d3ee50" : "#a78bfa50") : "#1e293b"} strokeWidth="2" />
+          <line key={`${a}-${b}`} x1={nodePos[a].x} y1={nodePos[a].y} x2={nodePos[b].x} y2={nodePos[b].y} stroke={revealed.has(a) && revealed.has(b) ? (mode === "bfs" ? "#22d3ee50" : "#a78bfa50") : "var(--bg-elevated)"} strokeWidth="2" />
         ))}
         {GRAPH_NODES.map(n => {
           const idx = order.indexOf(n.id);
@@ -421,8 +421,8 @@ export function GraphViz() {
           return (
             <g key={n.id}>
               <circle cx={n.x} cy={n.y} r={28}
-                fill={isCurrent ? `${color}30` : isVisited ? `${color}12` : isStart ? "#1e293b" : "#111827"}
-                stroke={isCurrent ? color : isVisited ? `${color}80` : isStart ? "#fbbf24" : "#334155"}
+                fill={isCurrent ? `${color}30` : isVisited ? `${color}12` : isStart ? "var(--bg-elevated)" : "var(--bg-card)"}
+                stroke={isCurrent ? color : isVisited ? `${color}80` : isStart ? "#fbbf24" : "var(--bg-elevated)"}
                 strokeWidth={isCurrent ? 3 : 2} />
               <text x={n.x} y={n.y + 5} textAnchor="middle" fill={isCurrent ? color : isVisited ? `${color}cc` : "#94a3b8"} fontSize="15" fontWeight="700">{n.id}</text>
               {isVisited && <text x={n.x + 20} y={n.y - 18} fill={color} fontSize="11" fontWeight="700">{idx + 1}</text>}
@@ -431,12 +431,12 @@ export function GraphViz() {
         })}
       </svg>
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px", marginBottom: "12px", textAlign: "center", fontSize: "13px", color: mode === "bfs" ? "#22d3ee" : "#a78bfa", border: `1px solid ${mode === "bfs" ? "#22d3ee" : "#a78bfa"}30`, minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px", marginBottom: "12px", textAlign: "center", fontSize: "13px", color: mode === "bfs" ? "#22d3ee" : "#a78bfa", border: `1px solid ${mode === "bfs" ? "#22d3ee" : "#a78bfa"}30`, minHeight: "38px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {msg}
       </div>
 
       <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", fontSize: "11px" }}>
-        <span style={{ color: "#64748b" }}>Visit order: </span>
+        <span style={{ color: "var(--text-3)" }}>Visit order: </span>
         {order.map((n, i) => (
           <span key={n} style={{ color: i < revealCount ? (mode === "bfs" ? "#22d3ee" : "#a78bfa") : "#374151", fontWeight: i < revealCount ? 700 : 400 }}>{n}{i < order.length - 1 && <span style={{ color: "#374151" }}>→</span>}</span>
         ))}

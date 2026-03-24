@@ -1,9 +1,11 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata = {
-  title: "DSA Master Guide | Hinglish",
-  description: "Data Structures aur Algorithms ka complete guide — Hinglish mein",
+  title: "AlgoMitra — DSA Hinglish Mein",
+  description: "Data Structures aur Algorithms — Samjho, ratto nahi. Hinglish mein complete guide.",
 };
 
 export default function RootLayout({ children }) {
@@ -12,13 +14,16 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet" />
       </head>
-      <body style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-        <Navbar />
-        <main style={{ paddingTop: "64px", minHeight: "100vh" }}>
-          {children}
-        </main>
+      <body>
+        <ThemeProvider>
+          <Navbar />
+          <main style={{ paddingTop: "60px", minHeight: "100vh" }}>
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

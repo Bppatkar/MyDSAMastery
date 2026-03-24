@@ -140,7 +140,7 @@ function getBarColor(i, step, color) {
   if (step?.minAt === i) return "#e879f9";
   if (step?.current === i) return color;
   if (step?.merging && i >= step.merging[0] && i <= step.merging[1]) return `${color}88`;
-  return "#334155";
+  return "var(--bg-elevated)";
 }
 
 export default function SortingViz() {
@@ -195,14 +195,14 @@ export default function SortingViz() {
   const maxVal = Math.max(...(currentStep.arr || inputArr));
 
   return (
-    <div style={{ background: "#111827", borderRadius: "20px", padding: "32px", border: "1px solid #1e293b" }}>
+    <div style={{ background: "var(--bg-card)", borderRadius: "20px", padding: "32px", border: "1px solid var(--border)" }}>
       {/* Algo selector */}
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "24px" }}>
         {ALGOS.map((a, i) => (
           <button key={a.id} onClick={() => { setAlgoIdx(i); }} style={{
             padding: "8px 16px", borderRadius: "10px", cursor: "pointer", fontSize: "13px", fontWeight: 600,
             background: algoIdx === i ? `${a.color}15` : "transparent",
-            border: `1px solid ${algoIdx === i ? a.color : "#334155"}`,
+            border: `1px solid ${algoIdx === i ? a.color : "var(--bg-elevated)"}`,
             color: algoIdx === i ? a.color : "#64748b",
           }}>
             {a.emoji} {a.name}
@@ -211,9 +211,9 @@ export default function SortingViz() {
       </div>
 
       {/* Info */}
-      <div style={{ background: "#0f172a", borderRadius: "10px", padding: "16px", marginBottom: "24px", border: `1px solid ${algo.color}20` }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "10px", padding: "16px", marginBottom: "24px", border: `1px solid ${algo.color}20` }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
-          <p style={{ fontSize: "13px", color: "#94a3b8", lineHeight: 1.6, margin: 0 }}>{algo.desc}</p>
+          <p style={{ fontSize: "13px", color: "var(--text-2)", lineHeight: 1.6, margin: 0 }}>{algo.desc}</p>
           <code style={{ padding: "4px 12px", borderRadius: "6px", fontSize: "12px", background: `${algo.color}15`, color: algo.color, flexShrink: 0 }}>{algo.complexity}</code>
         </div>
       </div>
@@ -225,14 +225,14 @@ export default function SortingViz() {
           const height = Math.max(16, (val / maxVal) * 180);
           return (
             <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1 }}>
-              <div style={{ fontSize: "11px", color: "#64748b", marginBottom: "4px" }}>{val}</div>
+              <div style={{ fontSize: "11px", color: "var(--text-3)", marginBottom: "4px" }}>{val}</div>
               <div style={{
                 width: "100%", height: `${height}px`,
                 background: color, borderRadius: "6px 6px 2px 2px",
                 transition: "height 0.2s ease, background-color 0.15s ease",
                 position: "relative",
               }} />
-              <div style={{ fontSize: "10px", color: "#475569", marginTop: "4px" }}>{i}</div>
+              <div style={{ fontSize: "10px", color: "var(--text-3)", marginTop: "4px" }}>{i}</div>
             </div>
           );
         })}
@@ -241,7 +241,7 @@ export default function SortingViz() {
       {/* Legend */}
       <div style={{ display: "flex", gap: "16px", justifyContent: "center", marginBottom: "20px", flexWrap: "wrap" }}>
         {[
-          { color: "#334155", label: "Normal" },
+          { color: "var(--bg-elevated)", label: "Normal" },
           { color: "#fbbf24", label: "Compare" },
           { color: "#fb7185", label: "Swap" },
           { color: "#34d399", label: "Sorted" },
@@ -249,14 +249,14 @@ export default function SortingViz() {
         ].map(({ color, label }) => (
           <div key={label} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <div style={{ width: "12px", height: "12px", borderRadius: "3px", background: color }} />
-            <span style={{ fontSize: "11px", color: "#64748b" }}>{label}</span>
+            <span style={{ fontSize: "11px", color: "var(--text-3)" }}>{label}</span>
           </div>
         ))}
       </div>
 
       {/* Step message */}
       <div style={{
-        background: "#0f172a", borderRadius: "10px", padding: "14px 20px", marginBottom: "20px",
+        background: "var(--bg-surface)", borderRadius: "10px", padding: "14px 20px", marginBottom: "20px",
         border: `1px solid ${algo.color}30`, textAlign: "center",
         fontSize: "14px", color: algo.color, fontWeight: 500, minHeight: "44px",
         display: "flex", alignItems: "center", justifyContent: "center",
@@ -266,24 +266,24 @@ export default function SortingViz() {
 
       {/* Progress */}
       <div style={{ marginBottom: "16px" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "#64748b", marginBottom: "6px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: "var(--text-3)", marginBottom: "6px" }}>
           <span>Step {stepIdx + 1} / {steps.length}</span>
           <span>{Math.round(((stepIdx + 1) / steps.length) * 100)}%</span>
         </div>
-        <div style={{ background: "#0f172a", borderRadius: "4px", height: "4px", overflow: "hidden" }}>
+        <div style={{ background: "var(--bg-surface)", borderRadius: "4px", height: "4px", overflow: "hidden" }}>
           <div style={{ height: "100%", background: algo.color, width: `${((stepIdx + 1) / steps.length) * 100}%`, transition: "width 0.2s", borderRadius: "4px" }} />
         </div>
       </div>
 
       {/* Controls */}
       <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap", marginBottom: "20px" }}>
-        <button onClick={() => setStepIdx(0)} style={btnStyle("#334155", "#e2e8f0")}>⏮ Reset</button>
-        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btnStyle("#334155", "#e2e8f0")}>◀ Prev</button>
-        <button onClick={() => setPlaying(p => !p)} style={btnStyle(algo.color, "#0a0f1e")}>
+        <button onClick={() => setStepIdx(0)} style={btnStyle("var(--bg-elevated)", "#e2e8f0")}>⏮ Reset</button>
+        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btnStyle("var(--bg-elevated)", "#e2e8f0")}>◀ Prev</button>
+        <button onClick={() => setPlaying(p => !p)} style={btnStyle(algo.color, "var(--bg-base)")}>
           {playing ? "⏸ Pause" : "▶ Play"}
         </button>
-        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btnStyle("#334155", "#e2e8f0")}>Next ▶</button>
-        <select value={speed} onChange={e => setSpeed(Number(e.target.value))} style={{ padding: "8px 12px", borderRadius: "8px", background: "#0f172a", color: "#94a3b8", border: "1px solid #334155", cursor: "pointer" }}>
+        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btnStyle("var(--bg-elevated)", "#e2e8f0")}>Next ▶</button>
+        <select value={speed} onChange={e => setSpeed(Number(e.target.value))} style={{ padding: "8px 12px", borderRadius: "8px", background: "var(--bg-surface)", color: "var(--text-2)", border: "1px solid var(--border)", cursor: "pointer" }}>
           <option value={800}>Slow</option>
           <option value={400}>Normal</option>
           <option value={150}>Fast</option>
@@ -295,10 +295,10 @@ export default function SortingViz() {
       <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
         <input value={customInput} onChange={e => setCustomInput(e.target.value)}
           placeholder="Enter numbers: 38,27,43,3,9,82"
-          style={{ flex: 1, minWidth: "200px", padding: "8px 14px", borderRadius: "8px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "13px" }}
+          style={{ flex: 1, minWidth: "200px", padding: "8px 14px", borderRadius: "8px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px" }}
         />
-        <button onClick={handleCustom} style={btnStyle(algo.color, "#0a0f1e")}>Sort Karo</button>
-        <button onClick={shuffle} style={btnStyle("#334155", "#e2e8f0")}>🎲 Random</button>
+        <button onClick={handleCustom} style={btnStyle(algo.color, "var(--bg-base)")}>Sort Karo</button>
+        <button onClick={shuffle} style={btnStyle("var(--bg-elevated)", "#e2e8f0")}>🎲 Random</button>
       </div>
     </div>
   );

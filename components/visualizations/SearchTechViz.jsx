@@ -91,7 +91,7 @@ function BinarySearchViz() {
 
   return (
     <div>
-      <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "13px", color: "var(--text-2)", marginBottom: "16px", lineHeight: 1.6 }}>
         Sorted array mein har step pe search space HALF karo. n=10^6 → sirf 20 steps! 🎯
       </p>
 
@@ -111,8 +111,8 @@ function BinarySearchViz() {
               <div style={{
                 width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center",
                 borderRadius: "8px", fontSize: "14px", fontWeight: 700, fontFamily: "'Fira Code', monospace",
-                background: isFound ? "#34d39920" : isMid ? "#fbbf2420" : eliminated ? "#0f172a" : "#1e293b",
-                border: `2px solid ${isFound ? "#34d399" : isMid ? "#fbbf24" : i === step.l ? "#22d3ee" : i === step.r ? "#a78bfa" : eliminated ? "#0f172a" : "#334155"}`,
+                background: isFound ? "#34d39920" : isMid ? "#fbbf2420" : eliminated ? "var(--bg-surface)" : "var(--bg-elevated)",
+                border: `2px solid ${isFound ? "#34d399" : isMid ? "#fbbf24" : i === step.l ? "#22d3ee" : i === step.r ? "#a78bfa" : eliminated ? "var(--bg-surface)" : "var(--bg-elevated)"}`,
                 color: isFound ? "#34d399" : isMid ? "#fbbf24" : eliminated ? "#374151" : "#e2e8f0",
                 transition: "all 0.3s", textDecoration: eliminated ? "line-through" : "none",
               }}>{val}</div>
@@ -122,25 +122,25 @@ function BinarySearchViz() {
         })}
       </div>
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px 16px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#22d3ee", border: "1px solid #22d3ee30", minHeight: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px 16px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#22d3ee", border: "1px solid #22d3ee30", minHeight: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {step.msg || "Start karo"}
       </div>
 
       <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap", marginBottom: "12px" }}>
-        <span style={{ fontSize: "12px", color: "#64748b" }}>Target:</span>
-        <input value={inputTarget} onChange={e => setInputTarget(e.target.value)} style={{ width: "80px", padding: "6px 10px", borderRadius: "6px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "13px" }} />
-        <button onClick={() => { const t = Number(inputTarget); setTarget(t); run(t); }} style={btn("#22d3ee", "#0a0f1e")}>Search</button>
-        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btn("#334155", "#e2e8f0")}>◀</button>
-        <button onClick={() => setPlaying(p => !p)} style={btn("#22d3ee", "#0a0f1e")}>{playing ? "⏸" : "▶"}</button>
-        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btn("#334155", "#e2e8f0")}>▶</button>
-        <span style={{ fontSize: "11px", color: "#64748b" }}>Step {stepIdx + 1}/{steps.length}</span>
+        <span style={{ fontSize: "12px", color: "var(--text-3)" }}>Target:</span>
+        <input value={inputTarget} onChange={e => setInputTarget(e.target.value)} style={{ width: "80px", padding: "6px 10px", borderRadius: "6px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px" }} />
+        <button onClick={() => { const t = Number(inputTarget); setTarget(t); run(t); }} style={btn("#22d3ee", "var(--bg-base)")}>Search</button>
+        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btn("var(--bg-elevated)", "#e2e8f0")}>◀</button>
+        <button onClick={() => setPlaying(p => !p)} style={btn("#22d3ee", "var(--bg-base)")}>{playing ? "⏸" : "▶"}</button>
+        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btn("var(--bg-elevated)", "#e2e8f0")}>▶</button>
+        <span style={{ fontSize: "11px", color: "var(--text-3)" }}>Step {stepIdx + 1}/{steps.length}</span>
       </div>
 
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", fontSize: "11px" }}>
-        {[["#1e293b", "Normal"], ["#fbbf24", "Mid"], ["#22d3ee", "Left"], ["#a78bfa", "Right"], ["#34d399", "Found"]].map(([c, l]) => (
+        {[["var(--bg-elevated)", "Normal"], ["#fbbf24", "Mid"], ["#22d3ee", "Left"], ["#a78bfa", "Right"], ["#34d399", "Found"]].map(([c, l]) => (
           <span key={l} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
             <span style={{ width: 10, height: 10, borderRadius: 2, background: c, display: "block", border: `1px solid ${c}` }} />
-            <span style={{ color: "#64748b" }}>{l}</span>
+            <span style={{ color: "var(--text-3)" }}>{l}</span>
           </span>
         ))}
       </div>
@@ -172,7 +172,7 @@ function TwoPointerViz() {
 
   return (
     <div>
-      <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "13px", color: "var(--text-2)", marginBottom: "16px", lineHeight: 1.6 }}>
         Sorted array mein do pointers opposite ends se aate hain. Sum zyada → right--, Sum chhota → left++. O(n) ✅
       </p>
 
@@ -189,8 +189,8 @@ function TwoPointerViz() {
               <div style={{
                 width: "42px", height: "42px", display: "flex", alignItems: "center", justifyContent: "center",
                 borderRadius: "8px", fontSize: "13px", fontWeight: 700,
-                background: isFound ? "#34d39920" : isL ? "#22d3ee20" : isR ? "#a78bfa20" : "#1e293b",
-                border: `2px solid ${isFound ? "#34d399" : isL ? "#22d3ee" : isR ? "#a78bfa" : "#334155"}`,
+                background: isFound ? "#34d39920" : isL ? "#22d3ee20" : isR ? "#a78bfa20" : "var(--bg-elevated)",
+                border: `2px solid ${isFound ? "#34d399" : isL ? "#22d3ee" : isR ? "#a78bfa" : "var(--bg-elevated)"}`,
                 color: isFound ? "#34d399" : isL ? "#22d3ee" : isR ? "#a78bfa" : between ? "#94a3b8" : "#64748b",
                 transition: "all 0.3s",
               }}>{val}</div>
@@ -202,26 +202,26 @@ function TwoPointerViz() {
       {step.sum !== undefined && (
         <div style={{ textAlign: "center", marginBottom: "12px", fontSize: "16px", fontWeight: 700 }}>
           <span style={{ color: "#22d3ee" }}>{arr[step.l]}</span>
-          <span style={{ color: "#64748b" }}> + </span>
+          <span style={{ color: "var(--text-3)" }}> + </span>
           <span style={{ color: "#a78bfa" }}>{arr[step.r]}</span>
-          <span style={{ color: "#64748b" }}> = </span>
+          <span style={{ color: "var(--text-3)" }}> = </span>
           <span style={{ color: step.sum === step.target ? "#34d399" : step.sum < step.target ? "#fb7185" : "#fbbf24" }}>{step.sum}</span>
-          <span style={{ color: "#64748b" }}> (target: {step.target})</span>
+          <span style={{ color: "var(--text-3)" }}> (target: {step.target})</span>
         </div>
       )}
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#a78bfa", border: "1px solid #a78bfa30", minHeight: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#a78bfa", border: "1px solid #a78bfa30", minHeight: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {step.msg || "Start karo"}
       </div>
 
       <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
-        <span style={{ fontSize: "12px", color: "#64748b" }}>Target Sum:</span>
-        <input value={inputTarget} onChange={e => setInputTarget(e.target.value)} style={{ width: "80px", padding: "6px 10px", borderRadius: "6px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "13px" }} />
-        <button onClick={() => { const t = Number(inputTarget); setTarget(t); run(t); }} style={btn("#a78bfa", "#0a0f1e")}>Find</button>
-        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btn("#334155", "#e2e8f0")}>◀</button>
-        <button onClick={() => setPlaying(p => !p)} style={btn("#a78bfa", "#0a0f1e")}>{playing ? "⏸" : "▶"}</button>
-        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btn("#334155", "#e2e8f0")}>▶</button>
-        <span style={{ fontSize: "11px", color: "#64748b" }}>Step {stepIdx + 1}/{steps.length}</span>
+        <span style={{ fontSize: "12px", color: "var(--text-3)" }}>Target Sum:</span>
+        <input value={inputTarget} onChange={e => setInputTarget(e.target.value)} style={{ width: "80px", padding: "6px 10px", borderRadius: "6px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px" }} />
+        <button onClick={() => { const t = Number(inputTarget); setTarget(t); run(t); }} style={btn("#a78bfa", "var(--bg-base)")}>Find</button>
+        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btn("var(--bg-elevated)", "#e2e8f0")}>◀</button>
+        <button onClick={() => setPlaying(p => !p)} style={btn("#a78bfa", "var(--bg-base)")}>{playing ? "⏸" : "▶"}</button>
+        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btn("var(--bg-elevated)", "#e2e8f0")}>▶</button>
+        <span style={{ fontSize: "11px", color: "var(--text-3)" }}>Step {stepIdx + 1}/{steps.length}</span>
       </div>
     </div>
   );
@@ -250,7 +250,7 @@ function SlidingWindowViz() {
 
   return (
     <div>
-      <p style={{ fontSize: "13px", color: "#94a3b8", marginBottom: "16px", lineHeight: 1.6 }}>
+      <p style={{ fontSize: "13px", color: "var(--text-2)", marginBottom: "16px", lineHeight: 1.6 }}>
         Window expand karo (right++), jab duplicate aaye toh shrink karo (left++). Longest substring without repeat. O(n) ✅
       </p>
 
@@ -263,38 +263,38 @@ function SlidingWindowViz() {
               <div style={{
                 width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center",
                 borderRadius: "8px", fontSize: "18px", fontWeight: 700, fontFamily: "'Fira Code', monospace",
-                background: isBest ? "#34d39920" : inWindow ? (step.shrinking ? "#fb718520" : "#34d39920") : "#1e293b",
-                border: `2px solid ${isBest ? "#34d399" : inWindow ? (step.shrinking ? "#fb7185" : "#34d399") : i === step.l ? "#22d3ee" : "#334155"}`,
+                background: isBest ? "#34d39920" : inWindow ? (step.shrinking ? "#fb718520" : "#34d39920") : "var(--bg-elevated)",
+                border: `2px solid ${isBest ? "#34d399" : inWindow ? (step.shrinking ? "#fb7185" : "#34d399") : i === step.l ? "#22d3ee" : "var(--bg-elevated)"}`,
                 color: isBest ? "#34d399" : inWindow ? (step.shrinking ? "#fb7185" : "#34d399") : "#64748b",
                 transition: "all 0.25s",
               }}>{char}</div>
-              <div style={{ fontSize: "9px", color: "#475569" }}>{i}</div>
+              <div style={{ fontSize: "9px", color: "var(--text-3)" }}>{i}</div>
             </div>
           );
         })}
       </div>
 
       <div style={{ textAlign: "center", marginBottom: "12px" }}>
-        <span style={{ fontSize: "13px", color: "#64748b" }}>Current window: </span>
+        <span style={{ fontSize: "13px", color: "var(--text-3)" }}>Current window: </span>
         <span style={{ fontSize: "13px", color: "#34d399", fontWeight: 700, fontFamily: "'Fira Code', monospace" }}>
           "{step.l !== undefined && step.r !== undefined && step.r >= step.l ? s.slice(step.l, step.r + 1) : ""}"
         </span>
-        <span style={{ fontSize: "13px", color: "#64748b" }}> | Max length: </span>
+        <span style={{ fontSize: "13px", color: "var(--text-3)" }}> | Max length: </span>
         <span style={{ fontSize: "13px", color: "#fbbf24", fontWeight: 700 }}>{step.maxLen || 0}</span>
       </div>
 
-      <div style={{ background: "#0f172a", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#34d399", border: "1px solid #34d39930", minHeight: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "var(--bg-surface)", borderRadius: "8px", padding: "12px", marginBottom: "16px", textAlign: "center", fontSize: "13px", color: "#34d399", border: "1px solid #34d39930", minHeight: "40px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {step.msg || "Start karo"}
       </div>
 
       <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
         <input value={inputStr} onChange={e => setInputStr(e.target.value)} placeholder="String likhو..."
-          style={{ flex: 1, minWidth: "140px", padding: "7px 12px", borderRadius: "7px", background: "#0f172a", color: "#e2e8f0", border: "1px solid #334155", fontSize: "13px" }} />
-        <button onClick={() => { setStr(inputStr); run(inputStr); }} style={btn("#34d399", "#0a0f1e")}>Run</button>
-        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btn("#334155", "#e2e8f0")}>◀</button>
-        <button onClick={() => setPlaying(p => !p)} style={btn("#34d399", "#0a0f1e")}>{playing ? "⏸" : "▶"}</button>
-        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btn("#334155", "#e2e8f0")}>▶</button>
-        <span style={{ fontSize: "11px", color: "#64748b" }}>Step {stepIdx + 1}/{steps.length}</span>
+          style={{ flex: 1, minWidth: "140px", padding: "7px 12px", borderRadius: "7px", background: "var(--bg-surface)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px" }} />
+        <button onClick={() => { setStr(inputStr); run(inputStr); }} style={btn("#34d399", "var(--bg-base)")}>Run</button>
+        <button onClick={() => setStepIdx(p => Math.max(0, p - 1))} style={btn("var(--bg-elevated)", "#e2e8f0")}>◀</button>
+        <button onClick={() => setPlaying(p => !p)} style={btn("#34d399", "var(--bg-base)")}>{playing ? "⏸" : "▶"}</button>
+        <button onClick={() => setStepIdx(p => Math.min(steps.length - 1, p + 1))} style={btn("var(--bg-elevated)", "#e2e8f0")}>▶</button>
+        <span style={{ fontSize: "11px", color: "var(--text-3)" }}>Step {stepIdx + 1}/{steps.length}</span>
       </div>
     </div>
   );

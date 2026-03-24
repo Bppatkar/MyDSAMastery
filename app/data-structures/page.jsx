@@ -361,7 +361,7 @@ function DSCard({ ch, isActive, onClick }) {
           <div style={{ fontWeight: 700, color: isActive ? ch.color : "#e2e8f0", fontSize: "16px" }}>
             Ch {ch.id}. {ch.title}
           </div>
-          {ch.prev && <div style={{ fontSize: "11px", color: "#64748b" }}>← {ch.prev} ki problem fix</div>}
+          {ch.prev && <div style={{ fontSize: "11px", color: "var(--text-3)" }}>← {ch.prev} ki problem fix</div>}
         </div>
       </div>
     </div>
@@ -380,7 +380,7 @@ export default function DataStructures() {
         <div style={{ position: "sticky", top: "88px" }}>
           <div style={{ marginBottom: "16px" }}>
             <h2 style={{ fontSize: "18px", fontWeight: 700, color: "#22d3ee", marginBottom: "4px" }}>📦 Data Structures</h2>
-            <p style={{ fontSize: "12px", color: "#64748b" }}>10 chapters • Evolution story</p>
+            <p style={{ fontSize: "12px", color: "var(--text-3)" }}>10 chapters • Evolution story</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {chapters.map((c, i) => (
@@ -392,17 +392,17 @@ export default function DataStructures() {
 
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ background: "#111827", borderRadius: "20px", padding: "40px", border: `1px solid ${ch.border}`, boxShadow: `0 0 40px ${ch.color}12` }}>
+        <div style={{ background: "var(--bg-card)", borderRadius: "20px", padding: "40px", border: `1px solid ${ch.border}`, boxShadow: `0 0 40px ${ch.color}12` }}>
 
           {/* Header */}
           <div style={{ marginBottom: "32px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
               <span style={{ fontSize: "48px" }}>{ch.emoji}</span>
               <div>
-                <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "4px" }}>Chapter {ch.id} of {chapters.length}</div>
+                <div style={{ fontSize: "12px", color: "var(--text-3)", marginBottom: "4px" }}>Chapter {ch.id} of {chapters.length}</div>
                 <h1 style={{ fontSize: "36px", fontWeight: 800, color: ch.color }}>{ch.title}</h1>
                 {ch.prev && (
-                  <div style={{ fontSize: "13px", color: "#64748b", marginTop: "4px" }}>
+                  <div style={{ fontSize: "13px", color: "var(--text-3)", marginTop: "4px" }}>
                     ← {ch.prev} ki problem solve karta hai → {ch.next ? `${ch.next} ki zaroorat` : "End of DS evolution"}
                   </div>
                 )}
@@ -415,7 +415,7 @@ export default function DataStructures() {
             <h2 style={{ fontSize: "16px", fontWeight: 700, color: ch.color, marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
               ❓ Kyu Use Karte Hain?
             </h2>
-            <div style={{ background: "#0f172a", borderRadius: "12px", padding: "20px", border: "1px solid #1e293b", fontSize: "15px", color: "#cbd5e1", lineHeight: 1.7 }}>
+            <div style={{ background: "var(--bg-surface)", borderRadius: "12px", padding: "20px", border: "1px solid var(--border)", fontSize: "15px", color: "var(--text-2)", lineHeight: 1.7 }}>
               {ch.kyu}
             </div>
           </section>
@@ -426,8 +426,8 @@ export default function DataStructures() {
               🧠 Memory Mein Kaise Store Hota Hai?
             </h2>
             <pre style={{
-              background: "#0a0f1e", borderRadius: "12px", padding: "20px",
-              border: `1px solid ${ch.color}20`, fontSize: "13px", color: "#94a3b8",
+              background: "var(--bg-base)", borderRadius: "12px", padding: "20px",
+              border: `1px solid ${ch.color}20`, fontSize: "13px", color: "var(--text-2)",
               overflowX: "auto", lineHeight: 1.8, whiteSpace: "pre-wrap",
               fontFamily: "'Fira Code', monospace",
             }}>{ch.memory}</pre>
@@ -437,13 +437,13 @@ export default function DataStructures() {
               <div style={{ marginTop: "16px", display: "flex", gap: "4px" }}>
                 {ch.diagram.map(({ label, val, addr }) => (
                   <div key={label} style={{ flex: 1, textAlign: "center" }}>
-                    <div style={{ fontSize: "10px", color: "#64748b", marginBottom: "4px" }}>{addr}</div>
+                    <div style={{ fontSize: "10px", color: "var(--text-3)", marginBottom: "4px" }}>{addr}</div>
                     <div style={{
                       background: `${ch.color}15`, border: `2px solid ${ch.color}40`,
                       borderRadius: "8px", padding: "12px 4px",
                       fontSize: "18px", fontWeight: 700, color: ch.color,
                     }}>{val}</div>
-                    <div style={{ fontSize: "10px", color: "#64748b", marginTop: "4px" }}>{label}</div>
+                    <div style={{ fontSize: "10px", color: "var(--text-3)", marginTop: "4px" }}>{label}</div>
                   </div>
                 ))}
               </div>
@@ -455,22 +455,22 @@ export default function DataStructures() {
             <h2 style={{ fontSize: "16px", fontWeight: 700, color: ch.color, marginBottom: "12px" }}>
               ⚡ Operations aur Complexity
             </h2>
-            <div style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid #1e293b" }}>
+            <div style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid var(--border)" }}>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr style={{ background: "#0f172a" }}>
+                  <tr style={{ background: "var(--bg-surface)" }}>
                     {["Operation", "Time", "Speed", "Kyu?"].map(h => (
-                      <th key={h} style={{ padding: "12px 16px", textAlign: "left", fontSize: "12px", color: "#64748b", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
+                      <th key={h} style={{ padding: "12px 16px", textAlign: "left", fontSize: "12px", color: "var(--text-3)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {ch.ops.map((op, i) => (
-                    <tr key={i} style={{ borderTop: "1px solid #1e293b", background: i % 2 === 0 ? "transparent" : "#0f172a10" }}>
-                      <td style={{ padding: "14px 16px", fontFamily: "'Fira Code', monospace", fontSize: "13px", color: "#e2e8f0" }}>{op.op}</td>
+                    <tr key={i} style={{ borderTop: "1px solid var(--border)", background: i % 2 === 0 ? "transparent" : "#0f172a10" }}>
+                      <td style={{ padding: "14px 16px", fontFamily: "'Fira Code', monospace", fontSize: "13px", color: "var(--text-1)" }}>{op.op}</td>
                       <td style={{ padding: "14px 16px" }}><ComplexityBadge time={op.time} fast={op.fast} /></td>
                       <td style={{ padding: "14px 16px", fontSize: "18px" }}>{op.fast ? "✅" : "❌"}</td>
-                      <td style={{ padding: "14px 16px", fontSize: "13px", color: "#94a3b8" }}>{op.why}</td>
+                      <td style={{ padding: "14px 16px", fontSize: "13px", color: "var(--text-2)" }}>{op.why}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -487,7 +487,7 @@ export default function DataStructures() {
               {ch.problems.map((p, i) => (
                 <div key={i} style={{ display: "flex", gap: "12px", alignItems: "flex-start", background: "rgba(251,113,133,0.06)", borderRadius: "10px", padding: "14px 16px", border: "1px solid rgba(251,113,133,0.12)" }}>
                   <span style={{ color: "#fb7185", fontSize: "16px", flexShrink: 0 }}>⚠️</span>
-                  <span style={{ color: "#94a3b8", fontSize: "14px", lineHeight: 1.6 }}>{p}</span>
+                  <span style={{ color: "var(--text-2)", fontSize: "14px", lineHeight: 1.6 }}>{p}</span>
                 </div>
               ))}
             </div>
