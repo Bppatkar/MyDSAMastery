@@ -1,486 +1,1150 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+import { SEQUENCE, THINKING_CUES } from "@/lib/data";
 
-// ── DS Revision Cards ────────────────────────────────────────
-const dsCards = [
-  {
-    title: "Array", emoji: "🧱", color: "#22d3ee",
-    oneliner: "Contiguous memory mein same type ke elements — index se O(1) direct access.",
+// ── Small animated DS illustrations ─────────────────────────
+function StackAnim() {
+  const [items, setItems] = useState([10, 20, 30]);
+  const [msg, setMsg] = useState("");
+
+  const push = () => {
+    const v = Math.floor(Math.random() * 90 + 10);
+    setItems(p => [...p, v]);
+    setMsg(`push(${v}) → top pe add, O(1)`);
+  };
+  const pop = () => {
+    if (!items.length) return;
+    const v = items[items.length - 1];
+    setItems(p => p.slice(0, -1));
+    setMsg(`pop() → ${v} nikla, O(1)`);
+  };
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div style={{
+        display: "inline-flex",
+        flexDirection: "column-reverse",
+        gap: "3px",
+        minHeight: "100px",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        marginBottom: "10px",
+      }}>
+        {items.length === 0 && (
+          <div style={{ fontSize: "11px", color: "var(--text-3)", padding: "8px" }}>
+            Empty
+          </div>
+        )}
+        {items.map((v, i) => (
+          <div
+            key={`${v}-${i}`}
+            style={{
+              width: "64px",
+              padding: "7px 0",
+              textAlign: "center",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: 700,
+              background: i === items.length - 1
+                ? "rgba(129,140,248,0.2)"
+                : "var(--bg-elevated)",
+              border: `1px solid ${
+                i === items.length - 1 ? "#818cf8" : "var(--border)"
+              }`,
+              color: i === items.length - 1 ? "#818cf8" : "var(--text-2)",
+              transition: "all 0.2s",
+            }}
+          >
+            {v}
+          </div>
+        ))}
+      </div>
+
+      {msg && (
+        <div style={{
+          fontSize: "11px",
+          color: "var(--text-3)",
+          marginBottom: "8px",
+          fontStyle: "italic",
+        }}>
+          {msg}
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: "6px", justifyContent: "center" }}>
+        <button
+          onClick={push}
+          style={{
+            padding: "5px 12px",
+            borderRadius: "6px",
+            background: "rgba(129,140,248,0.15)",
+            border: "1px solid #818cf880",
+            color: "#818cf8",
+            fontSize: "11px",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          push ↑
+        </button>
+        <button
+          onClick={pop}
+          style={{
+            padding: "5px 12px",
+            borderRadius: "6px",
+            background: "var(--bg-elevated)",
+            border: "1px solid var(--border)",
+            color: "var(--text-3)",
+            fontSize: "11px",
+            cursor: "pointer",
+          }}
+        >
+          pop ↓
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function QueueAnim() {
+  const [items, setItems] = useState([10, 20, 30]);
+  const [msg, setMsg] = useState("");
+
+  const enqueue = () => {
+    const v = Math.floor(Math.random() * 90 + 10);
+    setItems(p => [...p, v]);
+    setMsg(`enqueue(${v}) → REAR pe, O(1)`);
+  };
+  const dequeue = () => {
+    if (!items.length) return;
+    const v = items[0];
+    setItems(p => p.slice(1));
+    setMsg(`dequeue() → ${v} FRONT se, O(1)`);
+  };
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div style={{
+        display: "flex",
+        gap: "3px",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "52px",
+        marginBottom: "8px",
+        flexWrap: "wrap",
+      }}>
+        {items.length === 0 && (
+          <span style={{ fontSize: "11px", color: "var(--text-3)" }}>Empty</span>
+        )}
+        {items.map((v, i) => (
+          <div
+            key={`${v}-${i}`}
+            style={{
+              width: "44px",
+              padding: "8px 0",
+              textAlign: "center",
+              borderRadius: "6px",
+              fontSize: "13px",
+              fontWeight: 700,
+              background: i === 0
+                ? "rgba(34,211,238,0.15)"
+                : i === items.length - 1
+                ? "rgba(167,139,250,0.15)"
+                : "var(--bg-elevated)",
+              border: `1px solid ${
+                i === 0 ? "#22d3ee"
+                : i === items.length - 1 ? "#a78bfa"
+                : "var(--border)"
+              }`,
+              color: i === 0
+                ? "#22d3ee"
+                : i === items.length - 1 ? "#a78bfa"
+                : "var(--text-2)",
+            }}
+          >
+            {v}
+          </div>
+        ))}
+      </div>
+
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        fontSize: "10px",
+        color: "var(--text-3)",
+        marginBottom: "8px",
+        padding: "0 4px",
+      }}>
+        <span style={{ color: "#22d3ee" }}>← FRONT (dequeue)</span>
+        <span style={{ color: "#a78bfa" }}>REAR (enqueue) →</span>
+      </div>
+
+      {msg && (
+        <div style={{
+          fontSize: "11px",
+          color: "var(--text-3)",
+          marginBottom: "8px",
+          fontStyle: "italic",
+        }}>
+          {msg}
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: "6px", justifyContent: "center" }}>
+        <button
+          onClick={enqueue}
+          style={{
+            padding: "5px 12px",
+            borderRadius: "6px",
+            background: "rgba(167,139,250,0.15)",
+            border: "1px solid #a78bfa80",
+            color: "#a78bfa",
+            fontSize: "11px",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          enqueue →
+        </button>
+        <button
+          onClick={dequeue}
+          style={{
+            padding: "5px 12px",
+            borderRadius: "6px",
+            background: "rgba(34,211,238,0.1)",
+            border: "1px solid #22d3ee80",
+            color: "#22d3ee",
+            fontSize: "11px",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          ← dequeue
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ArrayAnim() {
+  const [arr] = useState([10, 20, 30, 40, 50]);
+  const [hi, setHi] = useState(null);
+
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div style={{
+        display: "flex",
+        gap: "3px",
+        justifyContent: "center",
+        marginBottom: "8px",
+      }}>
+        {arr.map((v, i) => (
+          <div
+            key={i}
+            onMouseEnter={() => setHi(i)}
+            onMouseLeave={() => setHi(null)}
+            style={{
+              width: "44px",
+              padding: "10px 0",
+              textAlign: "center",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: 700,
+              background: hi === i
+                ? "rgba(34,211,238,0.2)"
+                : "var(--bg-elevated)",
+              border: `1px solid ${hi === i ? "#22d3ee" : "var(--border)"}`,
+              color: hi === i ? "#22d3ee" : "var(--text-2)",
+              cursor: "default",
+              transition: "all 0.15s",
+            }}
+          >
+            {v}
+          </div>
+        ))}
+      </div>
+
+      <div style={{
+        display: "flex",
+        gap: "3px",
+        justifyContent: "center",
+        marginBottom: "6px",
+      }}>
+        {arr.map((_, i) => (
+          <div
+            key={i}
+            style={{
+              width: "44px",
+              textAlign: "center",
+              fontSize: "10px",
+              color: "var(--text-3)",
+            }}
+          >
+            [{i}]
+          </div>
+        ))}
+      </div>
+
+      <div style={{ fontSize: "11px", color: "var(--text-3)", fontStyle: "italic" }}>
+        {hi !== null
+          ? `arr[${hi}] = ${arr[hi]}  →  addr = base + ${hi} × 4`
+          : "Hover karo → address formula dekho"}
+      </div>
+    </div>
+  );
+}
+
+// Map: topicId → mini animation component
+const ANIM_MAP = {
+  "array": ArrayAnim,
+  "stack": StackAnim,
+  "queue": QueueAnim,
+};
+
+// ── Revision content per topic ───────────────────────────────
+const REVISION_CONTENT = {
+  "array": {
     operations: [
-      { op: "Access arr[i]", time: "O(1)", why: "base + i×size formula — direct RAM address" },
-      { op: "Search (unsorted)", time: "O(n)", why: "Worst case saara scan" },
-      { op: "Insert/Delete middle", time: "O(n)", why: "Shift karna padta hai — contiguous rakho" },
-      { op: "Insert at end", time: "O(1) amort", why: "Bas daalo — resize rare hai" },
+      { op: "Access arr[i]", t: "O(1)", why: "base + i×size — direct address" },
+      { op: "Search (unsorted)", t: "O(n)", why: "Worst case saara scan" },
+      { op: "Insert/Delete middle", t: "O(n)", why: "Shift karna padta hai" },
+      { op: "Insert at end", t: "O(1) amort", why: "Resize rare — average O(1)" },
     ],
     keepInMind: [
-      "arr[i] ka address = base + i × element_size — isliye O(1)",
-      "Fixed size declare hoti hai — overflow ya waste dono possible",
-      "Sorted array pe Binary Search → O(log n)",
-      "Insert/Delete middle mein shift hoti hai — O(n)",
+      "Contiguous memory — badi arrays ke liye ek saath itni RAM chahiye",
+      "Sorted array → Binary Search applicable (O(log n))",
+      "Two Pointers aur Sliding Window sab array ke upar hi build hote hain",
     ],
     memorize: [
-      "Access O(1) — kyunki direct address calculate",
+      "Access O(1) — kyunki direct address formula",
       "Insert/Delete middle O(n) — kyunki shift",
-      "Sorted array → Binary Search applicable",
+      "Fixed size — overflow ya waste dono possible",
     ],
-    summary: "Array tab best hai jab random access zyada ho aur insert/delete kam. Fixed size limitation hai.",
-    problem: "Fixed size + contiguous memory requirement → Linked List ki need",
   },
-  {
-    title: "Linked List", emoji: "🔗", color: "#38bdf8",
-    oneliner: "Scattered nodes — har node mein data + next pointer. No fixed size, no contiguous memory.",
+  "stack": {
     operations: [
-      { op: "Access i-th element", time: "O(n)", why: "Head se traverse — direct jump impossible" },
-      { op: "Insert at Head", time: "O(1)", why: "Sirf head pointer update — size matter nahi" },
-      { op: "Insert at Tail (with ptr)", time: "O(1)", why: "Tail pointer directly update" },
-      { op: "Insert at Middle", time: "O(n)", why: "Pehle traverse, phir pointer update" },
-      { op: "Delete at Head", time: "O(1)", why: "Head ko aage badhao" },
-      { op: "Search", time: "O(n)", why: "Linear scan — no index" },
+      { op: "push(x)", t: "O(1)", why: "Top pe add" },
+      { op: "pop()", t: "O(1)", why: "Top se remove" },
+      { op: "peek()", t: "O(1)", why: "Top dekho only" },
+      { op: "Search", t: "O(n)", why: "Anti-pattern — avoid" },
     ],
     keepInMind: [
-      "Array se ulta — no random access, no index",
-      "Singly: sirf aage. Doubly: aage + peeche. Circular: last → head",
-      "Extra memory: har node mein pointer overhead (8 bytes)",
-      "Cache unfriendly — nodes scattered in RAM",
-      "Sirf agar pointer pata ho toh insert O(1) — otherwise traverse O(n)",
+      "LIFO — last aaya pehle nikla",
+      "Browser back, Ctrl+Z, function calls — sab LIFO",
+      "Monotonic Stack: next greater/smaller ke liye",
+      "DFS iterative bhi Stack use karta hai",
     ],
     memorize: [
-      "Head insert O(1), middle insert O(n) (traverse required)",
-      "No random access — O(n) for i-th element",
-      "Doubly LL: delete at tail O(1) (prev pointer available)",
+      "Push, Pop, Peek — O(1)",
+      "Parentheses matching: open → push, close → pop + match",
     ],
-    summary: "Dynamic size + cheap insert at head. Cache unfriendly aur no random access weakness hai.",
-    problem: "LIFO ya FIFO specifically chahiye → Stack ya Queue",
   },
-  {
-    title: "Stack", emoji: "📚", color: "#818cf8",
-    oneliner: "LIFO — Last In, First Out. Sirf TOP se push aur pop. Linked List pe LIFO restriction.",
+  "queue": {
     operations: [
-      { op: "push(x)", time: "O(1)", why: "Top pe add — ek operation" },
-      { op: "pop()", time: "O(1)", why: "Top se remove — ek operation" },
-      { op: "peek()", time: "O(1)", why: "Top dekho, remove mat karo" },
-      { op: "Search", time: "O(n)", why: "Anti-pattern — stack pe search nahi karte" },
+      { op: "enqueue", t: "O(1)", why: "REAR pe add" },
+      { op: "dequeue", t: "O(1)", why: "FRONT se remove" },
+      { op: "peek", t: "O(1)", why: "FRONT dekho" },
+      { op: "Search", t: "O(n)", why: "Scan karna padta hai" },
     ],
     keepInMind: [
-      "Browser back, Ctrl+Z (undo), function call stack — sab LIFO",
-      "Parentheses matching: open → push, close → pop aur match",
-      "DFS iteratively bhi stack use karta hai",
-      "Monotonic Stack: next greater/smaller element problems",
-    ],
-    memorize: [
-      "Push, Pop, Peek — sab O(1)",
-      "LIFO — last aaya woh pehle nikla",
-      "Parentheses matching + DFS iterative = Stack",
-    ],
-    summary: "Whenever 'last used first' pattern aaye — Stack. Function calls, undo, bracket matching.",
-    problem: "FIFO chahiye (first aaya pehle nikle) → Queue",
-  },
-  {
-    title: "Queue", emoji: "🚶", color: "#a78bfa",
-    onelined: "FIFO — First In, First Out. REAR se add, FRONT se remove.",
-    operations: [
-      { op: "enqueue (add)", time: "O(1)", why: "REAR pe add" },
-      { op: "dequeue (remove)", time: "O(1)", why: "FRONT se remove" },
-      { op: "peek / front", time: "O(1)", why: "FRONT dekho" },
-      { op: "Search", time: "O(n)", why: "Scan karna padta hai" },
-    ],
-    keepInMind: [
-      "Circular Queue: wasted space fix — REAR wraparound (REAR+1) % size",
-      "Deque: dono ends se insert/delete — sliding window max ke liye",
-      "Priority Queue: priority ke hisaab se nikle — internally Heap",
-      "BFS mein Queue use hoti hai — level-by-level explore",
-    ],
-    memorize: [
-      "Enqueue, Dequeue — O(1)",
       "FIFO — pehle aaya pehle nikla",
+      "BFS ka backbone — level-by-level = Queue",
+      "Circular Queue: wasted space fix",
+      "Priority Queue: internally Heap",
+    ],
+    memorize: [
       "BFS = Queue, DFS = Stack",
+      "Enqueue rear se, Dequeue front se",
     ],
-    summary: "BFS, CPU scheduling, print queue — jab real-world 'line' pattern ho.",
-    problem: "Key se O(1) search chahiye → Hash Table",
   },
-  {
-    title: "Hash Table", emoji: "🗂️", color: "#f59e0b",
-    onelined: "Key → Hash Function → Array Index. O(1) average lookup for any key type.",
+  "linked-list": {
     operations: [
-      { op: "Insert", time: "O(1) avg", why: "Hash compute + direct store" },
-      { op: "Search", time: "O(1) avg", why: "Hash compute + direct access" },
-      { op: "Delete", time: "O(1) avg", why: "Hash compute + remove" },
-      { op: "Worst case all", time: "O(n)", why: "Sab ek bucket mein — poor hash" },
+      { op: "Insert at Head", t: "O(1)", why: "Head pointer update" },
+      { op: "Access i-th", t: "O(n)", why: "Head se traverse" },
+      { op: "Search", t: "O(n)", why: "Linear scan" },
+      { op: "Delete at Head", t: "O(1)", why: "Head aage badhao" },
     ],
     keepInMind: [
-      "Collision: same index pe do keys — Chaining (LL) ya Open Addressing",
-      "Load Factor = n/m > 0.7 → resize karo (double buckets, rehash all)",
+      "No random access — O(n) for any index",
+      "Insert at head O(1) — agar pointer pata ho O(1) anywhere",
+      "Cache unfriendly — nodes scattered",
+      "Singly: sirf aage. Doubly: dono taraf.",
+    ],
+    memorize: [
+      "Insert at head O(1), access i-th O(n)",
+      "Cycle → Fast-Slow. Middle → Fast-Slow.",
+    ],
+  },
+  "two-pointers": {
+    operations: [
+      { op: "Opposite ends (sorted)", t: "O(n)", why: "Combined n moves" },
+      { op: "Same direction (in-place)", t: "O(n)", why: "slow/fast n moves each" },
+      { op: "Fast-Slow (cycle)", t: "O(n)", why: "Floyd's — circular track" },
+    ],
+    keepInMind: [
+      "Dono pointers kabhi ek doosre se aage nahi jaate → O(n)",
+      "Sorted hona chahiye for opposite ends",
+      "In-place modify ke liye same direction",
+    ],
+    memorize: [
+      "Sorted + pairs → opposite ends",
+      "In-place → same direction (slow = valid zone end)",
+      "Cycle → fast-slow (Floyd's)",
+    ],
+  },
+  "sliding-window": {
+    operations: [
+      { op: "Fixed window", t: "O(n)", why: "Add right, remove left-k" },
+      { op: "Variable window", t: "O(n)", why: "right ++ / left ++ only" },
+    ],
+    keepInMind: [
+      "Window real mein exist nahi — sirf left aur right indices",
+      "right kabhi peeche nahi jaata + left kabhi right se aage nahi → O(n)",
+      "Variable: expand right, shrink left jab constraint toote",
+      "Max/min in window → Deque bhi chahiye",
+    ],
+    memorize: [
+      "Continuous subarray + constraint → Sliding Window",
+      "at_most(k) - at_most(k-1) = exactly(k) trick",
+      "Negative numbers wale sum → Prefix Sum (not SW)",
+    ],
+  },
+  "hashmap": {
+    operations: [
+      { op: "Insert/Search/Delete", t: "O(1) avg", why: "Hash compute + direct" },
+      { op: "Worst case", t: "O(n)", why: "All keys same bucket" },
+    ],
+    keepInMind: [
       "No ordering — keys random order mein iterate",
-      "Range queries impossible — '25 se 30 age wale' slow",
+      "Complement pattern: need = target - current",
+      "Prefix sum + HashMap = range sum / subarray sum",
+      "Load factor > 0.7 → resize",
     ],
     memorize: [
-      "Average O(1) insert/search/delete",
-      "No ordering — sorted data ke liye BST better",
-      "Collision: Chaining (LL at index) ya Linear Probing",
+      "O(1) average, O(n) worst",
+      "Two Sum = HashMap complement",
+      "Anagram = same frequency → HashMap",
     ],
-    summary: "Fast key-value lookup. Ordering ya range queries chahiye toh BST use karo.",
-    problem: "Ordered + hierarchical data chahiye → Binary Search Tree",
   },
-  {
-    title: "BST (Binary Search Tree)", emoji: "🌳", color: "#34d399",
-    onelined: "Rule: Left < Node < Right. Sorted order maintain karta hai dynamically.",
+  "binary-search": {
     operations: [
-      { op: "Search", time: "O(log n) avg", why: "Har step pe half eliminate" },
-      { op: "Insert", time: "O(log n) avg", why: "Correct position tak traverse" },
-      { op: "Delete", time: "O(log n) avg", why: "3 cases: leaf, 1 child, 2 children" },
-      { op: "Worst case", time: "O(n)", why: "Sorted input → skewed tree → linked list" },
-      { op: "Inorder traversal", time: "O(n)", why: "Sorted output nikalta hai" },
+      { op: "Classic search", t: "O(log n)", why: "Har step half eliminate" },
+      { op: "Answer space", t: "O(n log max)", why: "n feasibility × log max" },
     ],
     keepInMind: [
-      "Inorder (Left→Node→Right) = Sorted output — BST ka superpower",
-      "Sorted order mein insert karo → skewed tree → O(n) worst case",
-      "3 delete cases: leaf → simply remove; 1 child → bypass; 2 children → inorder successor",
+      "SORTED ya monotonic hona zaroori",
+      "'Minimize max' / 'Maximize min' → Binary Search on Answer",
+      "mid = lo + (hi-lo)/2 — overflow safe",
+      "lo<hi vs lo<=hi: exact value → lo<=hi, boundary/answer → lo<hi",
     ],
     memorize: [
-      "BST Rule: Left < Node < Right — HAR node pe",
-      "Inorder traversal = sorted sequence",
-      "Worst case O(n) — sorted input se avoid karo",
+      "O(log n) — n=10^6 → 20 steps",
+      "Answer space: canAchieve(X) monotonic → binary search",
+      "Leftmost occurrence: if found, r=mid-1 (keep going left)",
     ],
-    summary: "Sorted data dynamically maintain karna + O(log n) operations average. Unbalanced hone ka risk.",
-    problem: "O(n) worst case → AVL Tree (guaranteed balance)",
   },
-  {
-    title: "AVL Tree", emoji: "⚖️", color: "#10b981",
-    onelined: "Self-balancing BST — Balance Factor |h(L)-h(R)| ≤ 1 always.",
+  "heap": {
     operations: [
-      { op: "Search/Insert/Delete", time: "O(log n)", why: "GUARANTEED — tree always balanced" },
+      { op: "Peek max/min", t: "O(1)", why: "Root hamesha answer" },
+      { op: "Insert (heapify up)", t: "O(log n)", why: "Height = log n levels" },
+      { op: "Delete max/min (heapify down)", t: "O(log n)", why: "Bubble down log n" },
+      { op: "Build heap", t: "O(n)", why: "Bottom-up heapify — linear!" },
     ],
     keepInMind: [
-      "Balance Factor = height(left) - height(right) — valid: -1, 0, +1",
-      "4 rotation types: LL (Right rotate), RR (Left), LR (Left-Right), RL (Right-Left)",
-      "Red-Black Tree: less strict balance, fewer rotations → Java TreeMap, C++ map",
-    ],
-    memorize: [
-      "AVL: strict balance → O(log n) guaranteed",
-      "4 rotations: LL, RR, LR, RL",
-      "Red-Black = AVL ka relaxed version, faster writes",
-    ],
-    summary: "Guaranteed O(log n) — sorted input pe bhi. Rotation overhead hai.",
-    problem: "Streaming max/min fast chahiye → Heap",
-  },
-  {
-    title: "Heap", emoji: "🏔️", color: "#fb923c",
-    onelined: "Max/Min hamesha root pe. Array se implement hota hai internally.",
-    operations: [
-      { op: "Peek Max/Min", time: "O(1)", why: "Root is always answer" },
-      { op: "Insert (heapify up)", time: "O(log n)", why: "Tree height = log n levels" },
-      { op: "Delete Max/Min (heapify down)", time: "O(log n)", why: "Bubble down log n levels" },
-      { op: "Build Heap", time: "O(n)", why: "Bottom-up heapify — linear!" },
-      { op: "Search any element", time: "O(n)", why: "No ordering except parent>child" },
-    ],
-    keepInMind: [
-      "Array indices: Parent = (i-1)/2, Left = 2i+1, Right = 2i+2",
-      "Top-K pattern: Min-heap of size K → heap[0] = Kth largest",
-      "Two Heaps trick: median of stream (max-heap lower half, min-heap upper half)",
-      "Heap Sort: Build heap O(n) + n×extract O(log n) = O(n log n) in-place",
+      "Array pe implement: parent=(i-1)/2, left=2i+1, right=2i+2",
+      "Top-K = min-heap of size K → heap[0] = Kth largest",
+      "Median stream = two heaps (max lower + min upper)",
+      "Build heap O(n) not O(n log n) — important!",
     ],
     memorize: [
       "Peek O(1), Insert/Delete O(log n)",
-      "Array formula: parent=(i-1)/2, left=2i+1, right=2i+2",
-      "Top-K = Min-heap of size K",
+      "Top-K: min-heap size K, heap[0] = answer",
+      "Build heap O(n) (not n log n)",
     ],
-    summary: "Jab max ya min baar baar chahiye — Heap. BST se better O(1) peek.",
-    problem: "Connections/relationships → Graph",
   },
-  {
-    title: "Graph", emoji: "🕸️", color: "#e879f9",
-    onelined: "Nodes + Edges — koi bhi node kisi bhi node se connected ho sakta hai. No hierarchy restriction.",
+  "monotonic-stack": {
     operations: [
-      { op: "BFS/DFS (Adj List)", time: "O(V+E)", why: "Har node aur edge ek baar visit" },
-      { op: "BFS/DFS (Adj Matrix)", time: "O(V²)", why: "Har node pe V checks" },
-      { op: "Add Edge (List)", time: "O(1)", why: "List mein append" },
-      { op: "Check Edge (Matrix)", time: "O(1)", why: "Direct index" },
+      { op: "Next greater (decreasing stack)", t: "O(n)", why: "Har element ek push, ek pop" },
+      { op: "Next smaller (increasing stack)", t: "O(n)", why: "Same — linear total" },
     ],
     keepInMind: [
-      "Adj List O(V+E) space → sparse graphs. Adj Matrix O(V²) → dense graphs",
-      "BFS → shortest path (unweighted). Dijkstra → weighted positive",
-      "DFS → cycles, connected components, topological sort",
-      "Topological sort sirf DAG (no cycles) pe kaam karta hai",
+      "Decreasing stack → next GREATER (bada aaya → saare chhote pop)",
+      "Increasing stack → next SMALLER (chhota aaya → saare bade pop)",
+      "Stack mein indices store karo (values bhi chahiye toh arr[idx])",
+      "Histogram: increasing stack, barrier pe area calculate",
     ],
     memorize: [
-      "BFS = Queue, shortest unweighted. DFS = Stack/Recursion, all paths",
-      "Adj List: sparse. Adj Matrix: dense. Space matters.",
-      "Cycle detection: DFS color (white/gray/black) ya Union-Find",
+      "Decreasing = next greater. Increasing = next smaller.",
+      "Sentinel value daalo end pe — sab flush ho jaayein",
+      "Har element O(1) amortized → total O(n)",
     ],
-    summary: "Real-world connections — roads, social networks, internet. BFS ya DFS choose karo based on problem.",
-    problem: "String prefix search → Trie",
   },
-  {
-    title: "Trie (Prefix Tree)", emoji: "🔤", color: "#f43f5e",
-    onelined: "Char-by-char tree — common prefix ek baar store. O(L) operations where L = word length.",
+  "graph": {
     operations: [
-      { op: "Insert", time: "O(L)", why: "L = word length, char by char" },
-      { op: "Search", time: "O(L)", why: "Path follow karo char by char" },
-      { op: "startsWith prefix", time: "O(L)", why: "Path exist karta hai?" },
-      { op: "getAllWithPrefix (DFS)", time: "O(L + output)", why: "Prefix path + DFS subtree" },
+      { op: "BFS (Adj List)", t: "O(V+E)", why: "Har node aur edge ek baar" },
+      { op: "DFS (Adj List)", t: "O(V+E)", why: "Har node aur edge ek baar" },
+      { op: "Dijkstra", t: "O((V+E)log V)", why: "BFS + Min Heap" },
     ],
     keepInMind: [
-      "TrieNode: children map + isEnd boolean",
-      "Memory heavy: 26 pointers per node (English) — HashMap children use karo",
-      "Keywords: 'prefix', 'autocomplete', 'starts with', 'spell check'",
+      "BFS = Queue = level-by-level = shortest unweighted path",
+      "DFS = Stack/Recursion = deep dive = all paths, cycles",
+      "Multi-source BFS: sab sources ek saath queue mein",
+      "Adj List O(V+E) space — sparse. Matrix O(V²) — dense.",
     ],
     memorize: [
-      "All operations O(L) — word count pe depend nahi",
-      "isEnd = true matlab yahan koi word khatam hota hai",
-      "Common prefix ek baar store — space efficient for prefix-heavy data",
+      "BFS shortest path unweighted. DFS all paths, cycles.",
+      "Dijkstra = weighted positive edges. Bellman-Ford = negative.",
+      "Multi-source: sab sources level 0 pe queue mein",
     ],
-    summary: "String prefix problems ke liye specialized. Autocomplete engines mein use hota hai.",
-    problem: "Trie = last DS in evolution chain.",
   },
-];
-
-// ── Algorithm Pattern Revision Cards ───────────────────────
-const algoCards = [
-  {
-    title: "Two Pointers", emoji: "👆👆", color: "#22d3ee",
-    onelined: "O(n²) nested loops → O(n). Do variables jo smart tarike se move karte hain.",
-    mentalModel: "Sochlo 2 fingers ek sorted array pe — ek left se, ek right se. Sum bada → right finger peeche, sum chhota → left finger aage.",
-    subtypes: ["Opposite Ends: sorted + pairs (Two Sum, 3Sum, Palindrome)", "Same Direction: in-place modify (Remove Duplicates, Move Zeroes)", "Fast-Slow: cycle detection, LL middle (Floyd's algorithm)", "Merge: two sorted arrays combine karo"],
-    keywords: ["palindrome", "sorted + target sum", "remove duplicates", "cycle detection", "in-place modify"],
-    complexity: "Time: O(n) | Space: O(1)",
-    memorize: ["Left kabhi right se aage nahi jaata — combined n moves → O(n)", "Sorted array pe opposite ends", "Fast-Slow: cycle = dono milenge"],
+  "topo-sort": {
+    operations: [
+      { op: "Kahn's BFS", t: "O(V+E)", why: "Process V nodes, visit E edges" },
+    ],
+    keepInMind: [
+      "DAG only (Directed Acyclic Graph). Cycle → impossible.",
+      "In-degree 0 → ready to process",
+      "Cycle detect: processed < n at end",
+      "Multiple valid orderings possible",
+    ],
+    memorize: [
+      "In-degree 0 = no prerequisites = start karo",
+      "processed < n → cycle tha",
+      "Kahn's = BFS. DFS version = reverse postorder.",
+    ],
   },
-  {
-    title: "Sliding Window", emoji: "🪟", color: "#a78bfa",
-    onelined: "Continuous subarray/substring mein O(n²) → O(n). Window expand/shrink karo.",
-    mentalModel: "Yeh window real mein exist nahi karti. Bas do variables: i (left boundary) aur j (right pointer). Jab j aage badhta hai — window expand. Jab constraint violate ho, i aage badhata hai — shrink. Dimag mein ek rubber band window imagine karo jo expand aur contract karti hai.",
-    subtypes: ["Fixed Size: exactly k elements (sum, max, frequency)", "Variable Window: longest/shortest with constraint (no-repeat, at most K)", "Count-based: exactly(k) = at_most(k) - at_most(k-1) trick"],
-    keywords: ["substring", "subarray", "continuous", "window", "longest no-repeat", "max sum of k"],
-    complexity: "Time: O(n) | Space: O(k)",
-    memorize: ["right kabhi left nahi jaata + left kabhi right se aage nahi → total 2n moves → O(n)", "Variable window: expand right → shrink left jab constraint toote", "at_most trick for 'exactly k' problems"],
+  "union-find": {
+    operations: [
+      { op: "find(x)", t: "O(α(n))≈O(1)", why: "Path compression" },
+      { op: "union(x,y)", t: "O(α(n))≈O(1)", why: "Rank + path compression" },
+    ],
+    keepInMind: [
+      "Path compression: find mein har node seedha root pe",
+      "Union by rank: chhota tree bade ke neeche",
+      "find return karta hai — same root? → already connected → cycle!",
+      "Dynamic edges (ek ek aate hain) → UF. Static → BFS/DFS.",
+    ],
+    memorize: [
+      "O(α(n)) ≈ O(1) practically",
+      "union returns false → already connected → CYCLE",
+      "count-- jab successful union → component count track",
+    ],
   },
-  {
-    title: "Binary Search", emoji: "🎯", color: "#38bdf8",
-    onelined: "Sorted ya monotonic data pe O(n) → O(log n). Har step pe search space HALF.",
-    mentalModel: "Sochlo phone book mein name dhundna — middle pe jaao, compare karo, half eliminate karo. n=1,000,000 → sirf 20 steps. Key insight: har step pe ek decision leke HALF problem eliminate ho jaaye.",
-    subtypes: ["Classic: exact value dhundho", "Boundary: first/last occurrence (left boundary find)", "Binary Search on Answer: 'minimize maximum' type — answer range pe search karo"],
-    keywords: ["sorted array search", "kth element", "minimize maximum", "maximize minimum", "first/last occurrence"],
-    complexity: "Time: O(log n) | Space: O(1)",
-    memorize: ["Condition: sorted ya monotonic property", "mid = left + (right-left)/2 (overflow safe)", "'Minimize max' = binary search on answer space"],
+  "dp-1d": {
+    operations: [
+      { op: "Build dp table", t: "O(n)", why: "Linear scan with O(1) per step" },
+    ],
+    keepInMind: [
+      "dp[i] = optimal for input size i. Define kya represent karta hai pehle.",
+      "Base cases galat → poora DP galat",
+      "Recurrence = heart of DP. Ek recurrence likh diya → code easy.",
+      "Space optimize: sirf prev 1-2 values chahiye? → O(1) space possible",
+    ],
+    memorize: [
+      "dp[i] = max(dp[i-1], dp[i-2] + nums[i]) — House Robber",
+      "dp[n] = dp[n-1] + dp[n-2] — Climbing Stairs",
+      "Coin Change: dp[x] = 1 + min(dp[x-coin]) for each coin",
+    ],
   },
-  {
-    title: "Dynamic Programming", emoji: "🔄", color: "#fbbf24",
-    onelined: "Overlapping subproblems → store karo, dobara calculate mat karo. O(2^n) → O(n) ya O(n²).",
-    mentalModel: "Ek simple question: 'Kya maine yeh subproblem pehle solve kiya?' Agar haan — direct return. Nahi — solve karo aur memo mein daalo. Fibonacci example: fib(5) = fib(4)+fib(3). fib(3) baar baar calculate nahi karna — ek baar karo, table mein rakho.",
-    subtypes: ["1D DP: dp[i] depends on dp[i-1] (Climbing Stairs, House Robber, Coin Change)", "2D DP: dp[i][j] depends on neighbors (Unique Paths, LCS, Edit Distance)", "0/1 Knapsack: include/exclude each item once", "Unbounded Knapsack: item unlimited use (Coin Change)"],
-    keywords: ["number of ways", "minimum/maximum cost", "can you reach", "longest subsequence", "optimal"],
-    complexity: "Time: O(n) to O(n²) | Space: O(n) to O(n²)",
-    memorize: ["2 conditions: overlapping subproblems + optimal substructure", "Top-down = Memoization (recursion + cache)", "Bottom-up = Tabulation (iterative, fill table)", "0/1 Knapsack: traverse weight backwards (prevent reuse)"],
+  "dp-2d": {
+    operations: [
+      { op: "Build 2D dp table", t: "O(n×m)", why: "Fill each cell once" },
+      { op: "0/1 Knapsack (1D opt)", t: "O(n×W)", why: "1D dp, backward traverse" },
+    ],
+    keepInMind: [
+      "0/1 Knapsack: backward traverse → same item baar baar use nahi",
+      "Unbounded Knapsack: forward traverse → item reuse allowed",
+      "LCS: dp[i][j] = match? dp[i-1][j-1]+1 : max(dp[i-1][j], dp[i][j-1])",
+      "2D reduce to 1D: agar sirf prev row chahiye",
+    ],
+    memorize: [
+      "0/1 = backward traverse. Unbounded = forward.",
+      "dp[i][j] define carefully — misdefine → wrong recurrence",
+    ],
   },
-  {
-    title: "Backtracking", emoji: "🔙", color: "#34d399",
-    onelined: "Saari possibilities explore karo — invalid path mein jaao hi mat (pruning). Output = list of lists.",
-    mentalModel: "Sochlo outfits try karna — shirt A pehni, pants B pehni, nahi chali → pants B utaro (backtrack), pants C try karo. CHOOSE → EXPLORE → UNCHOOSE. Pruning se invalid branches early cut hoti hain.",
-    subtypes: ["Subsets: include/exclude har element (2^n)", "Combinations: k size ke groups, order matter nahi", "Permutations: saari arrangements (n!)", "Constraint-based: N-Queens, Sudoku (pruning = game changer)"],
-    keywords: ["all possible", "generate all", "combinations", "permutations", "find all subsets"],
-    complexity: "Time: O(2^n) to O(n!) | Space: O(n)",
-    memorize: ["Template: choose → explore → unchoose", "Output = list of lists → almost always backtracking", "n ≤ 20 → backtracking ok", "Pruning: invalid branch early exit = huge speedup"],
+  "backtracking": {
+    operations: [
+      { op: "Subsets O(2^n)", t: "O(2^n × n)", why: "2^n subsets, each length n" },
+      { op: "Permutations O(n!)", t: "O(n! × n)", why: "n! arrangements" },
+    ],
+    keepInMind: [
+      "CHOOSE → EXPLORE → UNCHOOSE (backtrack) — 3 lines",
+      "Pruning = invalid branch early exit = huge speedup",
+      "Output = list of lists → always backtracking",
+      "n ≤ 20 confirm karo before choosing backtracking",
+    ],
+    memorize: [
+      "Subsets: start index aage badhao (no reuse). Permutations: used[] array.",
+      "Pruning zaroori — bina pruning N-Queens impractical",
+    ],
   },
-  {
-    title: "Graph — BFS & DFS", emoji: "🌐", color: "#e879f9",
-    onelined: "BFS: Queue, level-by-level, shortest path. DFS: Stack/Recursion, deep first, all paths.",
-    mentalModel: "BFS = ripple in water — ek stone daalo, waves circle mein phelti hain. Level 1 = adjacent, Level 2 = neighbors' neighbors. DFS = ek chor raste mein ghus jaata hai jahantak jaata hai, phir bahar aata hai.",
-    subtypes: ["BFS: Shortest path unweighted, level order, multi-source", "DFS: Connected components, cycle detection, topological sort", "Dijkstra: BFS + Min Heap → weighted shortest path (positive)", "Topological Sort: Kahn's BFS (in-degree) — dependency order"],
-    keywords: ["shortest path", "connected components", "islands", "level order", "cycle detection", "dependencies"],
-    complexity: "BFS/DFS: O(V+E) | Dijkstra: O((V+E)log V)",
-    memorize: ["BFS = Queue, DFS = Stack/Recursion", "BFS = shortest unweighted path", "Topo sort = valid only on DAG (no cycles)", "Multi-source BFS: sab sources ek saath queue mein"],
+  "bst": {
+    operations: [
+      { op: "Search/Insert/Delete", t: "O(log n) avg", why: "Balanced tree height = log n" },
+      { op: "Inorder traversal", t: "O(n)", why: "Sorted output" },
+      { op: "Worst case all", t: "O(n)", why: "Sorted insert → skewed" },
+    ],
+    keepInMind: [
+      "BST Rule: Left < Node < Right — HAR node pe",
+      "Inorder (L→N→R) = sorted sequence",
+      "Sorted order mein insert → skewed → O(n) worst",
+      "AVL/Red-Black: guaranteed O(log n)",
+    ],
+    memorize: [
+      "Inorder = sorted output",
+      "Worst case: sorted input → linked list shape → O(n)",
+    ],
   },
-  {
-    title: "Greedy", emoji: "💰", color: "#fb923c",
-    onelined: "Har step pe locally best choice lo — agar globally optimal ho toh. DP se faster.",
-    mentalModel: "Greedy doctor ki tarah sochta hai — abhi jo best lagta hai woh lo, future ki chinta mat karo. Works kab: agar locally best choice future choice ko restrict nahi karti (greedy choice property). Fails kab: 0/1 Knapsack — heavy item lo, valuable chhota item miss ho sakta hai.",
-    subtypes: ["Activity Selection: earliest ending pehle (proven optimal)", "Fractional Knapsack: value/weight ratio sort karo", "Interval Scheduling: sort by end time", "Jump Game: max reachable track karo"],
-    keywords: ["minimum operations", "activity selection", "earliest deadline", "interval", "always best local"],
-    complexity: "Time: O(n) to O(n log n) | Space: O(1)",
-    memorize: ["Greedy works: Activity Selection, Fractional Knapsack, Huffman", "Greedy FAILS: 0/1 Knapsack, Coin Change (arbitrary)", "Test: greedy choice → future options restrict hoti hain? → DP use karo"],
+  "prefix-sum": {
+    operations: [
+      { op: "Build prefix array", t: "O(n)", why: "Single pass" },
+      { op: "Range sum query", t: "O(1)", why: "prefixSum[r] - prefixSum[l-1]" },
+    ],
+    keepInMind: [
+      "prefixSum[i] = arr[0]+...+arr[i-1]. Range [l,r] = prefixSum[r+1] - prefixSum[l]",
+      "Negative numbers ke saath bhi kaam karta (unlike sliding window)",
+      "Prefix + HashMap = subarray sum = k problem",
+    ],
+    memorize: [
+      "Range sum = O(1) after O(n) build",
+      "Negative numbers → Prefix Sum, not Sliding Window",
+      "Map({0:1}) initialize karo — pura prefix valid ho toh",
+    ],
   },
-  {
-    title: "Heap / Priority Queue", emoji: "🏔️", color: "#f43f5e",
-    onelined: "Dynamic max/min access. Top-K pattern ka king.",
-    mentalModel: "Hospital emergency queue — jo zyada urgent patient hai, woh pehle jaayega, bhale hi baad mein aaya ho. Heap internally array hai, tree ki tarah behave karta hai.",
-    subtypes: ["Top-K: Min-heap of size K → K largest find karo O(n log k)", "Merge K Sorted: har list ka head heap mein daalo", "Median Stream: two heaps — lower half max-heap, upper half min-heap", "Sliding Window Max: Deque (monotonic)"],
-    keywords: ["k largest", "k smallest", "top k frequent", "median", "merge k lists"],
-    complexity: "Insert/Delete: O(log n) | Peek: O(1)",
-    memorize: ["Top-K = Min-heap of size K (heap[0] = Kth largest)", "Median = Two heaps balanced", "Build heap = O(n) (not O(n log n))"],
+  "fast-slow": {
+    operations: [
+      { op: "Cycle detect", t: "O(n)", why: "Floyd's — O(1) space" },
+      { op: "Find middle", t: "O(n)", why: "Fast = 2x, slow = 1x" },
+    ],
+    keepInMind: [
+      "Fast = 2 steps, slow = 1 step. Cycle mein dono zaroor milenge.",
+      "Cycle length C: slow enters cycle, fast catches in C steps.",
+      "Cycle entry: Phase 1 (find meeting), Phase 2 (head + meeting → entry)",
+    ],
+    memorize: [
+      "Cycle: fast.next.next, slow.next. Meet → cycle.",
+      "Middle: fast ends → slow at middle.",
+    ],
   },
-];
+  "trie": {
+    operations: [
+      { op: "Insert/Search/startsWith", t: "O(L)", why: "L = word length, char by char" },
+    ],
+    keepInMind: [
+      "TrieNode: children (Map ya array[26]) + isEnd boolean",
+      "Common prefix ek baar store — space efficient",
+      "Memory heavy: 26 pointers per node → HashMap children better",
+    ],
+    memorize: [
+      "All ops O(L) — word count pe nahi",
+      "Keywords: prefix, autocomplete, starts with",
+    ],
+  },
+};
 
-function DSRevCard({ card }) {
-  const [showAll, setShowAll] = useState(false);
-  const c = card.color;
-  return (
-    <div style={{ background: "var(--bg-card)", borderRadius: "16px", border: `1px solid var(--border)`, overflow: "hidden" }}>
-      {/* Header */}
-      <div style={{ padding: "20px 24px", background: `${c}08`, borderBottom: `1px solid ${c}20` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-          <span style={{ fontSize: "24px" }}>{card.emoji}</span>
-          <span style={{ fontSize: "18px", fontWeight: 800, color: c }}>{card.title}</span>
-        </div>
-        <p style={{ fontSize: "13px", color: "var(--text-2)", fontStyle: "italic" }}>{card.onelined || card.oneliner}</p>
-      </div>
-
-      <div style={{ padding: "20px 24px" }}>
-        {/* Operations */}
-        <div style={{ marginBottom: "18px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "8px" }}>⚡ Operations</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-            {card.operations.slice(0, showAll ? 99 : 3).map(op => (
-              <div key={op.op} style={{ display: "grid", gridTemplateColumns: "160px 100px 1fr", gap: "8px", alignItems: "center", fontSize: "12px" }}>
-                <code style={{ color: "var(--text-1)", fontFamily: "'Fira Code', monospace" }}>{op.op}</code>
-                <code style={{ color: c, background: `${c}12`, padding: "2px 8px", borderRadius: "5px", fontFamily: "'Fira Code', monospace" }}>{op.time}</code>
-                <span style={{ color: "var(--text-3)" }}>{op.why}</span>
-              </div>
-            ))}
-            {card.operations.length > 3 && (
-              <button onClick={() => setShowAll(!showAll)} style={{ fontSize: "11px", color: c, background: "none", border: "none", cursor: "pointer", textAlign: "left", marginTop: "2px" }}>
-                {showAll ? "▲ kam dikhaao" : `▼ +${card.operations.length - 3} aur operations`}
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Keep in mind */}
-        <div style={{ marginBottom: "18px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "8px" }}>🧠 Yeh Dhyan Mein Rakho</div>
-          {card.keepInMind.map((k, i) => (
-            <div key={i} style={{ fontSize: "12px", color: "var(--text-2)", marginBottom: "5px", paddingLeft: "10px", borderLeft: `2px solid ${c}40`, lineHeight: 1.5 }}>{k}</div>
-          ))}
-        </div>
-
-        {/* Memorize */}
-        <div style={{ background: `${c}08`, borderRadius: "10px", padding: "14px", marginBottom: "14px", border: `1px solid ${c}20` }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: c, marginBottom: "8px" }}>📌 Yeh Memorize Karo (Revision ke time)</div>
-          {card.memorize.map((m, i) => (
-            <div key={i} style={{ display: "flex", gap: "7px", fontSize: "12px", color: "var(--text-2)", marginBottom: "4px" }}>
-              <span style={{ color: c, flexShrink: 0 }}>✓</span><span>{m}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Summary */}
-        <div style={{ fontSize: "12px", color: "var(--text-2)", padding: "10px 12px", background: "var(--bg-surface)", borderRadius: "8px", lineHeight: 1.6 }}>
-          <strong style={{ color: "var(--text-1)" }}>Summary:</strong> {card.summary}
-        </div>
-        {card.problem && (
-          <div style={{ fontSize: "11px", color: "var(--text-3)", marginTop: "8px", fontStyle: "italic" }}>
-            👉 Problem jo agla structure solve karta hai: {card.problem}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function AlgoRevCard({ card }) {
-  const c = card.color;
-  return (
-    <div style={{ background: "var(--bg-card)", borderRadius: "16px", border: `1px solid var(--border)`, overflow: "hidden" }}>
-      <div style={{ padding: "18px 22px", background: `${c}08`, borderBottom: `1px solid ${c}20` }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "5px" }}>
-          <span style={{ fontSize: "22px" }}>{card.emoji}</span>
-          <span style={{ fontSize: "17px", fontWeight: 800, color: c }}>{card.title}</span>
-          <code style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "5px", background: `${c}15`, color: c, marginLeft: "auto" }}>{card.complexity}</code>
-        </div>
-        <p style={{ fontSize: "12px", color: "var(--text-2)", fontStyle: "italic" }}>{card.onelined}</p>
-      </div>
-
-      <div style={{ padding: "18px 22px" }}>
-        {/* Mental Model */}
-        <div style={{ marginBottom: "16px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "7px" }}>💡 Mental Model (Yaad karne ki trick)</div>
-          <div style={{ fontSize: "12.5px", color: "var(--text-2)", lineHeight: 1.7, padding: "12px", background: "var(--bg-surface)", borderRadius: "8px", borderLeft: `3px solid ${c}` }}>
-            {card.mentalModel}
-          </div>
-        </div>
-
-        {/* Subtypes */}
-        <div style={{ marginBottom: "16px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "7px" }}>🔀 Subtypes</div>
-          {card.subtypes.map((s, i) => (
-            <div key={i} style={{ fontSize: "12px", color: "var(--text-2)", marginBottom: "5px", paddingLeft: "10px", borderLeft: `2px solid ${c}40` }}>{s}</div>
-          ))}
-        </div>
-
-        {/* Keywords */}
-        <div style={{ marginBottom: "14px" }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-3)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "7px" }}>🔑 Keywords jo problem mein dikhein</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-            {card.keywords.map(k => (
-              <span key={k} style={{ padding: "3px 10px", borderRadius: "6px", fontSize: "11px", background: `${c}10`, color: c, border: `1px solid ${c}25`, fontStyle: "italic" }}>"{k}"</span>
-            ))}
-          </div>
-        </div>
-
-        {/* Memorize */}
-        <div style={{ background: `${c}08`, borderRadius: "10px", padding: "12px", border: `1px solid ${c}20` }}>
-          <div style={{ fontSize: "12px", fontWeight: 700, color: c, marginBottom: "7px" }}>📌 Yeh Memorize Karo</div>
-          {card.memorize.map((m, i) => (
-            <div key={i} style={{ display: "flex", gap: "7px", fontSize: "12px", color: "var(--text-2)", marginBottom: "4px" }}>
-              <span style={{ color: c, flexShrink: 0 }}>✓</span><span>{m}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
+// ── Main Component ───────────────────────────────────────────
 export default function Revision() {
-  const [tab, setTab] = useState("ds");
-  const [search, setSearch] = useState("");
-  const [collapsed, setCollapsed] = useState({});
-
-  const filteredDS = dsCards.filter(c => c.title.toLowerCase().includes(search.toLowerCase()));
-  const filteredAlgo = algoCards.filter(c => c.title.toLowerCase().includes(search.toLowerCase()) || c.keywords?.some(k => k.includes(search.toLowerCase())));
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const topic = selectedTopic
+    ? SEQUENCE.find(s => s.id === selectedTopic)
+    : null;
+  const content = selectedTopic
+    ? REVISION_CONTENT[selectedTopic]
+    : null;
+  const AnimComp = selectedTopic
+    ? ANIM_MAP[selectedTopic]
+    : null;
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "36px 24px" }}>
+    <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "32px 24px" }}>
 
       {/* Header */}
-      <div style={{ marginBottom: "36px" }}>
-        <h1 style={{ fontSize: "clamp(26px,5vw,40px)", fontWeight: 900, marginBottom: "8px", color: "var(--text-1)" }}>
+      <div style={{ marginBottom: "28px" }}>
+        <h1 style={{
+          fontSize: "clamp(24px,5vw,36px)",
+          fontWeight: 900,
+          color: "var(--text-1)",
+          marginBottom: "10px",
+        }}>
           🔁 Revision Hub
         </h1>
-        <div style={{ background: "rgba(251,113,133,0.08)", border: "1px solid rgba(251,113,133,0.2)", borderRadius: "10px", padding: "14px 18px", display: "inline-flex", gap: "10px", alignItems: "flex-start", maxWidth: "700px" }}>
-          <span style={{ fontSize: "18px" }}>💡</span>
+
+        {/* Active recall banner */}
+        <div style={{
+          background: "rgba(251,113,133,0.07)",
+          border: "1px solid rgba(251,113,133,0.2)",
+          borderRadius: "10px",
+          padding: "12px 16px",
+          fontSize: "13px",
+          color: "var(--text-2)",
+          display: "flex",
+          gap: "10px",
+          alignItems: "flex-start",
+          maxWidth: "680px",
+        }}>
+          <span style={{ fontSize: "16px", flexShrink: 0 }}>💡</span>
           <div>
-            <strong style={{ color: "#fb7185", fontSize: "13px" }}>Revision = Active Recall</strong>
-            <p style={{ fontSize: "12px", color: "var(--text-2)", marginTop: "4px", lineHeight: 1.6 }}>
-              Sirf padhna revision nahi hai. Pehle <em>yaad karo ki padha kya tha</em> — phir dekho. 
-              Har card pe pehle mentally answer socho, phir verify karo. Yahi brain mein concepts fix hote hain.
-            </p>
+            <strong style={{ color: "#fb7185" }}>Revision = Active Recall</strong>
+            {" "}— Pehle yaad karo, phir check karo.
+            Topic select karo → mentally saari operations aur complexities socho →
+            phir dekho kitna match hua.
           </div>
         </div>
       </div>
 
-      {/* Tabs + Search */}
-      <div style={{ display: "flex", gap: "12px", marginBottom: "24px", flexWrap: "wrap", alignItems: "center" }}>
-        <div style={{ display: "flex", gap: "6px" }}>
-          {[["ds", "📦 Data Structures"], ["algo", "⚙️ Algorithm Patterns"]].map(([id, label]) => (
-            <button key={id} onClick={() => setTab(id)} style={{
-              padding: "9px 20px", borderRadius: "8px", cursor: "pointer",
-              background: tab === id ? "var(--accent-rose)" : "var(--bg-elevated)",
-              color: tab === id ? "#fff" : "var(--text-2)",
-              border: "none", fontWeight: tab === id ? 700 : 400, fontSize: "13px",
-            }}>{label}</button>
-          ))}
-        </div>
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search..."
-          style={{ padding: "9px 14px", borderRadius: "8px", background: "var(--bg-elevated)", color: "var(--text-1)", border: "1px solid var(--border)", fontSize: "13px", width: "200px" }} />
-      </div>
+      {/* Topic not selected: show picker */}
+      {!selectedTopic && (
+        <div>
+          <p style={{
+            fontSize: "15px",
+            color: "var(--text-2)",
+            marginBottom: "20px",
+          }}>
+            Aaj kya revise karna hai?
+          </p>
 
-      {/* Cards grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: "18px" }}>
-        {tab === "ds"
-          ? filteredDS.map(c => <DSRevCard key={c.title} card={c} />)
-          : filteredAlgo.map(c => <AlgoRevCard key={c.title} card={c} />)
-        }
-      </div>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+            gap: "10px",
+          }}>
+            {SEQUENCE.map(s => (
+              <button
+                key={s.id}
+                onClick={() => setSelectedTopic(s.id)}
+                style={{
+                  padding: "16px",
+                  borderRadius: "12px",
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border)",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  transition: "border-color 0.15s, transform 0.15s",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = s.color;
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "var(--border)";
+                  e.currentTarget.style.transform = "";
+                }}
+              >
+                <div style={{ fontSize: "22px", marginBottom: "6px" }}>
+                  {s.emoji}
+                </div>
+                <div style={{
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  color: s.color,
+                  marginBottom: "4px",
+                }}>
+                  {s.title}
+                </div>
+                {s.prereqs.length > 0 && (
+                  <div style={{ fontSize: "10px", color: "var(--text-3)" }}>
+                    Prereq: {s.prereqs.join(", ")}
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Topic selected: show revision */}
+      {selectedTopic && topic && (
+        <div>
+          {/* Back + title */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            marginBottom: "24px",
+          }}>
+            <button
+              onClick={() => setSelectedTopic(null)}
+              style={{
+                padding: "7px 14px",
+                borderRadius: "8px",
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border)",
+                color: "var(--text-2)",
+                cursor: "pointer",
+                fontSize: "12px",
+              }}
+            >
+              ← Back
+            </button>
+
+            <div>
+              <span style={{ fontSize: "22px" }}>{topic.emoji}</span>
+              {" "}
+              <span style={{
+                fontSize: "22px",
+                fontWeight: 800,
+                color: topic.color,
+              }}>
+                {topic.title}
+              </span>
+            </div>
+          </div>
+
+          {/* Note */}
+          {topic.note && (
+            <div style={{
+              background: `${topic.color}08`,
+              border: `1px solid ${topic.color}25`,
+              borderRadius: "10px",
+              padding: "12px 16px",
+              fontSize: "13px",
+              color: "var(--text-2)",
+              marginBottom: "20px",
+              fontStyle: "italic",
+            }}>
+              💬 {topic.note}
+            </div>
+          )}
+
+          {/* Main grid: animation + operations + memorize */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: AnimComp ? "220px 1fr" : "1fr",
+            gap: "16px",
+            marginBottom: "16px",
+            alignItems: "start",
+          }}>
+
+            {/* Animation (only for DS with anim) */}
+            {AnimComp && (
+              <div style={{
+                background: "var(--bg-card)",
+                border: `1px solid ${topic.color}25`,
+                borderRadius: "12px",
+                padding: "20px",
+              }}>
+                <div style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  color: "var(--text-3)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                  marginBottom: "14px",
+                }}>
+                  Interactive
+                </div>
+                <AnimComp />
+              </div>
+            )}
+
+            {/* Operations + Keep in mind */}
+            {content && (
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "12px",
+              }}>
+
+                {/* Operations table */}
+                <div style={{
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                }}>
+                  <div style={{
+                    padding: "10px 16px",
+                    background: "var(--bg-surface)",
+                    borderBottom: "1px solid var(--border)",
+                    display: "grid",
+                    gridTemplateColumns: "1fr 100px 1fr",
+                    fontSize: "10px",
+                    fontWeight: 700,
+                    color: "var(--text-3)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                  }}>
+                    <span>Operation</span>
+                    <span>Time</span>
+                    <span>Kyun</span>
+                  </div>
+
+                  {content.operations.map((op, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        padding: "10px 16px",
+                        display: "grid",
+                        gridTemplateColumns: "1fr 100px 1fr",
+                        alignItems: "center",
+                        borderBottom: i < content.operations.length - 1
+                          ? "1px solid var(--border)"
+                          : "none",
+                        gap: "8px",
+                      }}
+                    >
+                      <code style={{
+                        fontSize: "12px",
+                        color: "var(--text-1)",
+                        fontFamily: "'Fira Code', monospace",
+                      }}>
+                        {op.op}
+                      </code>
+                      <code style={{
+                        fontSize: "11px",
+                        color: topic.color,
+                        background: `${topic.color}10`,
+                        padding: "2px 8px",
+                        borderRadius: "5px",
+                        fontFamily: "'Fira Code', monospace",
+                        width: "fit-content",
+                      }}>
+                        {op.t}
+                      </code>
+                      <span style={{
+                        fontSize: "12px",
+                        color: "var(--text-3)",
+                      }}>
+                        {op.why}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Keep in mind */}
+                <div style={{
+                  background: "var(--bg-card)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "12px",
+                  padding: "14px 16px",
+                }}>
+                  <div style={{
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    color: "var(--text-3)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                    marginBottom: "10px",
+                  }}>
+                    🧠 Yeh Dhyan Mein Rakho
+                  </div>
+
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px",
+                  }}>
+                    {content.keepInMind.map((k, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          fontSize: "12.5px",
+                          color: "var(--text-2)",
+                          paddingLeft: "10px",
+                          borderLeft: `2px solid ${topic.color}40`,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {k}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Memorize section */}
+          {content && (
+            <div style={{
+              background: `${topic.color}06`,
+              border: `1px solid ${topic.color}20`,
+              borderRadius: "12px",
+              padding: "16px 18px",
+              marginBottom: "16px",
+            }}>
+              <div style={{
+                fontSize: "12px",
+                fontWeight: 700,
+                color: topic.color,
+                marginBottom: "10px",
+              }}>
+                📌 Yeh Zaroor Memorize Karo
+              </div>
+
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}>
+                {content.memorize.map((m, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      fontSize: "12.5px",
+                      color: "var(--text-2)",
+                    }}
+                  >
+                    <span style={{ color: topic.color, flexShrink: 0 }}>✓</span>
+                    <span>{m}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Learning sequence suggestion */}
+          {(topic.algoLinks.length > 0 || topic.nextTopics.length > 0) && (
+            <div style={{
+              background: "var(--bg-card)",
+              border: "1px solid var(--border)",
+              borderRadius: "12px",
+              padding: "16px 18px",
+              marginBottom: "16px",
+            }}>
+              <div style={{
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "var(--text-3)",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+                marginBottom: "12px",
+              }}>
+                📚 Is Topic Ke Saath Yeh Padho
+              </div>
+
+              <div style={{
+                display: "flex",
+                gap: "8px",
+                flexWrap: "wrap",
+              }}>
+                {topic.algoLinks.map(al => (
+                  <Link
+                    key={al}
+                    href={`/patterns`}
+                    style={{
+                      padding: "6px 14px",
+                      borderRadius: "8px",
+                      background: "rgba(34,211,238,0.1)",
+                      border: "1px solid rgba(34,211,238,0.25)",
+                      color: "var(--accent-cyan)",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      textDecoration: "none",
+                    }}
+                  >
+                    ⚙️ Pattern: {al}
+                  </Link>
+                ))}
+
+                {topic.nextTopics.map(nt => {
+                  const t = SEQUENCE.find(s => s.id === nt);
+                  return t ? (
+                    <button
+                      key={nt}
+                      onClick={() => setSelectedTopic(nt)}
+                      style={{
+                        padding: "6px 14px",
+                        borderRadius: "8px",
+                        background: `${t.color}10`,
+                        border: `1px solid ${t.color}30`,
+                        color: t.color,
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {t.emoji} Next: {t.title}
+                    </button>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Practice problems */}
+          {topic.lcProblems && (
+            <div style={{
+              background: "var(--bg-card)",
+              border: "1px solid var(--border)",
+              borderRadius: "12px",
+              padding: "16px 18px",
+            }}>
+              <div style={{
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "var(--text-3)",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+                marginBottom: "12px",
+              }}>
+                🏋️ Practice — Inhe Solve Karo
+              </div>
+
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+              }}>
+                {topic.lcProblems.map(p => (
+                  <a
+                    key={p.num}
+                    href={`https://leetcode.com/problems/${p.title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      padding: "9px 12px",
+                      borderRadius: "8px",
+                      background: "var(--bg-surface)",
+                      border: "1px solid var(--border)",
+                      textDecoration: "none",
+                      transition: "border-color 0.15s",
+                    }}
+                    onMouseEnter={e =>
+                      (e.currentTarget.style.borderColor = topic.color)
+                    }
+                    onMouseLeave={e =>
+                      (e.currentTarget.style.borderColor = "var(--border)")
+                    }
+                  >
+                    <code style={{
+                      fontSize: "11px",
+                      color: topic.color,
+                      background: `${topic.color}10`,
+                      padding: "2px 8px",
+                      borderRadius: "4px",
+                      fontFamily: "'Fira Code', monospace",
+                      flexShrink: 0,
+                    }}>
+                      #{p.num}
+                    </code>
+                    <span style={{
+                      fontSize: "13px",
+                      color: "var(--text-1)",
+                      fontWeight: 500,
+                    }}>
+                      {p.title}
+                    </span>
+                    <span style={{
+                      marginLeft: "auto",
+                      fontSize: "11px",
+                      color: "var(--text-3)",
+                    }}>
+                      ↗
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

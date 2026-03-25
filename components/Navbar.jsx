@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/cheatsheet", label: "📋 Cheat Sheet" },
   { href: "/revision", label: "🔁 Revision" },
   { href: "/practice", label: "🧩 Practice" },
+  { href: "/patterns", label: "📖 Rule Book" },
 ];
 
 export default function Navbar() {
@@ -71,3 +72,4 @@ export default function Navbar() {
     </nav>
   );
 }
+// already exported above — this file is complete
