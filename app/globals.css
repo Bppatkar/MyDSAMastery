@@ -1,60 +1,78 @@
 @import "tailwindcss";
 
-/* ── Theme Variables ─────────────────────────────────────── */
 :root {
-  --bg-base:      #070c18;
-  --bg-card:      #0f1729;
-  --bg-surface:   #141d30;
-  --bg-elevated:  #1a2540;
-  --border:       #1e2d45;
-  --border-sub:   #2a3a55;
-  --text-1:       #e8edf5;
-  --text-2:       #8fa3c0;
-  --text-3:       #546880;
-  --accent-cyan:  #22d3ee;
-  --accent-violet:#a78bfa;
-  --accent-green: #34d399;
-  --accent-amber: #fbbf24;
-  --accent-rose:  #fb7185;
-  --accent-orange:#fb923c;
+  --bg:          #07090f;
+  --bg-card:     #0d1117;
+  --bg-surface:  #131820;
+  --bg-raised:   #1a2233;
+  --border:      #1e2d45;
+  --border-2:    #263550;
+  --text-1:      #e8edf5;
+  --text-2:      #8fa3c0;
+  --text-3:      #4d6480;
+  --cyan:        #22d3ee;
+  --violet:      #a78bfa;
+  --green:       #34d399;
+  --amber:       #fbbf24;
+  --rose:        #fb7185;
+  --orange:      #fb923c;
+  --blue:        #60a5fa;
 }
 
 [data-theme="light"] {
-  --bg-base:      #f0f4fb;
-  --bg-card:      #ffffff;
-  --bg-surface:   #f8faff;
-  --bg-elevated:  #edf1fa;
-  --border:       #dde3f0;
-  --border-sub:   #c8d0e4;
-  --text-1:       #0d1829;
-  --text-2:       #3a4a62;
-  --text-3:       #6b7fa0;
-  --accent-cyan:  #0891b2;
-  --accent-violet:#7c3aed;
-  --accent-green: #059669;
-  --accent-amber: #d97706;
-  --accent-rose:  #e11d48;
-  --accent-orange:#ea580c;
+  --bg:          #f0f4fb;
+  --bg-card:     #ffffff;
+  --bg-surface:  #f8faff;
+  --bg-raised:   #edf1fa;
+  --border:      #dde3f0;
+  --border-2:    #c8d0e4;
+  --text-1:      #0d1829;
+  --text-2:      #3a4a62;
+  --text-3:      #6b7fa0;
+  --cyan:        #0891b2;
+  --violet:      #7c3aed;
+  --green:       #059669;
+  --amber:       #d97706;
+  --rose:        #e11d48;
+  --orange:      #ea580c;
+  --blue:        #2563eb;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { transition: background-color 0.25s, color 0.25s; }
+
+html { transition: background-color 0.2s, color 0.2s; }
+
 body {
-  background: var(--bg-base);
+  background: var(--bg);
   color: var(--text-1);
   font-family: "Space Grotesk", -apple-system, sans-serif;
   min-height: 100vh;
-  line-height: 1.65;
+  line-height: 1.6;
 }
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: var(--border-sub); border-radius: 4px; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
 
 pre, code { font-family: "Fira Code", "JetBrains Mono", monospace; }
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes pulse-glow { 0%,100%{opacity:1} 50%{opacity:.55} }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: none; }
+}
 
-.fade-up { animation: fadeUp 0.4s ease both; }
-.fade-in { animation: fadeIn 0.3s ease both; }
+.fade-up   { animation: fadeUp  0.35s ease both; }
+.fade-in   { animation: fadeIn  0.25s ease both; }
+.slide-in  { animation: slideIn 0.25s ease both; }
