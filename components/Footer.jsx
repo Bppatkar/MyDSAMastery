@@ -1,11 +1,10 @@
 "use client";
-
 export default function Footer() {
   return (
     <footer style={{
       background: "var(--bg-card)",
       borderTop: "1px solid var(--border)",
-      padding: "20px 24px",
+      padding: "14px 24px",
       marginTop: "60px",
     }}>
       <div style={{
@@ -15,28 +14,16 @@ export default function Footer() {
         alignItems: "center",
         justifyContent: "space-between",
         flexWrap: "wrap",
-        gap: "12px",
+        gap: "10px",
       }}>
-
-        <span style={{
-          fontSize: "14px",
-          fontWeight: 700,
-          background: "linear-gradient(135deg, var(--accent-cyan), var(--accent-violet))",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}>
-          🧠 AlgoMitra
+        <span style={{ fontSize: "13px", color: "var(--text-3)" }}>
+          Bhanu Pratap Patkar — MERN Stack Developer
         </span>
-
-        <div style={{ display: "flex", gap: "4px", alignItems: "center", flexWrap: "wrap" }}>
-          <span style={{ fontSize: "12px", color: "var(--text-3)", marginRight: "8px" }}>
-            Bhanu Pratap Patkar
-          </span>
-
+        <div style={{ display: "flex", gap: "6px" }}>
           {[
-            { href: "mailto:bhanupratappatkar777@gmail.com", label: "✉️ Email" },
-            { href: "https://github.com/Bppatkar", label: "⌨️ GitHub" },
-            { href: "https://www.linkedin.com/in/bhanu-pratap-patkar/", label: "💼 LinkedIn" },
+            { href:"mailto:bhanupratappatkar777@gmail.com", label:"✉️" },
+            { href:"https://github.com/Bppatkar",           label:"⌨️ GitHub" },
+            { href:"https://www.linkedin.com/in/bhanu-pratap-patkar/", label:"💼 LinkedIn" },
           ].map(({ href, label }) => (
             <a
               key={href}
@@ -44,18 +31,17 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                padding: "5px 12px",
+                padding: "4px 10px",
                 borderRadius: "6px",
                 fontSize: "12px",
                 color: "var(--text-3)",
                 textDecoration: "none",
                 border: "1px solid var(--border)",
-                background: "var(--bg-elevated)",
                 transition: "color 0.15s, border-color 0.15s",
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.color = "var(--accent-cyan)";
-                e.currentTarget.style.borderColor = "var(--accent-cyan)";
+                e.currentTarget.style.color = "var(--cyan)";
+                e.currentTarget.style.borderColor = "var(--cyan)";
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.color = "var(--text-3)";
@@ -66,7 +52,6 @@ export default function Footer() {
             </a>
           ))}
         </div>
-
       </div>
     </footer>
   );
