@@ -1,0 +1,84 @@
+import React, { useEffect, useRef } from 'react';
+import { CHAIN_HTML } from '../data/chainData';
+
+export default function ChainPage() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    // Re-attach chain toggle functions
+    window.chainTog = (h) => {
+      const b = h.nextElementSibling;
+      const o = b.classList.contains('show');
+      b.classList.toggle('show', !o);
+      h.classList.toggle('open', !o);
+    };
+    window.chainToggleAll = () => {
+      const bodies = ref.current.querySelectorAll('.ch-ds-body');
+      const anyOpen = [...bodies].some(b => b.classList.contains('show'));
+      bodies.forEach(b => b.classList.toggle('show', !anyOpen));
+      ref.current.querySelectorAll('.ch-ds-header').forEach(h => h.classList.toggle('open', !anyOpen));
+    };
+  }, []);
+
+  return (
+    <div className="flex-1 overflow-y-auto bg-[#f7f5f0]">
+      {/* Inject chain CSS */}
+      <style>{`
+        .ch-expand-btn{font-size:11px;color:#7a7870;cursor:pointer;padding:5px 12px;border:0.5px solid #d0cec7;border-radius:4px;background:#f2f0eb;margin-bottom:14px}
+        .ch-expand-btn:hover{background:#e4e2db}
+        .ch-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;padding:10px 12px;border-radius:10px;background:#f2f0eb;border:0.5px solid #d0cec7}
+        .ch-leg{display:flex;align-items:center;gap:6px;font-size:11px;color:#5f5e5a}
+        .ch-leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+        .d-g1{background:#185FA5}.d-g2{background:#0F6E56}.d-g3{background:#854F0B}.d-g4{background:#534AB7}.d-g5{background:#993556}.d-g6{background:#A32D2D}
+        .ch-block{margin-bottom:7px}
+        .ch-ds-header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;user-select:none;border:0.5px solid transparent;transition:opacity .15s}
+        .ch-ds-header:hover{opacity:.88}
+        .ch-ds-name{font-size:14px;font-weight:500;flex:1}
+        .ch-ds-born{font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;flex-shrink:0;max-width:240px;text-align:right;line-height:1.4}
+        .ch-chevron{font-size:11px;flex-shrink:0;transition:transform .2s;color:#888}
+        .ch-ds-header.open .ch-chevron{transform:rotate(90deg)}
+        .ch-ds-body{display:none;padding:2px 0 8px 16px}
+        .ch-ds-body.show{display:block}
+        .ch-birth-box{margin:8px 0;padding:9px 12px;border-radius:6px;font-size:12px;line-height:1.7;border-left:3px solid}
+        .ch-birth-box strong{font-weight:600}
+        .ch-birth-box code{font-family:'JetBrains Mono',monospace;font-size:11px;padding:1px 4px;border-radius:3px;background:rgba(0,0,0,.06)}
+        .ch-patterns-label{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#888;margin:10px 0 5px 2px}
+        .ch-prow{display:flex;gap:8px;align-items:flex-start;padding:7px 10px;margin-bottom:4px;border-radius:6px;border:0.5px solid #e0ddd5;background:#fff;cursor:pointer}
+        .ch-prow:hover{background:#f7f5f0;border-color:#d0cec7}
+        .ch-pnum{font-size:11px;font-weight:600;min-width:18px;margin-top:1px;color:#aaa}
+        .ch-pname{font-size:13px;font-weight:500;color:#1c1b19}
+        .ch-pprobs{font-size:12px;color:#666;margin-top:2px;line-height:1.4}
+        .ch-gives-birth{margin:10px 0 4px;padding:8px 10px;border-radius:6px;background:#f2f0eb;font-size:12px;color:#666;border:0.5px solid #e4e2db}
+        .ch-gives-birth strong{color:#1c1b19;font-weight:600}
+        .ch-child-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+        .ch-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;border:0.5px solid;cursor:pointer;transition:all .13s}
+        .ch-chip:hover{filter:brightness(.94);transform:translateY(-1px)}
+        .ch-gen-label{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:5px 0 6px 2px;color:#888;margin-top:20px;border-bottom:0.5px solid #d0cec7;margin-bottom:8px}
+        .ch-bottom-note{margin-top:18px;padding:11px 14px;border-radius:8px;border:0.5px solid #d0cec7;font-size:12px;color:#666;line-height:1.7;background:#f2f0eb}
+        .ch-bottom-note strong{color:#1c1b19}
+        .g1 .ch-ds-header{background:#E6F1FB;border-color:#B5D4F4}.g1 .ch-ds-name{color:#042C53}
+        .g1 .ch-ds-born{background:#B5D4F4;color:#0C447C}.g1 .ch-birth-box{background:#E6F1FB;border-color:#378ADD;color:#042C53}
+        .g2 .ch-ds-header{background:#E1F5EE;border-color:#9FE1CB}.g2 .ch-ds-name{color:#04342C}
+        .g2 .ch-ds-born{background:#9FE1CB;color:#085041}.g2 .ch-birth-box{background:#E1F5EE;border-color:#1D9E75;color:#04342C}
+        .g3 .ch-ds-header{background:#FAEEDA;border-color:#FAC775}.g3 .ch-ds-name{color:#412402}
+        .g3 .ch-ds-born{background:#FAC775;color:#633806}.g3 .ch-birth-box{background:#FAEEDA;border-color:#BA7517;color:#412402}
+        .g4 .ch-ds-header{background:#EEEDFE;border-color:#CECBF6}.g4 .ch-ds-name{color:#26215C}
+        .g4 .ch-ds-born{background:#CECBF6;color:#3C3489}.g4 .ch-birth-box{background:#EEEDFE;border-color:#7F77DD;color:#26215C}
+        .g5 .ch-ds-header{background:#FBEAF0;border-color:#F4C0D1}.g5 .ch-ds-name{color:#4B1528}
+        .g5 .ch-ds-born{background:#F4C0D1;color:#72243E}.g5 .ch-birth-box{background:#FBEAF0;border-color:#D4537E;color:#4B1528}
+        .g6 .ch-ds-header{background:#FCEBEB;border-color:#F7C1C1}.g6 .ch-ds-name{color:#501313}
+        .g6 .ch-ds-born{background:#F7C1C1;color:#791F1F}.g6 .ch-birth-box{background:#FCEBEB;border-color:#E24B4A;color:#501313}
+        .chip-g1{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
+        .chip-g2{background:#E1F5EE;border-color:#1D9E75;color:#085041}
+        .chip-g3{background:#FAEEDA;border-color:#BA7517;color:#633806}
+        .chip-g4{background:#EEEDFE;border-color:#7F77DD;color:#3C3489}
+        .chip-g5{background:#FBEAF0;border-color:#D4537E;color:#72243E}
+        .chip-g6{background:#FCEBEB;border-color:#E24B4A;color:#791F1F}
+      `}</style>
+      <div ref={ref} className="max-w-[700px] mx-auto px-7 py-6"
+        dangerouslySetInnerHTML={{ __html: CHAIN_HTML }}
+      />
+    </div>
+  );
+}
